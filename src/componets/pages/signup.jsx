@@ -47,7 +47,7 @@ const SignUp = () => {
                 className="my-3 shadow p-4"
                 style={{
                   position: "relative",
-                  top: "-80px",
+                  top: "-20px",
                   borderRadius: "20px",
                 }}
               >
