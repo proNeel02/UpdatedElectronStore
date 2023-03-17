@@ -1,6 +1,16 @@
 import React, { useState } from "react";
-import { Button, Card, Col, Container, Form, Row } from "react-bootstrap";
+import {
+  Button,
+  Card,
+  Col,
+  Container,
+  Form,
+  Row,
+  Spinner,
+} from "react-bootstrap";
 import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
+import { registerUser } from "../../services/user.services";
 import Base from "./users/Base";
 
 const SignUp = () => {
@@ -13,6 +23,13 @@ const SignUp = () => {
     about: "",
   });
 
+  const [errorData, setErrorData] = useState({
+    isError: false,
+    errorDisplay: null,
+  });
+
+  const [isLoader, setLoader] = useState(false);
+
   const clearData = () => {
     setData((data) => {
       return {
@@ -24,15 +41,89 @@ const SignUp = () => {
         about: "",
       };
     });
+
+    setErrorData((errorData) => {
+      return {
+        isError: false,
+        errorDisplay: null,
+      };
+    });
   };
 
-  const handleChnage = (event, property) => {
+  const handleChange = (event, property) => {
     setData((data) => {
       return {
         ...data,
         [property]: event.target.value,
       };
     });
+  };
+
+  const formSubmit = (event) => {
+    event.preventDefault();
+    //validate data
+
+    if (data.name === undefined || data.name.trim() === "") {
+      toast.error("Name is required!!!");
+
+      return;
+    }
+
+    if (data.email === undefined || data.email.trim() === "") {
+      toast.error("Email is required!!!");
+
+      return;
+    }
+
+    if (data.password === undefined || data.password.trim() === "") {
+      toast.error("Password is required!!!");
+
+      return;
+    }
+
+    if (
+      data.confirmPassword === undefined ||
+      data.confirmPassword.trim() === ""
+    ) {
+      toast.error("Confirm Password is required!!!");
+
+      return;
+    }
+
+    if (data.password !== data.confirmPassword) {
+      toast.error("Password and Confirm password are not match");
+
+      return;
+    }
+
+    // below registerUser comming from services/user.services
+    // we are passing data object from front end
+    setLoader(true);
+    registerUser(data)
+      //userData is response coming from back end
+      // useData is object comming from backend
+      .then((userData) => {
+        setLoader(false);
+        console.log(userData);
+        clearData();
+        toast.success("SingUp Successfully!!" + userData.userId);
+      })
+      .catch((error) => {
+        setLoader(false);
+        setErrorData((errorData) => {
+          return {
+            ...errorData,
+            isError: true,
+            errorDisplay: error,
+          };
+        });
+
+        console.dir(error);
+        toast.error("Error in creating user! Try again");
+      })
+      .finally(() => {
+        setLoader(false);
+      });
   };
 
   const SignUpForm = () => {
@@ -47,7 +138,7 @@ const SignUp = () => {
                 className="my-3 shadow p-4"
                 style={{
                   position: "relative",
-                  top: "-20px",
+                  top: "-80px",
                   borderRadius: "20px",
                 }}
               >
@@ -63,38 +154,57 @@ const SignUp = () => {
                     <b>Store SignUp Here</b>
                   </h3>
 
-                  <Form>
+                  <Form noValidate onSubmit={formSubmit}>
                     {/* Name Field */}
                     <Form.Group className="mb-3" controlId="formName">
                       <Form.Label>Enter your Name</Form.Label>
+
                       <Form.Control
-                        onChange={(event) => handleChnage(event, "name")}
+                        onChange={(event) => handleChange(event, "name")}
                         value={data.name}
                         type="text"
                         placeholder="Enter name"
+                        isInvalid={errorData.errorDisplay?.response?.data?.name}
                       />
+
+                      <Form.Control.Feedback type="invalid">
+                        {errorData.errorDisplay?.response?.data?.name}
+                      </Form.Control.Feedback>
                     </Form.Group>
 
                     {/* email field */}
                     <Form.Group className="mb-3" controlId="formEmail">
                       <Form.Label>Enter your email</Form.Label>
                       <Form.Control
-                        onChange={(event) => handleChnage(event, "email")}
+                        onChange={(event) => handleChange(event, "email")}
                         value={data.email}
                         type="email"
                         placeholder="Enter Email"
+                        isInvalid={
+                          errorData.errorDisplay?.response?.data?.email
+                        }
                       />
+                      <Form.Control.Feedback type="invalid">
+                        {errorData.errorDisplay?.response?.data?.email}
+                      </Form.Control.Feedback>
                     </Form.Group>
 
                     {/* new password field */}
                     <Form.Group className="mb-3" controlId="formPassword">
                       <Form.Label>Enter new password</Form.Label>
                       <Form.Control
-                        onChange={(event) => handleChnage(event, "password")}
+                        onChange={(event) => handleChange(event, "password")}
                         type="password"
                         placeholder="Enter password"
                         value={data.password}
+                        isInvalid={
+                          errorData.errorDisplay?.response?.data?.password
+                        }
                       />
+
+                      <Form.Control.Feedback type="invalid">
+                        {errorData.errorDisplay?.response?.data?.password}
+                      </Form.Control.Feedback>
                     </Form.Group>
 
                     {/* Confirm password */}
@@ -105,7 +215,7 @@ const SignUp = () => {
                       <Form.Label>Confirm password</Form.Label>
                       <Form.Control
                         onChange={(event) =>
-                          handleChnage(event, "confirmPassword")
+                          handleChange(event, "confirmPassword")
                         }
                         value={data.confirmPassword}
                         type="password"
@@ -122,10 +232,12 @@ const SignUp = () => {
                           name="gender"
                           label="Male"
                           type={"radio"}
-                          id={"gender"}
-                          onClick={(event) => handleChnage(event, "gender")}
-                          value={"male"}
+                          id={"male"}
+                          value="male"
+                          // checked={data.gender === "male"}
                           checked={data.gender === "male"}
+                          // defaultChecked
+                          onClick={(event) => handleChange(event, "gender")}
                         />
 
                         <Form.Check
@@ -133,10 +245,12 @@ const SignUp = () => {
                           name="gender"
                           label="Female"
                           type={"radio"}
-                          id={"gender"}
-                          onClick={(event) => handleChnage(event, "gender")}
-                          value={"female"}
+                          id={"female"}
+                          value="female"
                           checked={data.gender === "female"}
+                          // defaultChecked
+
+                          onClick={(event) => handleChange(event, "gender")}
                         />
                       </div>
                     </Form.Group>
@@ -147,30 +261,50 @@ const SignUp = () => {
                         as="textarea"
                         placeholder="write here"
                         rows={6}
-                        onChange={(event) => handleChnage(event, "about")}
+                        onChange={(event) => handleChange(event, "about")}
                         value={data.about}
+                        isInvalid={
+                          errorData.errorDisplay?.response?.data?.about
+                        }
                       />
+
+                      <Form.Control.Feedback type="invalid">
+                        {errorData.errorDisplay?.response?.data?.about}
+                      </Form.Control.Feedback>
                     </Form.Group>
+
+                    <Container>
+                      <p className="text-center">
+                        Already register<Link to="/login">login</Link>
+                      </p>
+                    </Container>
+
+                    <Container className="text-center">
+                      <Button
+                      disabled = {isLoader}
+                        type="submit"
+                        className={"text-uppercase"}
+                        variant="success"
+                      >
+                        <Spinner
+                          animation="border"
+                          size="sm"
+                          className="me-2"
+                          hidden={!isLoader}
+                        />
+                        <span hidden={!isLoader}>wait...</span>
+
+                        <span hidden={isLoader}>Register</span>
+                      </Button>
+                      <Button
+                        className="ms-2 text-uppercase"
+                        variant="danger"
+                        onClick={clearData}
+                      >
+                        Reset
+                      </Button>
+                    </Container>
                   </Form>
-
-                  <Container>
-                    <p className="text-center">
-                      Already register<Link to="/login">login</Link>
-                    </p>
-                  </Container>
-
-                  <Container className="text-center">
-                    <Button className={"text-uppercase"} variant="success">
-                      Register
-                    </Button>
-                    <Button
-                      className="ms-2 text-uppercase"
-                      variant="danger"
-                      onClick={clearData}
-                    >
-                      Reset
-                    </Button>
-                  </Container>
                 </Card.Body>
               </Card>
             </Col>

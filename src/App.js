@@ -18,7 +18,7 @@ function App() {
     <BrowserRouter>
       <ToastContainer 
       autoClose={4000}
-        position="bottom-center"
+        position="top-right"
         theme="dark"
         pauseOnHover={false}
         closeOnClick={true}
