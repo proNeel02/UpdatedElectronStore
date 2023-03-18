@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Slide } from "react-toastify";
 import {
   Button,
   Card,
@@ -8,7 +9,7 @@ import {
   Row,
   Spinner,
 } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { registerUser } from "../../services/user.services";
 import Base from "./users/Base";
@@ -29,6 +30,8 @@ const SignUp = () => {
   });
 
   const [isLoader, setLoader] = useState(false);
+
+  const navigate = useNavigate();
 
   const clearData = () => {
     setData((data) => {
@@ -106,8 +109,19 @@ const SignUp = () => {
         setLoader(false);
         console.log(userData);
         clearData();
-        toast.success("SingUp Successfully!!" + userData.userId);
+        toast.success("SingUp Successful!!"); 
+
+    
+        setTimeout ( () => {
+          navigate('/login');
+          toast("Welcome To Electron Family!!",{
+            autoClose:5000,
+            position:"top-left",
+            transition:Slide
+          });
+        },5000); 
       })
+      
       .catch((error) => {
         setLoader(false);
         setErrorData((errorData) => {
@@ -151,7 +165,7 @@ const SignUp = () => {
                     />
                   </Container>
                   <h3 className="mb-4 text-center text-uppercase">
-                    <b>Store SignUp Here</b>
+                    <b>Store SignUp</b>
                   </h3>
 
                   <Form noValidate onSubmit={formSubmit}>

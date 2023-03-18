@@ -13,16 +13,17 @@ import NavBar from "./componets/pages/users/Navbar";
 import Profile from "./componets/pages/users/profile";
 import SignUp from "./componets/pages/signup";
 import Login from "./componets/pages/login";
+import Home from "./componets/pages/users/Home";
 function App() {
   return (
     <BrowserRouter>
-      <ToastContainer 
-      autoClose={4000}
+      <ToastContainer
+        autoClose={4000}
         position="top-right"
         theme="dark"
         pauseOnHover={false}
         closeOnClick={true}
-        transition = {Zoom}
+        transition={Zoom}
         pauseOnFocusLoss={false}
       />
       <NavBar />
@@ -36,6 +37,7 @@ function App() {
         <Route path="login" element={<Login />} />
         <Route path="signup" element={<SignUp />} />
         <Route path="users" element={<Dashboard />}>
+          <Route path="home" element={<Home />}></Route>
           <Route path="profile" element={<Profile />} />
           <Route path="aboutUser" element={<AboutUser />} />
         </Route>

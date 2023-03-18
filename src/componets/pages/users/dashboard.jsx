@@ -5,7 +5,7 @@ const Dashboard = () =>{
 
     return (
         <div>
-          <h1>This Is User</h1>
+          <h1>This Is User DashBoard</h1>
           <Outlet />
         </div>
     );
