@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import {
   Alert,
   Button,
@@ -12,9 +12,16 @@ import {
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { loginUser } from "../../services/user.services";
+import UserContext from "../context/user.context";
 import Base from "./users/Base";
 const Login = () => {
   const LoginForm = () => {
+    // console.log(data);
+
+    const navigate = useNavigate();
+
+    const userContext = useContext(UserContext);
+
     const [data, setData] = useState({
       email: "",
       password: "",
@@ -36,8 +43,6 @@ const Login = () => {
       });
     };
 
-    let navigate = useNavigate();
-
     const HandleSubmit = (event) => {
       event.preventDefault();
       // console.log(data);
@@ -58,7 +63,7 @@ const Login = () => {
       setLoading(() => true);
       loginUser(data)
         .then((serverData) => {
-          console.log(serverData);
+          // console.dir(serverData);
           toast.success(`logged in successful!`);
 
           setError((Error) => {
@@ -68,9 +73,19 @@ const Login = () => {
             };
           });
 
-          setTimeout(() => {
-            navigate("/users/home");
-          }, 5000);
+          //setting useState to the true in context
+          //telling every child of the provider function
+          // that this use is logged in.....
+          //with the help of context api..
+          //below setLogin is useState function which is
+          //defined inside UserProvider component in file called user.provider.js
+          // const [isLogin, setIsLogin] = useState(false);
+
+          userContext.setIsLogin(() => true);
+          userContext.setUserData((oldData) => {
+            return serverData;
+          });
+          navigate("/users/home");
         })
         .catch((error) => {
           console.log(error);
@@ -84,9 +99,7 @@ const Login = () => {
           toast.error(Error.erroData);
         })
         .finally(() => {
-          setTimeout(() => {
-            setLoading(() => false);
-          }, 5000);
+          setLoading(() => false);
         });
     };
 
@@ -98,8 +111,6 @@ const Login = () => {
         };
       });
     };
-
-    // console.log(data);
 
     return (
       <>
@@ -119,6 +130,7 @@ const Login = () => {
                   // borderRadius: "20px",
                 }}
               >
+                {/* {JSON.stringify(userContext)} */}
                 <Card.Body>
                   <Container className="text-center mb-3">
                     <img
@@ -186,7 +198,7 @@ const Login = () => {
                         variant="primary"
                         className="me-2"
                       >
-                         <Spinner
+                        <Spinner
                           animation="border"
                           size="sm"
                           className="me-2"

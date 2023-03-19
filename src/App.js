@@ -14,8 +14,12 @@ import Profile from "./componets/pages/users/profile";
 import SignUp from "./componets/pages/signup";
 import Login from "./componets/pages/login";
 import Home from "./componets/pages/users/Home";
+import UserProvider from "./componets/context/user.provider";
+// import UserProvider from "./componets/context/user.provider";
 function App() {
   return (
+
+   <UserProvider>    
     <BrowserRouter>
       <ToastContainer
         autoClose={4000}
@@ -43,6 +47,7 @@ function App() {
         </Route>
       </Routes>
     </BrowserRouter>
+    </UserProvider>
   );
 }
 

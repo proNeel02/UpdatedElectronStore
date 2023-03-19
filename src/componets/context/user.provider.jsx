@@ -1,15 +1,21 @@
 import React, { useState } from "react";
 import UserContext from "./user.context";
 
-const UserProvider = ({Children}) =>{
+const UserProvider = ({ children }) => {
+  const [isLogin, setIsLogin] = useState(false);
+  const [userData, setUserData] = useState(null);
 
-    const [isLogin,setLogin] = useState(false);
-    const [userData, setUserData]=UserContext(null);
-
-
-    return (
-        <UserContext.Provider>
-            {Children}
-        </UserContext.Provider>
-    );
-}
+  return (
+    <UserContext.Provider
+      value={{
+        setIsLogin: setIsLogin,
+        isLogin: isLogin,
+        userData: userData,
+        setUserData: setUserData,
+      }}
+    >
+      {children}
+    </UserContext.Provider>
+  );
+};
+export default UserProvider;

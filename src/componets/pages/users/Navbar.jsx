@@ -1,19 +1,39 @@
-import React from "react";
+import React, { useContext } from "react";
 
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import { NavLink } from "react-router-dom";
+import UserContext from "../../context/user.context";
 
 const NavBar = () => {
+  const userContext = useContext(UserContext);
+
+  // const { isLogin, userData } = userContext;
+  // const { user } = userData;
+  // const { name, email } = user;
+
+
+
+  const doLogOut =()=>{
+    userContext.setIsLogin(() => {
+      return false;
+    });
+ 
+     userContext.setUserData( (oldObj) => {
+      return null
+     });
+
+  }
+
   return (
     <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
       <Container>
         <Navbar.Brand as={NavLink} to={"/"}>
           <img src={"/Assets/logo192.png"} width={"30px"} height={"30px"} />
           <span className="ms-1">Electron Store</span>
-        </Navbar.Brand>  
+        </Navbar.Brand>
 
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">
@@ -41,12 +61,28 @@ const NavBar = () => {
             <Nav.Link as={NavLink} to="/cart">
               Cart
             </Nav.Link>
-            <Nav.Link as={NavLink} to="/login">
-              Log In
-            </Nav.Link>
-            <Nav.Link as={NavLink} to="/signup">
-              Sign Up
-            </Nav.Link>
+
+            {(userContext?.isLogin) ? (
+              <>
+                {" "}
+                <Nav.Link as={NavLink} to="users/home">
+                  {userContext?.userData?.user?.email}
+                </Nav.Link>
+                <Nav.Link onClick={doLogOut}>
+                  Logout
+                </Nav.Link>
+              </>
+            ) : (
+              <>
+                {" "}
+                <Nav.Link as={NavLink} to="/login">
+                  Log In
+                </Nav.Link>
+                <Nav.Link as={NavLink} to="/signup">
+                  Sign Up
+                </Nav.Link>
+              </>
+            )}
           </Nav>
         </Navbar.Collapse>
       </Container>
