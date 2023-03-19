@@ -15,6 +15,8 @@ import SignUp from "./componets/pages/signup";
 import Login from "./componets/pages/login";
 import Home from "./componets/pages/users/Home";
 import UserProvider from "./componets/context/user.provider";
+import Order from "./componets/pages/users/order";
+import ErrorPage from "./componets/pages/users/Errorpage";
 // import UserProvider from "./componets/context/user.provider";
 function App() {
   return (
@@ -34,6 +36,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Index />} />
         <Route path="about" element={<About />} />
+        <Route path="error" element={<ErrorPage />} />
         <Route path="services" element={<Services />} />
         <Route path="store" element={<Stores />} />
         <Route path="cart" element={<Cart />} />
@@ -44,6 +47,7 @@ function App() {
           <Route path="home" element={<Home />}></Route>
           <Route path="profile" element={<Profile />} />
           <Route path="aboutUser" element={<AboutUser />} />
+          <Route path='orders' element={<Order/>}></Route>
         </Route>
       </Routes>
     </BrowserRouter>

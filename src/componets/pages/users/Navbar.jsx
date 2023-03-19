@@ -14,17 +14,10 @@ const NavBar = () => {
   // const { user } = userData;
   // const { name, email } = user;
 
-
+   console.dir(userContext);
 
   const doLogOut =()=>{
-    userContext.setIsLogin(() => {
-      return false;
-    });
- 
-     userContext.setUserData( (oldObj) => {
-      return null
-     });
-
+    userContext.logOut();
   }
 
   return (
@@ -66,7 +59,11 @@ const NavBar = () => {
               <>
                 {" "}
                 <Nav.Link as={NavLink} to="users/home">
+             
                   {userContext?.userData?.user?.email}
+                </Nav.Link>
+                <Nav.Link as={NavLink} to="users/orders">
+                    Orders
                 </Nav.Link>
                 <Nav.Link onClick={doLogOut}>
                   Logout
@@ -91,30 +88,3 @@ const NavBar = () => {
 };
 export default NavBar;
 
-{
-  /* <div> */
-}
-{
-  /* <ul>
-  <li>
-    <a href="/">Home</a>
-  </li>
-
-  <li>
-    <a href="/about">About</a>
-  </li>
-
-  <li>
-    <a href="/services">Services</a>
-  </li>
-
-  <li>
-    <a href="/cart">Cart</a>
-  </li>
-
-  <li>
-    <a href="/users/profile">Users Profile</a>
-  </li>
-</ul>
-</div> */
-}

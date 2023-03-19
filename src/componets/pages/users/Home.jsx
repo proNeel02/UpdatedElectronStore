@@ -1,12 +1,11 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
+import { toast } from "react-toastify";
 import UserContext from "../../context/user.context";
 
 const Home = () => {
   let userContext = useContext(UserContext);
  
-   console.dir(userContext);
- 
-
+  
 
   return (
    <div>

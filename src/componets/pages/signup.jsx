@@ -153,7 +153,7 @@ const SignUp = () => {
                 style={{
                   position: "relative",
                   top: "-80px",
-                  borderRadius: "20px",
+                  borderRadius: "100px",
                 }}
               >
                 <Card.Body>
@@ -289,7 +289,7 @@ const SignUp = () => {
 
                     <Container>
                       <p className="text-center">
-                        Already register<Link to="/login">login</Link>
+                        Already register<Link to="/login" style={{textDecoration:'none'}}>login</Link>
                       </p>
                     </Container>
 

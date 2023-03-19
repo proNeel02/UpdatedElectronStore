@@ -11,6 +11,7 @@ import {
 } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+// import { doLoginLocalStorage } from "../../auth/helper.auth";
 import { loginUser } from "../../services/user.services";
 import UserContext from "../context/user.context";
 import Base from "./users/Base";
@@ -64,8 +65,8 @@ const Login = () => {
       loginUser(data)
         .then((serverData) => {
           // console.dir(serverData);
-          toast.success(`logged in successful!`);
-
+          toast.success(`Welcome ${serverData?.user?.name}`);
+          
           setError((Error) => {
             return {
               erroData: null,
@@ -81,10 +82,14 @@ const Login = () => {
           //defined inside UserProvider component in file called user.provider.js
           // const [isLogin, setIsLogin] = useState(false);
 
-          userContext.setIsLogin(() => true);
-          userContext.setUserData((oldData) => {
-            return serverData;
-          });
+          // userContext.setIsLogin(() => true);
+          // userContext.setUserData((oldData) => {
+          //   return serverData;
+          // });
+
+          userContext.login(serverData);
+          // console.log("Hello from Login");
+          // console.dir(serverData);
           navigate("/users/home");
         })
         .catch((error) => {
@@ -127,7 +132,7 @@ const Login = () => {
                 style={{
                   position: "relative",
                   top: "-80px",
-                  // borderRadius: "20px",
+                  borderRadius: "100px",
                 }}
               >
                 {/* {JSON.stringify(userContext)} */}
@@ -187,7 +192,7 @@ const Login = () => {
                     <Container className="text-center">
                       {/* <p className="mb-0">Forgot Password <Link to="/forgetpass">forgetpassword</Link></p> */}
                       <p>
-                        If Not Member <Link to="/signup">Click here</Link>
+                        If Not Member <Link to="/signup" style={{textDecoration:'none'}}>Click here</Link>
                       </p>
                     </Container>
 
