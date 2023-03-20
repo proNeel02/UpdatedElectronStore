@@ -1,15 +1,13 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
-import UserContext from "../../context/user.context";
+import UserContext from "../../context/UserContext";
 // import ErrorPage from "./Errorpage";
 import { isLoggedIn } from "../../../auth/helper.auth";
 const Dashboard = () => {
+  const userContext = useContext(UserContext);
 
-
- const userContext = useContext(UserContext)
-  
-  const { isLogin } = userContext;
- let navigate = useNavigate();
+  // const { isLogin } = userContext;
+  let navigate = useNavigate();
   const dashBoardView = () => {
     return (
       <div>
@@ -19,12 +17,12 @@ const Dashboard = () => {
     );
   };
 
-  //solving timing issue like state ---> change one state to 
+  //solving timing issue like state ---> change one state to
   //other state we can use direct value from local storage
   //insted of waiting for state to change his value
   // so we can use function from helper.auth.js
 
-  return ( isLoggedIn() ? dashBoardView() : navigate('/error'));
+  return isLoggedIn() ? dashBoardView() : navigate("/login");
 };
 
 export default Dashboard;

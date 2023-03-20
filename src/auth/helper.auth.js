@@ -1,6 +1,6 @@
 // this file for saving data in local storage
 import { useContext } from "react";
-import UserContext from "../componets/context/user.context";
+import UserContext from "../componets/context/UserContext";
 
 export const doLoginLocalStorage = (Userdata) => {
   localStorage.setItem("userData", JSON.stringify(Userdata));
@@ -36,9 +36,29 @@ export const getDataFromLocalStorage = () => {
 };
 
 export const isLoggedIn = () => {
-  
   if (getTokenFromLocalStorage()) {
     return true;
+  }
+  return false;
+};
+
+export const isAdminUser = () => {
+  console.log("Admin User");
+
+  if (isLoggedIn()) {
+    console.log("isLoggedIn is true in Admin");
+    const user = getUserFromLocalStorage();
+    let array = user?.user?.roles;
+    console.log(array);
+
+    return array
+      .map((obj) => {
+          return obj.roleId === "wetrsdfwetwfasfwdf";
+      })
+      .includes(true);
+
+    //   console.log(value);
+    // return user?.user?.roles[0]?.roleId === "wetrsdfwetwfasfwdf";
   }
   return false;
 };

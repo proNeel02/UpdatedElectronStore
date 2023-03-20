@@ -1,6 +1,6 @@
 import React, { useContext, useEffect } from "react";
 import { toast } from "react-toastify";
-import UserContext from "../../context/user.context";
+import UserContext from "../../context/UserContext";
 
 const Home = () => {
   let userContext = useContext(UserContext);

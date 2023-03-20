@@ -5,7 +5,8 @@ import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import { NavLink } from "react-router-dom";
-import UserContext from "../../context/user.context";
+import { isAdminUser } from "../../../auth/helper.auth";
+import UserContext from "../../context/UserContext";
 
 const NavBar = () => {
   const userContext = useContext(UserContext);
@@ -14,11 +15,11 @@ const NavBar = () => {
   // const { user } = userData;
   // const { name, email } = user;
 
-   console.dir(userContext);
+  console.dir(userContext);
 
-  const doLogOut =()=>{
+  const doLogOut = () => {
     userContext.logOut();
-  }
+  };
 
   return (
     <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
@@ -55,19 +56,35 @@ const NavBar = () => {
               Cart
             </Nav.Link>
 
-            {(userContext?.isLogin) ? (
+            {/* <Nav.Link hidden={!isAdminUser()} as={NavLink} to="admin/home">
+              Admin Home
+            </Nav.Link>
+
+            <Nav.Link
+              hidden={!isAdminUser()}
+              as={NavLink}
+              to="admin/add-product"
+            >
+              Add Product
+            </Nav.Link> */}
+
+
+            ({
+               userContext.hasAdminUser && (<><Nav.Link as={NavLink} to="/admin/home">
+              AdminDashBoard
+            </Nav.Link></>)
+            })
+
+            {userContext?.isLogin ? (
               <>
                 {" "}
                 <Nav.Link as={NavLink} to="users/home">
-             
                   {userContext?.userData?.user?.email}
                 </Nav.Link>
                 <Nav.Link as={NavLink} to="users/orders">
-                    Orders
+                  Orders
                 </Nav.Link>
-                <Nav.Link onClick={doLogOut}>
-                  Logout
-                </Nav.Link>
+                <Nav.Link onClick={doLogOut}>Logout</Nav.Link>
               </>
             ) : (
               <>
@@ -87,4 +104,3 @@ const NavBar = () => {
   );
 };
 export default NavBar;
-

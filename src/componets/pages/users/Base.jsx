@@ -1,6 +1,6 @@
 import React from "react";
 import { Container } from "react-bootstrap";
-import Footer from "./footer";
+import Footer from "./Footer";
 import { Button } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
 // import { Link, useNavigate } from "react-router-dom";

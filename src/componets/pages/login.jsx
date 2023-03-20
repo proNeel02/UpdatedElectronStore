@@ -13,7 +13,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 // import { doLoginLocalStorage } from "../../auth/helper.auth";
 import { loginUser } from "../../services/user.services";
-import UserContext from "../context/user.context";
+import UserContext from "../context/UserContext";
 import Base from "./users/Base";
 const Login = () => {
   const LoginForm = () => {
@@ -137,7 +137,7 @@ const Login = () => {
               >
                 {/* {JSON.stringify(userContext)} */}
                 <Card.Body>
-                  <Container className="text-center mb-3">
+                  <Container className="text-center">
                     <img
                       src={"/Assets/logo192.png"}
                       width={"100px"}

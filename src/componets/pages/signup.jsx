@@ -109,21 +109,19 @@ const SignUp = () => {
         setLoader(false);
         console.log(userData);
         clearData();
-        toast.success("SingUp Successful!!"); 
+        toast.success("SingUp Successful!!");
 
-    
-        setTimeout ( () => {
-          navigate('/login');
-          toast("Welcome To Electron Family!!",{
-            autoClose:5000,
-            position:"top-left",
-            transition:Slide
-          });
-        },5000); 
+        navigate("/login");
+        toast("Welcome To Electron Store!!", {
+          autoClose: 5000,
+          position: "top-left",
+          transition: Slide,
+        });
       })
-      
+
       .catch((error) => {
         setLoader(false);
+
         setErrorData((errorData) => {
           return {
             ...errorData,
@@ -157,7 +155,7 @@ const SignUp = () => {
                 }}
               >
                 <Card.Body>
-                  <Container className="text-center mb-3">
+                  <Container className="text-center">
                     <img
                       src={"/Assets/logo192.png"}
                       width={"100px"}
@@ -289,13 +287,16 @@ const SignUp = () => {
 
                     <Container>
                       <p className="text-center">
-                        Already register<Link to="/login" style={{textDecoration:'none'}}>login</Link>
+                        Already register
+                        <Link to="/login" style={{ textDecoration: "none" }}>
+                          login
+                        </Link>
                       </p>
                     </Container>
 
                     <Container className="text-center">
                       <Button
-                      disabled = {isLoader}
+                        disabled={isLoader}
                         type="submit"
                         className={"text-uppercase"}
                         variant="success"
