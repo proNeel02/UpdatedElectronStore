@@ -211,7 +211,7 @@ const Login = () => {
                         />
                         <span hidden={!isLoading}>wait...</span>
 
-                        <span hidden={isLoading}>Register</span>
+                        <span hidden={isLoading}>Login</span>
                       </Button>
 
                       <Button variant="danger" onClick={clearData}>

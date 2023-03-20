@@ -6,7 +6,7 @@ import {
   getUserFromLocalStorage,
   isLoggedIn,
   isAdminUser
-} from "../../auth/helper.auth";
+} from "../../auth/HelperAuth";
 import UserContext from "./UserContext";
 
 const UserProvider = ({ children }) => {

@@ -5,7 +5,7 @@ import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import { NavLink } from "react-router-dom";
-import { isAdminUser } from "../../../auth/helper.auth";
+import { isAdminUser } from "../../../auth/HelperAuth.js";
 import UserContext from "../../context/UserContext";
 
 const NavBar = () => {
@@ -78,7 +78,7 @@ const NavBar = () => {
             {userContext?.isLogin ? (
               <>
                 {" "}
-                <Nav.Link as={NavLink} to="users/home">
+                <Nav.Link as={NavLink} to="users/profile">
                   {userContext?.userData?.user?.email}
                 </Nav.Link>
                 <Nav.Link as={NavLink} to="users/orders">

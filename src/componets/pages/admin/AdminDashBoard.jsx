@@ -1,6 +1,6 @@
 import React, { useContext, useEffect } from "react";
 import { Navigate, Outlet, useNavigate } from "react-router-dom";
-import { isAdminUser, isLoggedIn } from "../../../auth/helper.auth";
+import { isAdminUser, isLoggedIn } from "../../../auth/HelperAuth.js";
 import UserContext from "../../context/UserContext";
 
 const AdminDashBoard = () => {
