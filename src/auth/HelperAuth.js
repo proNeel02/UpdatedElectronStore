@@ -43,17 +43,17 @@ export const isLoggedIn = () => {
 };
 
 export const isAdminUser = () => {
-  console.log("Admin User");
+  // console.log("Admin User");
 
   if (isLoggedIn()) {
-    console.log("isLoggedIn is true in Admin");
+    // console.log("isLoggedIn is true in Admin");
     const user = getUserFromLocalStorage();
     let array = user?.user?.roles;
-    console.log(array);
+    // console.log(array);
 
     return array
       .map((obj) => {
-          return obj.roleId === "wetrsdfwetwfasfwdf";
+        return obj.roleId === "wetrsdfwetwfasfwdf";
       })
       .includes(true);
 

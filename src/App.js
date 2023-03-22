@@ -47,7 +47,7 @@ function App() {
           <Route path="signup" element={<SignUp />} />
           <Route path="users" element={<Dashboard />}>
             <Route path="home" element={<Home />} />
-            <Route path="profile" element={<Profile />} />
+            <Route path="profile/:user_Id" element={<Profile />} />
             <Route path="aboutUser" element={<AboutUser />} />
             <Route path="orders" element={<Order />} />
           </Route>

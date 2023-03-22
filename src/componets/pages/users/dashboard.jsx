@@ -1,19 +1,33 @@
 import React, { useContext, useEffect } from "react";
-import { Outlet, useNavigate } from "react-router-dom";
+import { Navigate, Outlet, useNavigate } from "react-router-dom";
 import UserContext from "../../context/UserContext";
 // import ErrorPage from "./Errorpage";
 import { isLoggedIn } from "../../../auth/HelperAuth.js";
 const Dashboard = () => {
-  const userContext = useContext(UserContext);
+  //let userContext =  useContext(UserContext);
+  useContext(UserContext); // we can write also like about
+  // but writing this way signify that that this is
+  //only for to tell to render to dom
+  // if we not use useContext(UserContext) in this cureent file
+  // we can't navigate to the login page...
+  // 
+  // warning occure
+  //when we use useContext(UserContext) with navigate("/login")
+  // Warning: Cannot update a component (`BrowserRouter`) while rendering a different component (`Dashboard`). To locate the bad setState() call inside `Dashboard`, follow the stack trace as described in https://reactjs.org/link/setstate-in-render
+   // at Dashboard (http://localhost:3000/main.10ad5683d488de00705b.hot-update.js:34:52)
+ // and navigate to loggin page 
 
-  // const { isLogin } = userContext;
-  let navigate = useNavigate();
+  
+  // this warning resolved when we use 
+   // useContext(UserContext) with navigate("/login")
+  // 
+
+
+  // const navigate = useNavigate();
   const dashBoardView = () => {
     return (
       <div>
         {/* <h1>This Is User DashBoard</h1> */}
-
-        
         <Outlet />
       </div>
     );
@@ -24,7 +38,7 @@ const Dashboard = () => {
   //insted of waiting for state to change his value
   // so we can use function from helper.auth.js
 
-  return isLoggedIn() ? dashBoardView() : navigate("/login");
+  return isLoggedIn() ? dashBoardView() : <Navigate to="/login"/>;
 };
 
 export default Dashboard;

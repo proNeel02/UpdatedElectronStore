@@ -300,6 +300,7 @@ const SignUp = () => {
                         type="submit"
                         className={"text-uppercase"}
                         variant="success"
+                        size="lg"
                       >
                         <Spinner
                           animation="border"
@@ -312,6 +313,7 @@ const SignUp = () => {
                         <span hidden={isLoader}>Register</span>
                       </Button>
                       <Button
+                       size="lg"
                         className="ms-2 text-uppercase"
                         variant="danger"
                         onClick={clearData}

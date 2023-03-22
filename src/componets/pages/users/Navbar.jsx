@@ -15,7 +15,7 @@ const NavBar = () => {
   // const { user } = userData;
   // const { name, email } = user;
 
-  console.dir(userContext);
+  // console.dir(userContext);
 
   const doLogOut = () => {
     userContext.logOut();
@@ -78,7 +78,7 @@ const NavBar = () => {
             {userContext?.isLogin ? (
               <>
                 {" "}
-                <Nav.Link as={NavLink} to="users/profile">
+                <Nav.Link as={NavLink} to={`users/profile/${userContext?.userData?.user?.userId}`}>
                   {userContext?.userData?.user?.email}
                 </Nav.Link>
                 <Nav.Link as={NavLink} to="users/orders">

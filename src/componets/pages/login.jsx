@@ -62,11 +62,12 @@ const Login = () => {
       // login api
 
       setLoading(() => true);
+
       loginUser(data)
         .then((serverData) => {
           // console.dir(serverData);
           toast.success(`Welcome ${serverData?.user?.name}`);
-          
+
           setError((Error) => {
             return {
               erroData: null,
@@ -86,7 +87,6 @@ const Login = () => {
           // userContext.setUserData((oldData) => {
           //   return serverData;
           // });
-
           userContext.login(serverData);
           // console.log("Hello from Login");
           // console.dir(serverData);
@@ -192,12 +192,16 @@ const Login = () => {
                     <Container className="text-center">
                       {/* <p className="mb-0">Forgot Password <Link to="/forgetpass">forgetpassword</Link></p> */}
                       <p>
-                        If Not Member <Link to="/signup" style={{textDecoration:'none'}}>Click here</Link>
+                        If Not Member{" "}
+                        <Link to="/signup" style={{ textDecoration: "none" }}>
+                          Click here
+                        </Link>
                       </p>
                     </Container>
 
                     <Container className="text-center text-uppercase">
                       <Button
+                        size="lg"
                         disabled={isLoading}
                         type="submit"
                         variant="primary"
@@ -214,7 +218,7 @@ const Login = () => {
                         <span hidden={isLoading}>Login</span>
                       </Button>
 
-                      <Button variant="danger" onClick={clearData}>
+                      <Button size="lg" variant="danger" onClick={clearData}>
                         Reset
                       </Button>
                     </Container>

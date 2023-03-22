@@ -17,3 +17,10 @@ export const loginUser = (loginData)=>{
   .then( (response) => response.data);
 
 }
+
+export const getUser = (userId)=>{
+
+  /// server call
+  return publicAxios.get(`/users/${userId}`)
+  .then( (response) => {return response.data});
+};

@@ -5,7 +5,7 @@ import {
   doLogOutFromLocalStorage,
   getUserFromLocalStorage,
   isLoggedIn,
-  isAdminUser
+  isAdminUser,
 } from "../../auth/HelperAuth";
 import UserContext from "./UserContext";
 
@@ -13,26 +13,24 @@ const UserProvider = ({ children }) => {
   const [isLogin, setIsLogin] = useState(false);
   const [userData, setUserData] = useState(null);
   const [hasAdminUser, setHasAdminUser] = useState(false);
-  useEffect(() => {
 
+  useEffect(() => {
     setIsLogin(() => isLoggedIn());
     setUserData((oldObj) => {
       return getUserFromLocalStorage();
     });
 
-    setHasAdminUser( ()=>isAdminUser());
-  
+    setHasAdminUser(() => isAdminUser());
   }, []);
 
   // function for loggin to save data in local storage
   const doLogin = (userData) => {
-
     doLoginLocalStorage(userData);
     setIsLogin(() => true);
     setUserData(() => {
       return getUserFromLocalStorage();
     });
-    setHasAdminUser( ()=>isAdminUser());
+    setHasAdminUser(() => isAdminUser());
   };
 
   // function for logged out to remove data form local storage
@@ -43,7 +41,7 @@ const UserProvider = ({ children }) => {
     setUserData((oldObj) => {
       return null;
     });
-    setHasAdminUser( ()=>isAdminUser());
+    setHasAdminUser(() => isAdminUser());
   };
 
   return (
@@ -53,9 +51,9 @@ const UserProvider = ({ children }) => {
         isLogin: isLogin,
         userData: userData,
         // setUserData: setUserData,
-        login:doLogin,
-        logOut:doLogOut,
-        hasAdminUser:hasAdminUser
+        login: doLogin,
+        logOut: doLogOut,
+        hasAdminUser: hasAdminUser,
       }}
     >
       {children}
