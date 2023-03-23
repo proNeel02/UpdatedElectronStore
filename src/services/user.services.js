@@ -1,4 +1,4 @@
-import { publicAxios } from "./axios.service";
+import { privateAxios, publicAxios } from "./axios.service";
 //User realted api calls
 
 //register new user
@@ -24,3 +24,25 @@ export const getUser = (userId)=>{
   return publicAxios.get(`/users/${userId}`)
   .then( (response) => {return response.data});
 };
+
+//updating data of user inside data base
+export const modifyUserData = (updateUserData)=>{
+  return privateAxios.put(`/users/${updateUserData.userId}`,updateUserData)
+  .then( (response) => {return response.data});
+}
+
+// update user profile picture
+
+// export const updateUserProfilePicture = (file, userId)=>{
+
+//   if(file === null){
+//     return;
+//   }
+
+
+//    const data = new FormData();
+//    data.append("userImage", file);
+
+//   return privateAxios.post(`/users/image/${userId}`,data)
+//   .then((response)=> response.data);
+// }

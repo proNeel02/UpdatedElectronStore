@@ -1,9 +1,21 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { Button, Card, Container, Table } from "react-bootstrap";
 import UserContext from "../../context/UserContext";
 // import AdminImg form "./src/Assets/AdminImg.jpg"
-const UserProfileView = ({ user = null, handleShowModel }) => {
+const UserProfileView = ({ user = null, handleShowModel, setImage, image }) => {
   const { isLogin, userData } = useContext(UserContext);
+
+  useEffect(() => {
+
+      setImage((oldImageObj) => {
+        return {
+          placeholder: `/Assets/${user?.gender}.jpg`,
+          file: null,
+        };
+      });
+   
+  }, []);
+
   return (
     <>
       <>
@@ -19,12 +31,12 @@ const UserProfileView = ({ user = null, handleShowModel }) => {
             <Container className="my-3">
               {/* BASE_URL */}
               <img
-                src={`/Assets/${user?.gender}.jpg`}
+                src={image?.placeholder}
                 style={{
                   width: "150px",
                   height: "150px",
                   borderRadius: "100px",
-                  // objectFit:'contain'
+                  objectFit:'cover'
                 }}
                 alt="img"
                 className="border border-warning shadow"

@@ -1,3 +1,5 @@
-.bg{
-  color: #ef476f !important;
+.list-group-item-action{
+  color: black !important;
+  background:  white!important;
+ border-radius: 10px;
 }

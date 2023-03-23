@@ -20,6 +20,11 @@ import ErrorPage from "./componets/pages/users/Errorpage";
 import AdminDashBoard from "./componets/pages/admin/AdminDashBoard";
 import AdminHome from "./componets/pages/admin/AdminHome";
 import AddProduct from "./componets/pages/admin/AddProduct";
+import AddCategory from "./componets/pages/admin/AddCategory";
+import ViewCategories from "./componets/pages/admin/ViewCategories";
+import ViewProducts from "./componets/pages/admin/ViewProducts";
+import AdminOrders from "./componets/pages/admin/AdminOrders";
+import AdminUsers from "./componets/pages/admin/AdminUsers";
 // import UserProvider from "./componets/context/user.provider";
 function App() {
   return (
@@ -55,6 +60,11 @@ function App() {
           <Route path="/admin" element={<AdminDashBoard />}>
             <Route path="home" element={<AdminHome />} />
             <Route path="add-product" element={<AddProduct />} />
+            <Route path="add-category" element={<AddCategory />} />
+            <Route path="categories" element={<ViewCategories />} />
+            <Route path="products" element={<ViewProducts />} />
+            <Route path="orders" element={<AdminOrders />} />
+            <Route path="users" element={<AdminUsers />} />
           </Route>
         </Routes>
       </BrowserRouter>
