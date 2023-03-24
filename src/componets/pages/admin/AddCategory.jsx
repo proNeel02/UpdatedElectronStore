@@ -9,7 +9,7 @@ import {
 } from "react-bootstrap";
 import { toast } from "react-toastify";
 import { addCategory } from "../../../services/product.services";
-
+import { FiSmile } from 'react-icons/fi' 
 const AddCategory = () => {
   const [category, setCategory] = useState({
     title: "",
@@ -54,22 +54,20 @@ const AddCategory = () => {
       return;
     }
 
-    if (
-      category.coverImage === undefined ||
-      category.coverImage.trim() === ""
-    ) {
-      toast.error("Category Cover Image Url empty!!");
-      return;
-    }
 
-    // call server
+    
     setIsLoading(() => true);
-    addCategory(addCategory)
-      .then((response) => {
-        console.log(response);
+
+    // call server 
+    addCategory(category)
+      .then((data) => {
+        console.log(data);
+        toast.success('Category Added !');
+        clearData();
       })
       .catch((error) => {
         console.dir(error);
+        toast.error('Category Not Added !');
       })
       .finally(() => {
         setIsLoading(() => false);
@@ -119,15 +117,16 @@ const AddCategory = () => {
               <Container className="text-center mt-2">
                 <Button
                   variant="success"
-                  size="lg"
+                  size="sm"
                   type="submit"
                   disabled={isLoading}
                 >
                   {isLoading ? (
                     <>
-                      <Spinner animation="border" size="lg" />
+                      <Spinner animation="border" size="sm"
+                      className="me-2" />
 
-                      <span>Wait...</span>
+                      <span>WAIT...</span>
                     </>
                   ) : (
                     <span>Add Category</span>
@@ -136,7 +135,7 @@ const AddCategory = () => {
                 <Button
                   variant="danger"
                   className="ms-2"
-                  size="lg"
+                  size="sm"
                   onClick={clearData}
                 >
                   Clear
