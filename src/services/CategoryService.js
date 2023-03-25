@@ -11,3 +11,10 @@ export const addCategory = (category) => {
     .post(`/categories`, category)
     .then((response) => response.data);
 };
+
+// delete category from server
+export const deleteAtomCategory = (categoryId) => {
+  return privateAxios
+    .delete(`/categories/${categoryId}`)
+    .then((response) => response.data);
+};
