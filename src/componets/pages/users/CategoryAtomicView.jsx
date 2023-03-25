@@ -1,12 +1,14 @@
 import { Button, Card, Col, Container, Row } from "react-bootstrap";
 
-const CategoryAtomicView = ({ obj, deleteCatMain }) => {
+const CategoryAtomicView = ({ obj, deleteCatMain, Update, View }) => {
   // this below function deleteAtomicCategory delete Atomic category
   // operated on delete button on screen
 
   const deleteAtomicCategory = (categoryId) => {
     deleteCatMain(categoryId);
   };
+
+  // below function operate on view button
 
   return (
     <>
@@ -39,11 +41,16 @@ const CategoryAtomicView = ({ obj, deleteCatMain }) => {
 
               <Col md={2}>
                 <Container className="d-grid">
-                  <Button variant="info" size="sm">
+                  <Button variant="info" size="sm" onClick={() => View(obj)}>
                     View
                   </Button>
 
-                  <Button variant="warning" size="sm" className="mt-1">
+                  <Button
+                    variant="warning"
+                    size="sm"
+                    className="mt-1"
+                    onClick={() => Update(obj)}
+                  >
                     Update
                   </Button>
 

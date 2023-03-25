@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Container, Spinner } from "react-bootstrap";
+import { Button, Col, Container, Modal, Row, Spinner } from "react-bootstrap";
 import { toast } from "react-toastify";
 import Swal from "sweetalert2";
 import {
@@ -14,6 +14,14 @@ const ViewCategories = () => {
   // we know that component is a java script object...
   //Yes i figured it out!!.
   // let array = [<CategoryAtomicView />]
+
+  const [selectedCategory, setSelectedCategory] = useState(undefined);
+
+  // this state is related with modal
+  // related with ModelView function
+  const [show, setShow] = useState(false);
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
 
   // this data is comming from server
   // store it in the categoriesData
@@ -45,7 +53,7 @@ const ViewCategories = () => {
       })
       .catch((error) => {
         console.log(error);
-        toast.error("fetching categories error!!");
+        // toast.error("fetching categories error!!");
         setcategoiesData((oldCategoryData) => {
           return {
             category: [],
@@ -113,7 +121,7 @@ const ViewCategories = () => {
   // Nice.....
   const handleSpinner = () => {
     return (
-      <Container className="text-center">
+      <Container className="text-center p-5">
         <Spinner className="me-2" animation="grow" variant="primary" />
         <Spinner className="me-2" animation="grow" variant="secondary" />
         <Spinner className="me-2" animation="grow" variant="success" />
@@ -125,6 +133,69 @@ const ViewCategories = () => {
       </Container>
     );
   };
+
+  // handle view button of category
+  // handle by view button passing as prop
+  // as View to the CategoryAtomicView component
+
+  const handleView = (category) => {
+    setSelectedCategory((oldCatObj) => {
+      return category;
+    });
+    handleShow();
+  };
+
+  // handle update butoon of category
+  // handle by Update button passing as prop
+  // as Update to the CategoryAtomicView component
+  const handleUpdate = (category) => {
+    alert("Update button Clicked!!");
+  };
+
+  // Model view function for showing clicked category
+  const ModelView = () => {
+    return (
+      <>
+        <Modal animation={false} show={show} onHide={handleClose}>
+          <Modal.Header>
+            <Container className="mb-2 p-1">
+
+            <Row className="mb-">
+                <Col md={12}>
+                  <Modal.Title>{selectedCategory.title}</Modal.Title>
+                </Col>
+              </Row>
+
+
+              <Row>
+                <Col md={12}>
+                  <img
+                    src={selectedCategory.coverImage}
+                    style={{
+                      width: "400px",
+                      height: "400px",
+                      objectFit: "contain",
+                    }}
+                  />
+                </Col>
+              </Row>
+         
+            </Container>
+          </Modal.Header>
+          <Modal.Body>{selectedCategory.description}</Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={handleClose}>
+              Close
+            </Button>
+            <Button variant="primary" onClick={handleClose}>
+              Save Changes
+            </Button>
+          </Modal.Footer>
+        </Modal>
+      </>
+    );
+  };
+
   return (
     <>
       {isLoading
@@ -136,10 +207,14 @@ const ViewCategories = () => {
                 key={obj.categoryId}
                 obj={obj}
                 deleteCatMain={deleteCategory}
+                Update={handleUpdate}
+                View={handleView}
               />
             );
           })
         : ShowNull()}
+
+      {selectedCategory ? ModelView() : ""}
     </>
   );
 };
