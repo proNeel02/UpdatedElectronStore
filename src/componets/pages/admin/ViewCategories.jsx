@@ -1,10 +1,20 @@
 import { useEffect, useState } from "react";
-import { Button, Col, Container, Modal, Row, Spinner } from "react-bootstrap";
+import {
+  Button,
+  Col,
+  Container,
+  Form,
+  FormGroup,
+  Modal,
+  Row,
+  Spinner,
+} from "react-bootstrap";
 import { toast } from "react-toastify";
 import Swal from "sweetalert2";
 import {
   deleteAtomCategory,
   getCategories,
+  updateCategory,
 } from "../../../services/CategoryService";
 import CategoryAtomicView from "../users/CategoryAtomicView";
 
@@ -19,9 +29,17 @@ const ViewCategories = () => {
 
   // this state is related with modal
   // related with ModelView function
+  // handle view button modal
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+
+  // this state is related with modal
+  // related with ModalUpdate function
+  // handle update button modal
+  const [showUpdate, setShowUpdate] = useState(false);
+  const handleCloseUpdate = () => setShowUpdate(false);
+  const handleShowUpdate = () => setShowUpdate(true);
 
   // this data is comming from server
   // store it in the categoriesData
@@ -149,7 +167,10 @@ const ViewCategories = () => {
   // handle by Update button passing as prop
   // as Update to the CategoryAtomicView component
   const handleUpdate = (category) => {
-    alert("Update button Clicked!!");
+    setSelectedCategory((oldCatObj) => {
+      return category;
+    });
+    handleShowUpdate();
   };
 
   // Model view function for showing clicked category
@@ -158,28 +179,26 @@ const ViewCategories = () => {
       <>
         <Modal animation={false} show={show} onHide={handleClose}>
           <Modal.Header>
-            <Container className="mb-2 p-1">
-
-            <Row className="mb-">
+            <Container className="mb-2 p-1 text-center">
+              <Row>
                 <Col md={12}>
                   <Modal.Title>{selectedCategory.title}</Modal.Title>
                 </Col>
               </Row>
 
-
               <Row>
                 <Col md={12}>
                   <img
                     src={selectedCategory.coverImage}
-                    style={{
-                      width: "400px",
-                      height: "400px",
-                      objectFit: "contain",
-                    }}
+                    // style={{
+                    //   width: "400px",
+                    //   height: "400px",
+                    //   objectFit: "contain",
+                    // }}
+                    className="img-fluid"
                   />
                 </Col>
               </Row>
-         
             </Container>
           </Modal.Header>
           <Modal.Body>{selectedCategory.description}</Modal.Body>
@@ -187,7 +206,128 @@ const ViewCategories = () => {
             <Button variant="secondary" onClick={handleClose}>
               Close
             </Button>
-            <Button variant="primary" onClick={handleClose}>
+          </Modal.Footer>
+        </Modal>
+      </>
+    );
+  };
+
+  // handleChange function handeling update which is comming from
+  // by clicking update button
+  // handing field values
+  const handleChange = (event, property) => {
+    setSelectedCategory((oldCategory) => {
+      return {
+        ...oldCategory,
+        [property]: event.target.value,
+      };
+    });
+  };
+
+  // handleUpdateCategory function update category in database
+  const handleUpdateCategory = (event) => {
+    event.preventDefault();
+
+    if (
+      selectedCategory.title === undefined ||
+      selectedCategory.title.trim() === ""
+    ) {
+      toast.error("title required!!");
+      return;
+    }
+
+    if (
+      selectedCategory.description === undefined ||
+      selectedCategory.description.trim() === ""
+    ) {
+      toast.error("description required!!");
+      return;
+    }
+
+    if (
+      selectedCategory.coverImage === undefined ||
+      selectedCategory.coverImage.trim() === ""
+    ) {
+      toast.error("Url required!!");
+      return;
+    }
+
+    console.dir(selectedCategory);
+    updateCategory(selectedCategory)
+      .then((ServerResponse) => {
+        console.dir(ServerResponse);
+        toast.success("Update Successful!!");
+        fetchCategoryList();
+        handleCloseUpdate();
+      
+      })
+      .catch((error) => {
+        console.log(error);
+        toast.error("Update Failed!!");
+      });
+  };
+
+  // Model Update function for Update clicked category
+  const ModalUpdate = () => {
+    return (
+      <>
+        <Modal animation={false} show={showUpdate} onHide={handleCloseUpdate}>
+          <Modal.Header>
+            <Modal.Title>{selectedCategory.title}</Modal.Title>
+          </Modal.Header>
+
+          <Modal.Body>
+            <Form>
+              <FormGroup>
+                <Form.Label>Category Title</Form.Label>
+                <Form.Control
+                  type="text"
+                  placeholder="Enter here"
+                  value={selectedCategory.title}
+                  onChange={(event) => {
+                    return handleChange(event, "title");
+                  }}
+                />
+              </FormGroup>
+
+              <FormGroup className="mt-3">
+                <Form.Label>Category Description</Form.Label>
+                <Form.Control
+                  as={"textarea"}
+                  rows={8}
+                  placeholder="description"
+                  value={selectedCategory.description}
+                  onChange={(event) => {
+                    return handleChange(event, "description");
+                  }}
+                />
+              </FormGroup>
+
+              <FormGroup>
+                <Container className="text-center py-3">
+                  <img
+                    src={selectedCategory.coverImage}
+                    className="img-fluid"
+                  />
+                </Container>
+                <Form.Label>Category Image Url</Form.Label>
+                <Form.Control
+                  type="text"
+                  placeholder="Enter here"
+                  value={selectedCategory.coverImage}
+                  onChange={(event) => {
+                    return handleChange(event, "coverImage");
+                  }}
+                />
+              </FormGroup>
+            </Form>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={handleCloseUpdate}>
+              Close
+            </Button>
+
+            <Button variant="success" onClick={handleUpdateCategory}>
               Save Changes
             </Button>
           </Modal.Footer>
@@ -215,6 +355,7 @@ const ViewCategories = () => {
         : ShowNull()}
 
       {selectedCategory ? ModelView() : ""}
+      {selectedCategory ? ModalUpdate() : ""}
     </>
   );
 };

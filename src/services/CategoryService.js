@@ -1,4 +1,4 @@
-import { privateAxios } from "./axios.service";
+import { privateAxios, publicAxios } from "./axios.service";
 
 //get all saved categories from the server
 export const getCategories = () => {
@@ -16,5 +16,13 @@ export const addCategory = (category) => {
 export const deleteAtomCategory = (categoryId) => {
   return privateAxios
     .delete(`/categories/${categoryId}`)
+    .then((response) => response.data);
+};
+
+// updating category on server
+export const updateCategory = (category) => {
+  
+  return privateAxios
+    .put(`/categories/${category.categoryId}`, category)
     .then((response) => response.data);
 };

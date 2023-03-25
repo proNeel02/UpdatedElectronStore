@@ -17,13 +17,12 @@ const AdminDashBoard = () => {
             <Col
               md={{
                 span: 2,
-                offset: 1,
               }}
             >
               <SideMenu />
             </Col>
 
-            <Col md={8} className="ps-2 pt-3" >
+            <Col md={10} className="ps-2 pt-3">
               <Outlet />
             </Col>
           </Row>

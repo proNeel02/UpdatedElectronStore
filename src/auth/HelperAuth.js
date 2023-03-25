@@ -20,7 +20,10 @@ export const getUserFromLocalStorage = () => {
 
 export const getTokenFromLocalStorage = () => {
   const Token = getDataFromLocalStorage()?.jwtToken;
+
+  
   if (Token !== null) {
+  
     return Token;
   }
 
@@ -30,6 +33,8 @@ export const getTokenFromLocalStorage = () => {
 export const getDataFromLocalStorage = () => {
   let Data = localStorage.getItem("userData");
   if (Data !== null) {
+    console.dir("Hello form auth");
+    console.dir(Data);
     return JSON.parse(Data);
   }
   return null;
