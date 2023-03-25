@@ -55,7 +55,6 @@ const NavBar = () => {
             <Nav.Link as={NavLink} to="/cart">
               Cart
             </Nav.Link>
-
             {/* <Nav.Link hidden={!isAdminUser()} as={NavLink} to="admin/home">
               Admin Home
             </Nav.Link>
@@ -67,18 +66,22 @@ const NavBar = () => {
             >
               Add Product
             </Nav.Link> */}
-
-
-            ({
-               userContext.hasAdminUser && (<><Nav.Link as={NavLink} to="/admin/home">
-              AdminDashBoard
-            </Nav.Link></>)
-            })
-
+            (
+            {userContext.hasAdminUser && (
+              <>
+                <Nav.Link as={NavLink} to="/admin/home">
+                  AdminDashBoard
+                </Nav.Link>
+              </>
+            )}
+            )
             {userContext?.isLogin ? (
               <>
                 {" "}
-                <Nav.Link as={NavLink} to={`users/profile/${userContext?.userData?.user?.userId}`}>
+                <Nav.Link
+                  as={NavLink}
+                  to={`users/profile/${userContext?.userData?.user?.userId}`}
+                >
                   {userContext?.userData?.user?.email}
                 </Nav.Link>
                 <Nav.Link as={NavLink} to="users/orders">

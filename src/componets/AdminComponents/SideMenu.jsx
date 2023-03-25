@@ -5,12 +5,12 @@ import UserContext from "../context/UserContext";
 import { FcHome } from "react-icons/fc";
 import { MdCategory } from "react-icons/md";
 import { BiMessageSquareAdd } from "react-icons/bi";
-import { FcViewDetails } from "react-icons/fc"
-import { SiProducthunt } from "react-icons/si"
-import { BsBoxes } from "react-icons/bs"
-import    { FaUsers } from "react-icons/fa"
-import { RxDashboard } from "react-icons/rx"
-import { BiLogOut } from "react-icons/bi"
+import { FcViewDetails } from "react-icons/fc";
+import { SiProducthunt } from "react-icons/si";
+import { BsBoxes } from "react-icons/bs";
+import { FaUsers } from "react-icons/fa";
+import { RxDashboard } from "react-icons/rx";
+import { BiLogOut } from "react-icons/bi";
 const SideMenu = () => {
   const userContex = useContext(UserContext);
 
@@ -19,7 +19,7 @@ const SideMenu = () => {
   };
   return (
     <>
-      <ListGroup>
+      <ListGroup className="sticky-top">
         <ListGroup.Item className="shadow" as={NavLink} to="/admin/home" action>
           <FcHome />
           <span className="ms-2">Home</span>
@@ -30,7 +30,7 @@ const SideMenu = () => {
           to="/admin/add-category"
           action
         >
-<MdCategory />
+          <MdCategory />
           <span className="ms-2">Add Cateory</span>
         </ListGroup.Item>
         <ListGroup.Item
@@ -39,7 +39,7 @@ const SideMenu = () => {
           to="/admin/categories"
           action
         >
-        <FcViewDetails />
+          <FcViewDetails />
           <span>View Category</span>
         </ListGroup.Item>
         <ListGroup.Item
@@ -48,8 +48,8 @@ const SideMenu = () => {
           to="/admin/add-product"
           action
         >
-        <BiMessageSquareAdd />
-         <span className="ms-1"> Add Products</span>
+          <BiMessageSquareAdd />
+          <span className="ms-1"> Add Products</span>
         </ListGroup.Item>
         <ListGroup.Item
           className="shadow"
@@ -57,9 +57,8 @@ const SideMenu = () => {
           to="/admin/products"
           action
         >
-        <SiProducthunt />
-        <span className="ms-1">View Products</span>
-         
+          <SiProducthunt />
+          <span className="ms-1">View Products</span>
         </ListGroup.Item>
         <ListGroup.Item
           className="shadow"
@@ -67,9 +66,8 @@ const SideMenu = () => {
           to="/admin/orders"
           action
         >
-        <BsBoxes />
-        <span className="ms-2"> Orders</span>
-        
+          <BsBoxes />
+          <span className="ms-2"> Orders</span>
         </ListGroup.Item>
         <ListGroup.Item
           className="shadow"
@@ -77,13 +75,12 @@ const SideMenu = () => {
           to="/admin/users"
           action
         >
-        <FaUsers />
-        <span className="ms-2"> Users</span>
-         
+          <FaUsers />
+          <span className="ms-2"> Users</span>
         </ListGroup.Item>
         <ListGroup.Item className="shadow" as={NavLink} to="/users/home" action>
           <RxDashboard />
-         <span className="ms-2">DashBoard</span>
+          <span className="ms-2">DashBoard</span>
         </ListGroup.Item>
         <ListGroup.Item className="shadow" onClick={handleLogOut} action>
           <BiLogOut />
