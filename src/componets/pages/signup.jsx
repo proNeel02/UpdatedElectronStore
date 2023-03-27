@@ -15,6 +15,9 @@ import { registerUser } from "../../services/user.services";
 import Base from "./users/Base";
 
 const SignUp = () => {
+  const [maleCheck, setMaleCheck] = useState(false);
+  const [femaleCheck, setFemaleCheck] = useState(false);
+
   let [data, setData] = useState({
     name: "",
     email: "",
@@ -138,6 +141,17 @@ const SignUp = () => {
       });
   };
 
+  const handleCheck = (entity) => {
+    console.log("handleCheck");
+    if (entity === "male") {
+      setMaleCheck(true);
+      setFemaleCheck(false);
+    } else {
+      setMaleCheck(false);
+      setFemaleCheck(true);
+    }
+  };
+
   const SignUpForm = () => {
     return (
       <>
@@ -246,8 +260,8 @@ const SignUp = () => {
                           type={"radio"}
                           id={"male"}
                           value="male"
-                          // checked={data.gender === "male"}
-                          checked={data.gender === "male"}
+                          checked={maleCheck}
+                          onChange={() => handleCheck("male")}
                           // defaultChecked
                           onClick={(event) => handleChange(event, "gender")}
                         />
@@ -259,9 +273,8 @@ const SignUp = () => {
                           type={"radio"}
                           id={"female"}
                           value="female"
-                          checked={data.gender === "female"}
-                          // defaultChecked
-
+                          checked={femaleCheck}
+                          onChange={() => handleCheck("female")}
                           onClick={(event) => handleChange(event, "gender")}
                         />
                       </div>
@@ -313,7 +326,7 @@ const SignUp = () => {
                         <span hidden={isLoader}>Register</span>
                       </Button>
                       <Button
-                       size="lg"
+                        size="lg"
                         className="ms-2 text-uppercase"
                         variant="danger"
                         onClick={clearData}

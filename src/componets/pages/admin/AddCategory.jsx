@@ -9,7 +9,7 @@ import {
 } from "react-bootstrap";
 import { toast } from "react-toastify";
 import { addCategory } from "../../../services/CategoryService";
-import { FiSmile } from 'react-icons/fi' 
+import { FiSmile } from "react-icons/fi";
 const AddCategory = () => {
   const [category, setCategory] = useState({
     title: "",
@@ -54,20 +54,18 @@ const AddCategory = () => {
       return;
     }
 
-
-    
     setIsLoading(() => true);
 
-    // call server 
+    // call server
     addCategory(category)
       .then((data) => {
-        console.log(data);
-        toast.success('Category Added !');
+        // console.log(data);
+        toast.success("Category Added !");
         clearData();
       })
       .catch((error) => {
         console.dir(error);
-        toast.error('Category Not Added !');
+        toast.error("Category Not Added !");
       })
       .finally(() => {
         setIsLoading(() => false);
@@ -76,75 +74,78 @@ const AddCategory = () => {
 
   return (
     <>
-      <Container fluid>
-        <Card className="shadow border-0">
-          <Card.Body>
-            <h5>Add Category</h5>
+      <Card
+        className="shadow border-0"
+        style={{
+          borderStartEndRadius: "100px",
+          borderEndStartRadius: "100px",
+        }}
+      >
+        <Card.Body>
+          <h5 className="text-center">Add Category</h5>
 
-            <Form onSubmit={handleSubmit}>
-              {/* title */}
-              <FormGroup className="mt-3">
-                <Form.Label>Category Title</Form.Label>
-                <Form.Control
-                  type="text"
-                  placeholder="Enter here"
-                  onChange={(event) => handleFieldChange(event, "title")}
-                  value={category.title}
-                />
-              </FormGroup>
+          <Form onSubmit={handleSubmit}>
+            {/* title */}
+            <FormGroup className="mt-3">
+              <Form.Label>Category Title</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="Enter here"
+                onChange={(event) => handleFieldChange(event, "title")}
+                value={category.title}
+              />
+            </FormGroup>
 
-              <FormGroup className="mt-3">
-                <Form.Label>Category Description</Form.Label>
-                <Form.Control
-                  row={6}
-                  as={"textarea"}
-                  placeholder={"Enter here"}
-                  onChange={(event) => handleFieldChange(event, "description")}
-                  value={category.description}
-                />
-              </FormGroup>
+            <FormGroup className="mt-3">
+              <Form.Label>Category Description</Form.Label>
+              <Form.Control
+                row={6}
+                as={"textarea"}
+                placeholder={"Enter here"}
+                onChange={(event) => handleFieldChange(event, "description")}
+                value={category.description}
+              />
+            </FormGroup>
 
-              <FormGroup className="mt-3">
-                <Form.Label>Category Cover Image Url</Form.Label>
-                <Form.Control
-                  type="text"
-                  placeholder="Enter here"
-                  onChange={(event) => handleFieldChange(event, "coverImage")}
-                  value={category.coverImage}
-                />
-              </FormGroup>
+            <FormGroup className="mt-3">
+              <Form.Label>Category Cover Image Url</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="Enter here"
+                onChange={(event) => handleFieldChange(event, "coverImage")}
+                value={category.coverImage}
+              />
+            </FormGroup>
 
-              <Container className="text-center mt-2">
-                <Button
-                  variant="success"
-                  size="sm"
-                  type="submit"
-                  disabled={isLoading}
-                >
-                  {isLoading ? (
-                    <>
-                      <Spinner animation="border" size="sm"
-                      className="me-2" />
+            <Container className="text-center mt-2">
+              <Button
+                variant="success"
+                size="sm"
+                type="submit"
+                disabled={isLoading}
+              >
+                {isLoading ? (
+                  <>
+                    <Spinner animation="border" size="sm" className="me-2" />
 
-                      <span>WAIT...</span>
-                    </>
-                  ) : (
-                    <span>Add Category</span>
-                  )}
-                </Button>
-                <Button
-                  variant="danger"
-                  className="ms-2"
-                  size="sm"
-                  onClick={clearData}
-                >
-                  Clear
-                </Button>
-              </Container>
-            </Form>
-          </Card.Body>
-        </Card>
-      </Container>
+                    <span>WAIT...</span>
+                  </>
+                ) : (
+                  <span>Add Category</span>
+                )}
+              </Button>
+              <Button
+                variant="danger"
+                className="ms-2"
+                size="sm"
+                onClick={clearData}
+              >
+                Clear
+              </Button>
+            </Container>
+          </Form>
+        </Card.Body>
+      </Card>
     </>
   );
 };

@@ -89,6 +89,6 @@ const SideMenu = () => {
       </ListGroup>
     </>
   );
-};
+}; 
 
 export default SideMenu;

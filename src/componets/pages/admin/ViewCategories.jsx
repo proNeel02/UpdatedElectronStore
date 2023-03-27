@@ -9,6 +9,7 @@ import {
   Row,
   Spinner,
 } from "react-bootstrap";
+import InfiniteScroll from "react-infinite-scroll-component";
 import { toast } from "react-toastify";
 import Swal from "sweetalert2";
 import {
@@ -111,7 +112,7 @@ const ViewCategories = () => {
         // making an api call for delete the category
         deleteAtomCategory(categoryId)
           .then((Serverdata) => {
-            console.log(Serverdata);
+            // console.log(Serverdata);
             fetchCategoryList();
             Swal.fire("Deleted!", "Your file has been deleted.", "success");
           })
@@ -259,7 +260,6 @@ const ViewCategories = () => {
         toast.success("Update Successful!!");
         fetchCategoryList();
         handleCloseUpdate();
-      
       })
       .catch((error) => {
         console.log(error);
