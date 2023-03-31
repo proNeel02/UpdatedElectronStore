@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   Button,
   Card,
@@ -8,9 +8,21 @@ import {
   FormGroup,
   InputGroup,
   Row,
+  Spinner,
 } from "react-bootstrap";
 import { toast } from "react-toastify";
+import { getCategories } from "../../../services/CategoryService";
+import {
+  addProductImage,
+  createProductInCategory,
+  createProductWithoutCategory,
+} from "../../../services/product.services";
+
+import { Editor } from "@tinymce/tinymce-react";
+
 const AddProduct = () => {
+  const [categories, setCategories] = useState(undefined);
+
   const [product, setProduct] = useState({
     title: "",
     description: "",
@@ -22,6 +34,28 @@ const AddProduct = () => {
     image: undefined,
     imagePreview: `/Assets/logo192.png`,
   });
+
+  const [selectedCatId, setSelectedCatId] = useState("none");
+
+  // using useEffect we are fetching getCategory data
+  //once
+  useEffect(() => {
+    getCategories()
+      .then((data) => {
+        setCategories(() => {
+          return data;
+        });
+        // console.log(data);
+      })
+      .catch((error) => {
+        toast.error("Error while fetching categories!");
+      });
+  }, []);
+
+  const [isLoading, setLoading] = useState(false);
+
+  // below useRef for editable tabel
+  const editorRef = useRef(null);
 
   // this function handle product image file
   const handleFileChange = (event) => {
@@ -53,6 +87,132 @@ const AddProduct = () => {
     }
   };
 
+  // this function operate on Add
+  const submitAddProduct = (event) => {
+    event.preventDefault();
+
+    // check for form title
+    if (product.title === undefined || product.title.trim() === "") {
+      toast.error("Title required!!");
+      return;
+    }
+
+    // check for description
+    if (
+      product.description === undefined ||
+      product.description.trim() === ""
+    ) {
+      toast.error("description required!!");
+      return;
+    }
+
+    if (product.price <= 0) {
+      toast.error("price Invalid!!");
+      return;
+    }
+
+    if (
+      Number(product.discountedPrice) < 0 ||
+      Number(product.discountedPrice) >= Number(product.price)
+    ) {
+      toast.error("Discount Invalid!!");
+      console.dir(product);
+      return;
+    }
+
+    // api call
+
+    setLoading(() => true);
+    if (selectedCatId === "none") {
+      //create product with out category
+
+      createProductWithoutCategory(product)
+        .then((serverResponse) => {
+          toast.success("Product Added!!");
+          console.log(serverResponse);
+
+          //uploading an image so we call an api
+
+          // this below condition executes when
+          // product.image is undefined
+          if (!product.image) {
+            clearData();
+            return;
+          }
+
+          addProductImage(product.image, serverResponse.productId)
+            .then((serverResponse) => {
+              console.log(serverResponse);
+              toast.success("Image uploaded!");
+              clearData();
+            })
+            .catch((error) => {
+              toast.success("Error while uploading image!");
+              console.log(error);
+            });
+        })
+        .catch((error) => {
+          toast.error("Failed to Add Product!");
+          console.log(error);
+        })
+        .finally(() => {
+          setLoading(() => false);
+        });
+    } else {
+      // create product in category
+      createProductInCategory(product, selectedCatId)
+        .then((data) => {
+          console.log(data);
+          toast.success(`Product Created Inside category ${product.title}`);
+
+          // this below condition executes when
+          // product.image is undefined
+          if (!product.image) {
+            clearData();
+            return;
+          }
+
+          //uploading an image so we call an api
+          addProductImage(product.image, data.productId)
+            .then((serverResponse) => {
+              console.log(serverResponse);
+              toast.success("Image uploaded!");
+              clearData();
+            })
+            .catch((error) => {
+              toast.success("Error while uploading image!");
+              console.log(error);
+            });
+        })
+        .catch((error) => {
+          console.log(error);
+          toast.error(`Product not Created Inside category ${product.title}`);
+        })
+        .finally(() => {
+          setLoading(() => false);
+        });
+    }
+  };
+
+  
+  // this function clears data inside field
+  // operate on Clear data button
+  const clearData = () => {
+    setProduct((product) => {
+      return {
+        title: "",
+        description: "",
+        price: 0,
+        discountedPrice: 0,
+        quantity: 1,
+        live: false,
+        stock: true,
+        image: undefined,
+        imagePreview: `/Assets/logo192.png`,
+      };
+    });
+  };
+
   const formView = () => {
     return (
       <>
@@ -65,7 +225,7 @@ const AddProduct = () => {
         >
           <Card.Body>
             <h5 className="text-center">Add Product here</h5>
-            <Form>
+            <Form onSubmit={submitAddProduct}>
               {/* Product Title */}
               <FormGroup className="mt-3">
                 <Form.Label>Product Title</Form.Label>
@@ -87,7 +247,7 @@ const AddProduct = () => {
               {/* >Product Description */}
               <FormGroup className="mt-3">
                 <Form.Label>Product Description</Form.Label>
-                <Form.Control
+                {/* <Form.Control
                   as="textarea"
                   rows={6}
                   placeholder="Product Description"
@@ -100,6 +260,51 @@ const AddProduct = () => {
                     })
                   }
                   value={product.description}
+                /> */}
+
+                <Editor
+                  apiKey={"5cws83tfeydksa9ws44cb9tixaeucgmib6ix32gji5gxb8of"}
+                  onInit={(evt, editor) => (editorRef.current = editor)}
+                  initialValue={product.description}
+                  init={{
+                    height: 400,
+                    menubar: true,
+                    plugins: [
+                      "advlist",
+                      "autolink",
+                      "lists",
+                      "link",
+                      "image",
+                      "charmap",
+                      "preview",
+                      "anchor",
+                      "searchreplace",
+                      "visualblocks",
+                      "code",
+                      "fullscreen",
+                      "insertdatetime",
+                      "media",
+                      "table",
+                      "code",
+                      "help",
+                      "wordcount",
+                    ],
+                    toolbar:
+                      "undo redo | blocks | " +
+                      "bold italic forecolor | alignleft aligncenter " +
+                      "alignright alignjustify | bullist numlist outdent indent | " +
+                      "removeformat | help",
+                    content_style:
+                      "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
+                  }}
+                  onEditorChange={() => {
+                    return setProduct((product) => {
+                      return {
+                        ...product,
+                        description: editorRef.current.getContent(),
+                      };
+                    });
+                  }}
                 />
               </FormGroup>
 
@@ -235,16 +440,75 @@ const AddProduct = () => {
                     }}
                   />
 
-                  <Button variant="outline-secondary">Clear</Button>
+                  <Button
+                    variant="outline-secondary"
+                    onClick={(event) => {
+                      setProduct((product) => {
+                        return {
+                          ...product,
+                          image: undefined,
+                          imagePreview: `/Assets/logo192.png`,
+                        };
+                      });
+                    }}
+                  >
+                    Clear
+                  </Button>
                 </InputGroup>
               </FormGroup>
 
+              <FormGroup className="mt-3">
+                <Form.Label>Select Category</Form.Label>
+
+                <Form.Select
+                  value={selectedCatId}
+                  onChange={(event) => {
+                    return setSelectedCatId(() => {
+                      return event.target.value;
+                    });
+                  }}
+                >
+                  <option value={"none"}>None</option>
+                  {categories ? (
+                    <>
+                      {categories.content.map((obj) => {
+                        return (
+                          <option key={obj.categoryId} value={obj.categoryId}>
+                            {obj.title}
+                          </option>
+                        );
+                      })}
+                    </>
+                  ) : (
+                    ""
+                  )}
+                </Form.Select>
+              </FormGroup>
+
               <Container className="text-center mt-3">
-                <Button variant="success" size="sm">
-                  Add Product
+                <Button
+                  variant="success"
+                  size="sm"
+                  type="submit"
+                  className="text-center"
+                  disabled={isLoading}
+                >
+                  <Spinner
+                    hidden={!isLoading}
+                    animation="border"
+                    variant="primary"
+                    size="sm"
+                  />
+                  <span hidden={!isLoading}>Adding...</span>
+                  <span hidden={isLoading}>Add Product</span>
                 </Button>
 
-                <Button variant="danger" size="sm" className="ms-2">
+                <Button
+                  variant="danger"
+                  size="sm"
+                  className="ms-2"
+                  onClick={clearData}
+                >
                   Clear Data
                 </Button>
               </Container>

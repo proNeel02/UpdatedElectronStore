@@ -14,7 +14,7 @@ const Index = () => {
 
     axios.get('http://www.localhost:9090/users')
     .then( (response) => {
-      console.log(response.data);
+      // console.log(response.data);
       toast.success("request done");
     })
     .catch( (err) => {
