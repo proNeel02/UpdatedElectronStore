@@ -58,40 +58,97 @@ const ViewProducts = () => {
   };
 
   const ModelProductView = () => {
-
     return (
       <>
-        <Modal size="lg" animation={false} show={show} onHide={handleClose}>
+        <Modal size={"xl"} animation={false} show={show} onHide={handleClose}>
           <Modal.Header>
             <Container className="mb-2 p-3 text-center">
-              <Row className="mb-3">
-                <Col md={12}>
-                  <Modal.Title>{singleView.title}</Modal.Title>
-                </Col>
-              </Row>
-
-              <Row>
-                {/* product image */}
-                <Col md={12}>
-                  <img
-                    src={getProductImageUrl(singleView.productId)}
-                    onError={(event) => {
-                    event.target.onerror = null;
-                    event.target.src = '/Assets/logo192.png'
-                    }}
-                    className="img-fluid"
-                  />
-                </Col>
-              </Row>
+              <Modal.Title>{singleView.title}</Modal.Title>
             </Container>
           </Modal.Header>
           <Modal.Body>
-            {/* Description */}
+            <Card className="text-center shadow border-0">
+              <Card.Body>
+                <Row className="text-center mb-3">
+                  {/* product image */}
+                  <Col md={12}>
+                    {/* if product image is not available 
+                 using onError event lister 
+                 when our Url is invalid
+                 onError get invoked and sets default image
+                 in our case /Assets/logo192.png
+                */}
+                    <img
+                      src={getProductImageUrl(singleView.productId)}
+                      onError={(event) => {
+                        event.target.onerror = null;
+                        event.target.src = "/Assets/logo192.png";
+                      }}
+                      className="img-fluid"
+                    />
+                  </Col>
+                </Row>
 
-            <div
-              dangerouslySetInnerHTML={{ __html: singleView.description }}
-              className="img-fluid border-3"
-            ></div>
+                {/* Information Table */}
+
+                <Table striped bordered responsive>
+                  <thead>
+                    <tr>
+                      <th>Info</th>
+                      <th>Value</th>
+                    </tr>
+                  </thead>
+
+                  <tbody>
+                    <tr>
+                      <td>Product ID</td>
+                      <td>{singleView.productId}</td>
+                    </tr>
+
+                    <tr>
+                      <td>Quantity</td>
+                      <td>{singleView.quantity}</td>
+                    </tr>
+
+                    <tr>
+                      <td>Price</td>
+                      <td>{singleView.price}</td>
+                    </tr>
+
+                    <tr>
+                      <td>Discounted Price</td>
+                      <td>{singleView.discountedPrice}</td>
+                    </tr>
+
+                    <tr>
+                      <td>Live</td>
+                      <td>{singleView.live ? "True" : "False"}</td>
+                    </tr>
+
+                    <tr>
+                      <td>Stock</td>
+                      <td>{singleView.stock ? "In Stock" : "Not In Stock"}</td>
+                    </tr>
+
+                    <tr>
+                      <td>Category</td>
+                      <td>
+                        {singleView?.category?.title
+                          ? singleView?.category?.title
+                          : "No Category"}
+                      </td>
+                    </tr>
+                  </tbody>
+                </Table>
+
+                {/* Description */}
+
+                <div
+                  dangerouslySetInnerHTML={{ __html: singleView.description }}
+                  className="img-fluid border-3"
+                ></div>
+              </Card.Body>
+            </Card>
           </Modal.Body>
           <Modal.Footer>
             <Button variant="secondary" onClick={handleClose}>
@@ -232,7 +289,6 @@ const ViewProducts = () => {
                 }}
               />
             </Pagination>
-            {singleView && show && ModelProductView()}
           </Container>
         </Card.Body>
       </Card>
@@ -244,6 +300,7 @@ const ViewProducts = () => {
       <Container fluid>
         <Row>
           <Col>{products ? productView() : ""}</Col>
+          {singleView && show && ModelProductView()}
         </Row>
       </Container>
     </>
