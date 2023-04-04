@@ -178,7 +178,7 @@ const ViewCategories = () => {
   const ModelView = () => {
     return (
       <>
-        <Modal animation={false} show={show} onHide={handleClose}>
+        <Modal centered animation={false} show={show} onHide={handleClose}>
           <Modal.Header>
             <Container className="mb-2 p-1 text-center">
               <Row>

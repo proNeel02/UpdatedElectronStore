@@ -12,7 +12,8 @@ const SingleProductView = ({
   products,
   setProducts,
   handleShow,
-  setSingleView
+  setSingleView,
+  openEditProductModal,
 }) => {
   const {
     title,
@@ -84,7 +85,6 @@ const SingleProductView = ({
 
   // below function invokes when in view products view button get Clicked..
   const handleView = (event, singleProduct) => {
-
     setSingleView((singleView) => {
       return singleProduct;
     });
@@ -97,35 +97,46 @@ const SingleProductView = ({
       <td className="px-2 small">{SN}</td>
       <td className="px-2 small">{title}</td>
       <td className="px-2 small">{quantity}</td>
-      <td className="px-2 small">{price}</td>
-      <td className="px-2 small">{discountedPrice}</td>
+      <td className="px-2 small">{price}₹</td>
+      <td className="px-2 small">{discountedPrice}₹</td>
       <td className="px-2 small">{live ? "Live" : "NOT"}</td>
       <td className="px-2 small">{stock ? "IN" : "OUT"}</td>
       <td className="px-2 small">{category ? category.title : "Null"}</td>
       <td className="px-2 small">{formatdate(addedDate)}</td>
 
       <td className="px-2 small d-flex">
+        {/* Delete button */}
         <Button
           variant="danger"
           className="me-1"
           size="sm"
           onClick={(event) => {
-            handleDelete(event,singleProduct.productId);
+            handleDelete(event, singleProduct.productId);
           }}
         >
           <MdDeleteSweep size={""} />
         </Button>
+
+        {/* View Button*/}
         <Button
           size="sm"
           className="me-1"
           variant="info"
           onClick={(event) => {
-            handleView(event,singleProduct);
+            handleView(event, singleProduct);
           }}
         >
           <CiViewTimeline />
         </Button>
-        <Button size="sm" variant="warning">
+
+        {/*Update Button*/}
+        <Button
+          size="sm"
+          variant="warning"
+          onClick={(event) => {
+            openEditProductModal(event, singleProduct);
+          }}
+        >
           <GrUpdate />
         </Button>
       </td>

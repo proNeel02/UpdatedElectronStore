@@ -11,6 +11,8 @@ import {
   Form,
   Pagination,
   Modal,
+  Spinner,
+  InputGroup,
 } from "react-bootstrap";
 import { getAllProducts } from "../../../services/product.services";
 import { toast } from "react-toastify";
@@ -19,19 +21,38 @@ import {
   Product_Pages,
   getProductImageUrl,
 } from "../../../services/helper.service";
+import ShowHtml from "../users/ShowHtml";
+import { Editor } from "@tinymce/tinymce-react";
 
 const ViewProducts = () => {
   const [products, setProducts] = useState(undefined);
 
+  // this state used for setting single product when view button is clicked in view product
+  const [singleView, setSingleView] = useState(undefined);
+
+  // Info Modal START
   // this state is related with modal
   // related with ModelView function
   // handle view button modal
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+  // END info Modal
 
-  // this state used for setting single product when view button is clicked in view product
-  const [singleView, setSingleView] = useState(undefined);
+  // update or edit modal START
+  const [showEditModal, setShowEditModal] = useState(false);
+  // openEditProductModal opening Modal
+  const openEditProductModal = (event, product) => {
+    setShowEditModal(() => true);
+    setSingleView((singleView) => {
+      return product;
+    });
+  };
+  // closeEditProductModal closing Modall
+  const closeEditProductModal = () => {
+    setShowEditModal(() => false);
+  };
+  // END update or edit modal
 
   useEffect(() => {
     getProducts(0, Product_Pages, "addedDate", "desc");
@@ -57,6 +78,7 @@ const ViewProducts = () => {
       });
   };
 
+  // View Modal invokes when View button is clicked
   const ModelProductView = () => {
     return (
       <>
@@ -67,9 +89,9 @@ const ViewProducts = () => {
             </Container>
           </Modal.Header>
           <Modal.Body>
-            <Card className="text-center shadow border-0">
+            <Card className="shadow border-0 text-center">
               <Card.Body>
-                <Row className="text-center mb-3">
+                <Row className="mb-3">
                   {/* product image */}
                   <Col md={12}>
                     {/* if product image is not available 
@@ -102,37 +124,42 @@ const ViewProducts = () => {
                   <tbody>
                     <tr>
                       <td>Product ID</td>
-                      <td>{singleView.productId}</td>
+                      <td className="fw-bold">{singleView.productId}</td>
                     </tr>
 
                     <tr>
                       <td>Quantity</td>
-                      <td>{singleView.quantity}</td>
+                      <td className="fw-bold">{singleView.quantity}</td>
                     </tr>
 
                     <tr>
                       <td>Price</td>
-                      <td>{singleView.price}</td>
+                      <td className="fw-bold">{singleView.price} ₹</td>
                     </tr>
 
                     <tr>
                       <td>Discounted Price</td>
-                      <td>{singleView.discountedPrice}</td>
+                      <td className="fw-bold">
+                        {singleView.discountedPrice} ₹
+                      </td>
                     </tr>
-
-                    <tr>
+                    <tr className={singleView.live ? "" : "table-danger"}>
                       <td>Live</td>
-                      <td>{singleView.live ? "True" : "False"}</td>
+                      <td className="fw-bold">
+                        {singleView.live ? "True" : "False"}
+                      </td>
                     </tr>
 
-                    <tr>
+                    <tr className={singleView.stock ? "" : "table-danger"}>
                       <td>Stock</td>
-                      <td>{singleView.stock ? "In Stock" : "Not In Stock"}</td>
+                      <td className="fw-bold">
+                        {singleView.stock ? "In Stock" : "Not In Stock"}
+                      </td>
                     </tr>
 
                     <tr>
                       <td>Category</td>
-                      <td>
+                      <td className="fw-bold">
                         {singleView?.category?.title
                           ? singleView?.category?.title
                           : "No Category"}
@@ -143,16 +170,224 @@ const ViewProducts = () => {
 
                 {/* Description */}
 
-                <div
-                  dangerouslySetInnerHTML={{ __html: singleView.description }}
-                  className="img-fluid border-3"
-                ></div>
+                <div className="img-fluid border-3 mt-3">
+                  <ShowHtml htmlText={singleView?.description} />
+                </div>
               </Card.Body>
             </Card>
           </Modal.Body>
           <Modal.Footer>
             <Button variant="secondary" onClick={handleClose}>
               Close
+            </Button>
+          </Modal.Footer>
+        </Modal>
+      </>
+    );
+  };
+
+  // Edit modal invokes when Update button is Clicked
+  const ModalProductEdit = () => {
+    return (
+      <>
+        <Modal
+          size={"xl"}
+          show={showEditModal}
+          animation={false}
+          onHide={handleClose}
+        >
+          <Modal.Header>
+            <Modal.Title>{singleView.title}</Modal.Title>
+          </Modal.Header>
+
+          <Modal.Body>
+            <Card
+              className="shadow border-0 p-5"
+              style={{
+                borderRadius: "100px",
+              }}
+            >
+              <Card.Body>
+                <h5 className="text-center">Update Product here</h5>
+                <Form>
+                  {/* Product Title */}
+                  <FormGroup className="mt-3">
+                    <Form.Label>Product Title</Form.Label>
+                    <Form.Control
+                      type="text"
+                      placeholder="Product Title"
+                      value={singleView.title}
+                    />
+                  </FormGroup>
+
+                  {/* >Product Description */}
+                  <FormGroup className="mt-3">
+                    <Form.Label>Product Description</Form.Label>
+
+                    <Editor
+                      apiKey={
+                        "5cws83tfeydksa9ws44cb9tixaeucgmib6ix32gji5gxb8of"
+                      }
+                      // onInit={(evt, editor) => ()}
+                      initialValue={singleView.description}
+                      init={{
+                        height: 500,
+                        menubar: true,
+                        plugins: [
+                          "advlist",
+                          "autolink",
+                          "lists",
+                          "link",
+                          "image",
+                          "charmap",
+                          "preview",
+                          "anchor",
+                          "searchreplace",
+                          "visualblocks",
+                          "code",
+                          "fullscreen",
+                          "insertdatetime",
+                          "media",
+                          "table",
+                          "code",
+                          "help",
+                          "wordcount",
+                        ],
+                        toolbar:
+                          "undo redo | blocks | " +
+                          "bold italic forecolor | alignleft aligncenter " +
+                          "alignright alignjustify | bullist numlist outdent indent | " +
+                          "removeformat | help",
+                        content_style:
+                          "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
+                      }}
+                    />
+                  </FormGroup>
+
+                  <Row>
+                    {/* Product Price  */}
+                    <Col>
+                      <FormGroup className="mt-3">
+                        <Form.Label>Price</Form.Label>
+                        <Form.Control
+                          type="number"
+                          placeholder="Product Price"
+                          value={singleView.price}
+                        />
+                      </FormGroup>
+                    </Col>
+
+                    {/* Discounted Price */}
+                    <Col>
+                      <FormGroup className="mt-3">
+                        <Form.Label>Discouted Price</Form.Label>
+                        <Form.Control
+                          type="number"
+                          placeholder="Discount"
+                          value={singleView.discountedPrice}
+                        />
+                      </FormGroup>
+                    </Col>
+                  </Row>
+
+                  {/* Product Quantity */}
+
+                  <FormGroup className="mt-3">
+                    <Form.Label>Product Quantity</Form.Label>
+
+                    <Form.Control
+                      type="number"
+                      placeholder="Product Quantity"
+                      value={singleView.quantity}
+                    />
+                  </FormGroup>
+
+                  {/* Checked Entities */}
+                  <Row className="mt-3 px-1">
+                    <Col>
+                      <Form.Check
+                        type="switch"
+                        label={"Live"}
+                        checked={singleView.live}
+                      />
+                    </Col>
+
+                    <Col>
+                      <Form.Check
+                        type="switch"
+                        label={"Stock"}
+                        checked={singleView.stock}
+                      />
+                    </Col>
+                  </Row>
+
+                  {/* Product image */}
+                  <FormGroup>
+                    <Container
+                      className="text-center mt-3 mb-3 shadow"
+                      style={{
+                        borderRadius: "20px",
+                      }}
+                    >
+                      <p className="text-muted">Product Image Preview</p>
+                      <img
+                        src={getProductImageUrl(singleView.productId)}
+                        className="img-fluid mb-3"
+                        style={{
+                          maxHeight: "300px",
+                        }}
+                      />
+                    </Container>
+
+                    <Form.Label> Select Product Image</Form.Label>
+
+                    <InputGroup>
+                      <Form.Control type={"file"} />
+
+                      <Button variant="outline-secondary">Clear</Button>
+                    </InputGroup>
+                  </FormGroup>
+
+                  <FormGroup className="mt-3">
+                    <Form.Label>Select Category</Form.Label>
+
+                    <Form.Select>
+                      <option value={"none"}>None</option>
+                    </Form.Select>
+                  </FormGroup>
+
+                  <Container className="text-center mt-3">
+                    <Button
+                      variant="success"
+                      size="lg"
+                      type="submit"
+                      className="text-center"
+                      disabled={""}
+                    >
+                      <Spinner
+                        hidden={true}
+                        animation="border"
+                        variant="primary"
+                        size="lg"
+                      />
+                      <span hidden={true}>Updating...</span>
+                      <span hidden={""}>UPDATE</span>
+                    </Button>
+
+                    <Button variant="danger" size="lg" className="ms-2">
+                      CLEAR
+                    </Button>
+                  </Container>
+                </Form>
+              </Card.Body>
+            </Card>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={closeEditProductModal}>
+              Close
+            </Button>
+            <Button variant="primary" onClick={handleClose}>
+              Save Changes
             </Button>
           </Modal.Footer>
         </Modal>
@@ -218,6 +453,7 @@ const ViewProducts = () => {
                     setProducts={setProducts}
                     handleShow={handleShow}
                     setSingleView={setSingleView}
+                    openEditProductModal={openEditProductModal}
                   />
                 );
               })}
@@ -301,6 +537,7 @@ const ViewProducts = () => {
         <Row>
           <Col>{products ? productView() : ""}</Col>
           {singleView && show && ModelProductView()}
+          {showEditModal && ModalProductEdit()}
         </Row>
       </Container>
     </>
