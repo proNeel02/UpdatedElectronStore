@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   Button,
   Card,
@@ -14,7 +14,11 @@ import {
   Spinner,
   InputGroup,
 } from "react-bootstrap";
-import { getAllProducts } from "../../../services/product.services";
+import {
+  addProductImage,
+  getAllProducts,
+  updateProduct,
+} from "../../../services/product.services";
 import { toast } from "react-toastify";
 import SingleProductView from "./SingleProductView";
 import {
@@ -23,12 +27,74 @@ import {
 } from "../../../services/helper.service";
 import ShowHtml from "../users/ShowHtml";
 import { Editor } from "@tinymce/tinymce-react";
+import { getCategories } from "../../../services/CategoryService";
 
 const ViewProducts = () => {
   const [products, setProducts] = useState(undefined);
 
+  // below state for handling spinner or loader form bootstrap
+
+  const [isLoading, setIsLoading] = useState(false);
+
   // this state used for setting single product when view button is clicked in view product
+  // and also update button clicked
+  // this state also helps while changing form data
+  // by using on change ..
   const [singleView, setSingleView] = useState(undefined);
+
+  //  this varible or state handle description data
+  const editorRef = useRef();
+
+  // Category START
+  // this state for showing categories inside update modal
+  // in select category section
+  const [categories, setCategories] = useState(undefined);
+
+  useEffect(() => {
+    getCategories()
+      .then((data) => {
+        setCategories((categories) => {
+          return {
+            ...data,
+          };
+        });
+      })
+      .catch((error) => {
+        console.log(" useEffect =", error);
+      });
+  }, []);
+  //Category END
+
+  useEffect(() => {
+    getProducts(0, Product_Pages, "addedDate", "desc");
+  }, []);
+
+  // calling getAllProducts form product service file
+  const getProducts = (
+    pageNumber = 0,
+    PageSize = Product_Pages,
+    sortBy = "addedDate",
+    sortDir = "asc"
+  ) => {
+    getAllProducts(pageNumber, PageSize, sortBy, sortDir)
+      .then((data) => {
+        setProducts((products) => {
+          return data;
+        });
+      })
+      .catch((error) => {
+        console.log("getProducts = ", error);
+        toast.error("Error in loading products");
+      });
+  };
+
+  // this variables(states) taking care of image file and selected category
+  const [imageUpdate, setImageUpdate] = useState({
+    image: undefined,
+    imagePreview: undefined,
+  });
+
+  const [categoryChangeId, setCategoryChangeId] = useState("");
 
   // Info Modal START
   // this state is related with modal
@@ -53,30 +119,6 @@ const ViewProducts = () => {
     setShowEditModal(() => false);
   };
   // END update or edit modal
-
-  useEffect(() => {
-    getProducts(0, Product_Pages, "addedDate", "desc");
-  }, []);
-
-  // calling getAllProducts form product service file
-  const getProducts = (
-    pageNumber = 0,
-    PageSize = Product_Pages,
-    sortBy = "addedDate",
-    sortDir = "asc"
-  ) => {
-    getAllProducts(pageNumber, PageSize, sortBy, sortDir)
-      .then((data) => {
-        console.log(data);
-        setProducts((products) => {
-          return data;
-        });
-      })
-      .catch((error) => {
-        console.log(error);
-        toast.error("Error in loading products");
-      });
-  };
 
   // View Modal invokes when View button is clicked
   const ModelProductView = () => {
@@ -186,6 +228,144 @@ const ViewProducts = () => {
     );
   };
 
+  // below function is used to handle Updated form
+  // information
+  const handleUpdateFormSubmit = (event) => {
+    event.preventDefault();
+
+    // form validation
+    //1) checking title
+
+    if (singleView.title === undefined || singleView.title.trim() === "") {
+      toast.error("title is empty!");
+      return;
+    }
+
+    if (
+      singleView.description === undefined ||
+      singleView.description.trim() === ""
+    ) {
+      toast.error("description is empty!");
+      return;
+    }
+
+    //price validation
+    if (singleView.price === undefined) {
+      toast.error("price is empty!");
+      return;
+    }
+
+    // discounted price validation
+
+    if (singleView.discountedPrice === undefined) {
+      toast.error("discountedPrice is empty!");
+      return;
+    }
+
+    // Product Quantity validation
+
+    if (singleView.quantity === undefined) {
+      toast.error("Product quantity is empty!");
+      return;
+    }
+
+    // form submit and make an api call
+    //setiing loder to true ..
+    setIsLoading(() => true);
+    updateProduct(singleView, singleView.productId)
+      .then((data) => {
+        // updating product image
+        // making an api call to the server
+        // if and only if imageUpate.image !== undefined
+        // so here we avoid handle unnecessary call to server
+        // and uploading an image
+        if (imageUpdate.image !== undefined) {
+          addProductImage(imageUpdate.image, data.productId)
+            .then((imageResponseDataFromServer) => {
+              setSingleView((singleView) => {
+                return {
+                  ...singleView,
+                  productImageName: imageResponseDataFromServer.imageName,
+                };
+              });
+
+              // console.log(imageResponseDataFromServer);
+              toast.success("image Uploaded!");
+            })
+            .catch((error) => {
+              console.error(error);
+              toast.success("image Not Uploaded!");
+            });
+        }
+
+        toast.success("Update Successful!");
+
+        //updating table i.e requesting all products
+        // from server with the help of getProducts function
+        // getProducts(0, Product_Pages, "addedDate", "desc");
+
+        //  or
+
+        // below we not making an api call to server asking for product
+        // we just change data object which we resecived from an an call on line 267
+        // and we replace updated product with previous one with the help of an product id
+        // this is more efficent than above logic in that we calling all products from the server
+        // we also ask for products to render which are not updated
+        // so ablove approch not efficent ( using getProduct )
+        console.log("products = ", products);
+
+        const newArray = products?.content?.map((product) => {
+          if (product.productId === data.productId) {
+            return data;
+          }
+          return product;
+        });
+
+        setProducts((products) => {
+          return {
+            ...products,
+            content: newArray,
+          };
+        });
+
+        closeEditProductModal();
+      })
+      .catch((error) => {
+        console.log(error);
+      })
+      .finally(() => {
+        setIsLoading(() => false);
+      });
+  };
+  console.log("singleView2 = ", singleView?.productImageName);
+  // this function handle product image file
+  const handleFileChange = (event) => {
+    if (
+      event.target.files[0].type === "image/png" ||
+      event.target.files[0].type === "image/jpeg"
+    ) {
+      const reader = new FileReader();
+      reader.onload = (r) => {
+        setImageUpdate((imageUpdate) => {
+          return {
+            imagePreview: r.target.result,
+            image: event.target.files[0],
+          };
+        });
+      };
+      reader.readAsDataURL(event.target.files[0]);
+    } else {
+      toast.error("Invalid file!!");
+
+      setImageUpdate((imageUpdate) => {
+        return {
+          imagePreview: undefined,
+          image: undefined,
+        };
+      });
+    }
+  };
+
   // Edit modal invokes when Update button is Clicked
   const ModalProductEdit = () => {
     return (
@@ -209,7 +389,7 @@ const ViewProducts = () => {
             >
               <Card.Body>
                 <h5 className="text-center">Update Product here</h5>
-                <Form>
+                <Form onSubmit={(event) => handleUpdateFormSubmit(event)}>
                   {/* Product Title */}
                   <FormGroup className="mt-3">
                     <Form.Label>Product Title</Form.Label>
@@ -217,6 +397,14 @@ const ViewProducts = () => {
                       type="text"
                       placeholder="Product Title"
                       value={singleView.title}
+                      onChange={(event) => {
+                        setSingleView((singleView) => {
+                          return {
+                            ...singleView,
+                            title: event.target.value,
+                          };
+                        });
+                      }}
                     />
                   </FormGroup>
 
@@ -228,8 +416,8 @@ const ViewProducts = () => {
                       apiKey={
                         "5cws83tfeydksa9ws44cb9tixaeucgmib6ix32gji5gxb8of"
                       }
-                      // onInit={(evt, editor) => ()}
-                      initialValue={singleView.description}
+                      onInit={(evt, editor) => (editorRef.current = editor)}
+                      value={singleView.description}
                       init={{
                         height: 500,
                         menubar: true,
@@ -261,6 +449,14 @@ const ViewProducts = () => {
                         content_style:
                           "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
                       }}
+                      onEditorChange={(event) => {
+                        setSingleView((singleView) => {
+                          return {
+                            ...singleView,
+                            description: editorRef.current.getContent(),
+                          };
+                        });
+                      }}
                     />
                   </FormGroup>
 
@@ -273,6 +469,21 @@ const ViewProducts = () => {
                           type="number"
                           placeholder="Product Price"
                           value={singleView.price}
+                          onChange={(event) => {
+                            //admin canot set value of product price in negative
+                            // or my means any mistake...
+                            // code handle it self Amazing
+                            if (Number(event.target.value) < 0) {
+                              return;
+                            }
+
+                            setSingleView((singleView) => {
+                              return {
+                                ...singleView,
+                                price: event.target.value,
+                              };
+                            });
+                          }}
                         />
                       </FormGroup>
                     </Col>
@@ -285,6 +496,24 @@ const ViewProducts = () => {
                           type="number"
                           placeholder="Discount"
                           value={singleView.discountedPrice}
+                          onChange={(event) => {
+                            //admin can not set value of product Discounted price in negative
+                            // or my means any mistake...
+                            // code handle it self Amazing
+                            if (
+                              Number(event.target.value) > singleView.price ||
+                              Number(event.target.value) < 0
+                            ) {
+                              return;
+                            }
+
+                            setSingleView((singleView) => {
+                              return {
+                                ...singleView,
+                                discountedPrice: event.target.value,
+                              };
+                            });
+                          }}
                         />
                       </FormGroup>
                     </Col>
@@ -299,6 +528,18 @@ const ViewProducts = () => {
                       type="number"
                       placeholder="Product Quantity"
                       value={singleView.quantity}
+                      onChange={(event) => {
+                        if (Number(event.target.value) < 0) {
+                          return;
+                        }
+
+                        setSingleView((singleView) => {
+                          return {
+                            ...singleView,
+                            quantity: event.target.value,
+                          };
+                        });
+                      }}
                     />
                   </FormGroup>
 
@@ -309,6 +550,14 @@ const ViewProducts = () => {
                         type="switch"
                         label={"Live"}
                         checked={singleView.live}
+                        onChange={(event) => {
+                          setSingleView((singleView) => {
+                            return {
+                              ...singleView,
+                              live: !singleView.live,
+                            };
+                          });
+                        }}
                       />
                     </Col>
 
@@ -317,6 +566,14 @@ const ViewProducts = () => {
                         type="switch"
                         label={"Stock"}
                         checked={singleView.stock}
+                        onChange={(event) => {
+                          setSingleView((singleView) => {
+                            return {
+                              ...singleView,
+                              stock: !singleView.stock,
+                            };
+                          });
+                        }}
                       />
                     </Col>
                   </Row>
@@ -331,28 +588,70 @@ const ViewProducts = () => {
                     >
                       <p className="text-muted">Product Image Preview</p>
                       <img
-                        src={getProductImageUrl(singleView.productId)}
+                        src={
+                          imageUpdate?.imagePreview
+                            ? imageUpdate?.imagePreview
+                            : getProductImageUrl(singleView.productId)
+                        }
+                        onError={(event) => {
+                          event.target.onerror = null;
+                          event.target.src = "/Assets/logo192.png";
+                        }}
                         className="img-fluid mb-3"
                         style={{
                           maxHeight: "300px",
                         }}
+                        alt=""
                       />
                     </Container>
 
                     <Form.Label> Select Product Image</Form.Label>
 
                     <InputGroup>
-                      <Form.Control type={"file"} />
+                      <Form.Control
+                        type={"file"}
+                        onChange={(event) => {
+                          return handleFileChange(event);
+                        }}
+                      />
 
-                      <Button variant="outline-secondary">Clear</Button>
+                      <Button
+                        variant="outline-secondary"
+                        onClick={(event) => {
+                          setImageUpdate((imageUpdate) => {
+                            return {
+                              image: undefined,
+                              imagePreview: undefined,
+                            };
+                          });
+                        }}
+                      >
+                        Clear
+                      </Button>
                     </InputGroup>
                   </FormGroup>
 
+                  {/* select category */}
                   <FormGroup className="mt-3">
                     <Form.Label>Select Category</Form.Label>
 
-                    <Form.Select>
-                      <option value={"none"}>None</option>
+                    <Form.Select
+                      defaultValue={
+                        categories?.content.find((cat) => {
+                          return (
+                            cat?.categoryId === singleView?.category?.categoryId
+                          );
+                        })?.categoryId
+                      }
+                    >
+                      <option value={undefined}>None</option>
+                      {categories?.content.map((obj) => {
+                        return (
+                          <option key={obj.categoryId} value={obj.categoryId}>
+                            {obj.title}
+                          </option>
+                        );
+                      })}
                     </Form.Select>
                   </FormGroup>
 
@@ -362,20 +661,17 @@ const ViewProducts = () => {
                       size="lg"
                       type="submit"
                       className="text-center"
-                      disabled={""}
+                      disabled={isLoading}
                     >
                       <Spinner
-                        hidden={true}
+                        hidden={!isLoading}
                         animation="border"
                         variant="primary"
                         size="lg"
+                        className="me-2"
                       />
-                      <span hidden={true}>Updating...</span>
-                      <span hidden={""}>UPDATE</span>
-                    </Button>
-
-                    <Button variant="danger" size="lg" className="ms-2">
-                      CLEAR
+                      <span hidden={!isLoading}>Updating...</span>
+                      <span hidden={isLoading}>UPDATE</span>
                     </Button>
                   </Container>
                 </Form>
@@ -385,9 +681,6 @@ const ViewProducts = () => {
           <Modal.Footer>
             <Button variant="secondary" onClick={closeEditProductModal}>
               Close
-            </Button>
-            <Button variant="primary" onClick={handleClose}>
-              Save Changes
             </Button>
           </Modal.Footer>
         </Modal>
@@ -443,7 +736,7 @@ const ViewProducts = () => {
             </thead>
 
             <tbody>
-              {products.content?.map((singleProduct, index) => {
+              {products?.content?.map((singleProduct, index) => {
                 return (
                   <SingleProductView
                     key={singleProduct.productId}
@@ -537,7 +830,7 @@ const ViewProducts = () => {
         <Row>
           <Col>{products ? productView() : ""}</Col>
           {singleView && show && ModelProductView()}
-          {showEditModal && ModalProductEdit()}
+          {singleView && showEditModal && ModalProductEdit()}
         </Row>
       </Container>
     </>

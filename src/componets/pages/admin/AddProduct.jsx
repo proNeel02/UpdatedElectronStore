@@ -427,6 +427,7 @@ const AddProduct = () => {
                     style={{
                       maxHeight: "300px",
                     }}
+                    alt=""
                   />
                 </Container>
 

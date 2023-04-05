@@ -38,10 +38,18 @@ export const getAllProducts = (
     .then((response) => response.data);
 };
 
-
 // delete the product from view product
-export const deleteProduct=(productId)=>{
+export const deleteProduct = (productId) => {
+  return privateAxios
+    .delete(`/products/${productId}`)
+    .then((response) => response.data);
+};
 
-   return privateAxios.delete(`/products/${productId}`)
-   .then( (response) => response.data);
-}
+// update product in view product
+export const updateProduct = (updatedData, productId) => {
+  return privateAxios
+    .put(`/products/${productId}`, updatedData)
+    .then((response) => {
+      return response.data;
+    });
+};

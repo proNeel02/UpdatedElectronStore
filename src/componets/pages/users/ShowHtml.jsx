@@ -13,7 +13,7 @@ const ShowHtml = ({ htmlText }) => {
 
         if (node.name === "table") {
           node.attribs.class +=
-            " table table-bordered table-hover table-striped";
+            " table table-bordered table-hover table-striped table-responsive";
           return node;
         }
         return node;
