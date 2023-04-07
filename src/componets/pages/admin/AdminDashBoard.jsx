@@ -12,7 +12,7 @@ const AdminDashBoard = () => {
   const dashboardView = () => {
     return (
       <div>
-        <Container className="p-5">
+        <Container fluid className="px-5 py-5">
           <Row>
             <Col
               md={{
@@ -22,7 +22,7 @@ const AdminDashBoard = () => {
               <SideMenu />
             </Col>
 
-            <Col md={10} className="ps-2 pt-3">
+            <Col md={10}>
               <Outlet />
             </Col>
           </Row>

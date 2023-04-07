@@ -53,3 +53,17 @@ export const updateProduct = (updatedData, productId) => {
       return response.data;
     });
 };
+
+// updating the category of product in view product section
+export const updateProductCategory = (categoryId, productId) => {
+  return privateAxios
+    .put(`/categories/${categoryId}/products/${productId}`)
+    .then((response) => response.data);
+};
+
+//search product service
+export const serachProduct = (query) => {
+  return privateAxios
+    .get(`/products/search/${query}`)
+    .then((response) => response.data);
+};

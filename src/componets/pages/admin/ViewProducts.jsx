@@ -17,7 +17,9 @@ import {
 import {
   addProductImage,
   getAllProducts,
+  serachProduct,
   updateProduct,
+  updateProductCategory,
 } from "../../../services/product.services";
 import { toast } from "react-toastify";
 import SingleProductView from "./SingleProductView";
@@ -95,6 +97,11 @@ const ViewProducts = () => {
   });
 
   const [categoryChangeId, setCategoryChangeId] = useState("");
+
+  // below state used for searching product
+  const [searchQuery, setSearchQuery] = useState("");
+
+  // previous set state
 
   // Info Modal START
   // this state is related with modal
@@ -274,6 +281,7 @@ const ViewProducts = () => {
     setIsLoading(() => true);
     updateProduct(singleView, singleView.productId)
       .then((data) => {
+        toast.success("Product Details Updated!");
         // updating product image
         // making an api call to the server
         // if and only if imageUpate.image !== undefined
@@ -291,14 +299,50 @@ const ViewProducts = () => {
 
               // console.log(imageResponseDataFromServer);
               toast.success("image Uploaded!");
+
+              // setting imageUpdates props to undefined
+              setImageUpdate((imageUpate) => {
+                return {
+                  image: undefined,
+                  imagePreview: undefined,
+                };
+              });
             })
             .catch((error) => {
               console.error(error);
-              toast.success("image Not Uploaded!");
+              toast.error("image Not Uploaded!");
             });
         }
 
-        toast.success("Update Successful!");
+        if (
+          categoryChangeId !== singleView?.category?.categoryId &&
+          categoryChangeId !== ""
+        ) {
+          updateProductCategory(categoryChangeId, singleView?.productId)
+            .then((categoryResponseFromServer) => {
+            
+
+              const newArray = products?.content?.map((product) => {
+                if (product.productId === data.productId) {
+                  return categoryResponseFromServer;
+                }
+                return product;
+              });
+
+              setProducts((products) => {
+                return {
+                  ...products,
+                  content: newArray,
+                };
+              });
+
+              toast.success("category updated");
+            })
+            .catch((error) => {
+              console.log(error);
+              toast.error("unable to update category!");
+            });
+        }
 
         //updating table i.e requesting all products
         // from server with the help of getProducts function
@@ -312,7 +356,6 @@ const ViewProducts = () => {
         // this is more efficent than above logic in that we calling all products from the server
         // we also ask for products to render which are not updated
         // so ablove approch not efficent ( using getProduct )
-        console.log("products = ", products);
 
         const newArray = products?.content?.map((product) => {
           if (product.productId === data.productId) {
@@ -337,7 +380,7 @@ const ViewProducts = () => {
         setIsLoading(() => false);
       });
   };
-  console.log("singleView2 = ", singleView?.productImageName);
+
   // this function handle product image file
   const handleFileChange = (event) => {
     if (
@@ -632,6 +675,7 @@ const ViewProducts = () => {
                   </FormGroup>
 
                   {/* select category */}
+
                   <FormGroup className="mt-3">
                     <Form.Label>Select Category</Form.Label>
 
@@ -643,6 +687,11 @@ const ViewProducts = () => {
                           );
                         })?.categoryId
                       }
+                      onChange={(event) => {
+                        setCategoryChangeId((categoryChangeId) => {
+                          return event.target.value;
+                        });
+                      }}
                     >
                       <option value={undefined}>None</option>
                       {categories?.content.map((obj) => {
@@ -688,6 +737,32 @@ const ViewProducts = () => {
     );
   };
 
+  // searchProduct invokes when search button get clicked
+  const searchProduct = () => {
+    // api call
+    serachProduct(searchQuery)
+      .then((serverSearchData) => {
+        if (serverSearchData?.content?.length <= 0) {
+          toast.info("No result found!");
+          return;
+        }
+
+        setProducts((products) => {
+          return {
+            ...serverSearchData,
+          };
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+      })
+      .finally(() => {
+        setSearchQuery((searchQuery) => {
+          return "";
+        });
+      });
+  };
+
   // products view for conditional rendering
   const productView = () => {
     return (
@@ -703,13 +778,30 @@ const ViewProducts = () => {
         <Card.Body>
           <h5 className="mb-3">View Products</h5>
 
-          <FormGroup>
+          <FormGroup className="mb-4">
             <Form.Label className="text-muted">Search Product</Form.Label>
-            <Form.Control
-              type="text"
-              className="mb-3"
-              placeholder="serach..."
-            />
+
+            <InputGroup>
+              <Form.Control
+                type="text"
+                placeholder="serach..."
+                onChange={(event) => {
+                  setSearchQuery((searchQuery) => {
+                    return event.target.value;
+                  });
+                }}
+                value={searchQuery}
+              />
+              <Button
+                variant="outline-secondary"
+                onClick={(event) => {
+                  searchProduct(event);
+                }}
+                disabled={searchQuery.trim() === "" ? true : false}
+              >
+                Search
+              </Button>
+            </InputGroup>
           </FormGroup>
 
           <Table

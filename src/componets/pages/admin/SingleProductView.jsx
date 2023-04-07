@@ -101,7 +101,7 @@ const SingleProductView = ({
       <td className="px-2 small">{discountedPrice}₹</td>
       <td className="px-2 small">{live ? "Live" : "NOT"}</td>
       <td className="px-2 small">{stock ? "IN" : "OUT"}</td>
-      <td className="px-2 small">{category ? category.title : "Null"}</td>
+      <td className="px-2 small">{category ? category.title : ""}</td>
       <td className="px-2 small">{formatdate(addedDate)}</td>
 
       <td className="px-2 small d-flex">
