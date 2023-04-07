@@ -65,7 +65,6 @@ const AdminOrders = () => {
   // Modal VIew END
 
   // modal view
-
   const orderModalView = () => {
     return (
       <>
