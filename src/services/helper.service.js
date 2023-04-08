@@ -6,6 +6,8 @@ export const BASE_URL = `http://localhost:9090`;
 export const ADMIN_ORDERS_PAGE = 1000;
 // product show at a time is 10
 export const Product_Pages = 10;
+// user loading a time is 5
+export const User_Load = 5; 
 
 // making info useble for image
 export const getProductImageUrl = (productId) => {

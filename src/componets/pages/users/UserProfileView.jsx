@@ -6,14 +6,21 @@ const UserProfileView = ({ user = null, handleShowModel, setImage, image }) => {
   const { isLogin, userData } = useContext(UserContext);
 
   useEffect(() => {
+    setImage((oldImageObj) => {
+      let setting = "";
+      if (user?.gender === null) {
+        setting = "/Assets/female.jpg";
+      } else if (user?.gender === "male") {
+        setting = "/Assets/male.jpg";
+      } else {
+        setting = "/Assets/female.jpg";
+      }
 
-      setImage((oldImageObj) => {
-        return {
-          placeholder: `/Assets/${user?.gender}.jpg`,
-          file: null,
-        };
-      });
-   
+      return {
+        placeholder: setting,
+        file: null,
+      };
+    });
   }, []);
 
   return (
@@ -36,7 +43,7 @@ const UserProfileView = ({ user = null, handleShowModel, setImage, image }) => {
                   width: "150px",
                   height: "150px",
                   borderRadius: "100px",
-                  objectFit:'cover'
+                  objectFit: "cover",
                 }}
                 alt="img"
                 className="border border-warning shadow"
@@ -47,6 +54,7 @@ const UserProfileView = ({ user = null, handleShowModel, setImage, image }) => {
               {user?.name ? user?.name : "Dummy User"}
             </h2>
             <div className="mt-3">
+           
               <Card className="border-0">
                 <Card.Body>
                   <Table striped hover bordered variant="warning" responsive>

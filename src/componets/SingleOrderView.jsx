@@ -55,15 +55,15 @@ const SingleOrderView = ({ Order, OpenViewOrderModal }) => {
             </Table>
           </Col>
         </Row>
-        <Container className="text-center">
-          <Button 
-          size="sm" 
-          variant="outline-dark"
-          onClick={ (event) => {
-            OpenViewOrderModal(event, Order);
-          }}
+        <Container className="text-center my-2">
+          <Button
+            size="lg"
+            variant="outline-dark"
+            onClick={(event) => {
+              OpenViewOrderModal(event, Order);
+            }}
           >
-            View Order Details
+            <b>View Order Details</b>
           </Button>
         </Container>
       </Card.Body>

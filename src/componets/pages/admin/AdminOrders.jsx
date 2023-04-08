@@ -1,8 +1,19 @@
 import { useEffect } from "react";
 import { getAllOrders } from "../../../services/order.service";
 import { useState } from "react";
-import { ADMIN_ORDERS_PAGE } from "../../../services/helper.service";
-import { Button, Card, Col, Container, Modal, Row } from "react-bootstrap";
+import {
+  ADMIN_ORDERS_PAGE,
+  formatDate,
+} from "../../../services/helper.service";
+import {
+  Button,
+  Card,
+  Col,
+  Container,
+  Modal,
+  Row,
+  Table,
+} from "react-bootstrap";
 import SingleOrderView from "../../SingleOrderView";
 
 const AdminOrders = () => {
@@ -71,23 +82,77 @@ const AdminOrders = () => {
         <Modal
           show={viewModal}
           onHide={CloseViewOrderModal}
-          backdrop="static"
-          keyboard={false}
           size="lg"
           centered
           animation={false}
         >
           <Modal.Header closeButton>
-            <Modal.Title>{ viewSingleOrder.orderId}</Modal.Title>
+            <Modal.Title>Order Details</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            I will not close if you click outside me. Don't even try to press
-            escape key.
+            <Row>
+              <Col>
+                {" "}
+                <b>Order Id: </b>
+                {viewSingleOrder?.orderId}
+              </Col>
+              <Col>
+                <b>Billing Name: </b>
+                {viewSingleOrder?.billingName}
+              </Col>
+            </Row>
+
+            <Row className="mt-3">
+              <Col>
+                <Table bordered responsive striped>
+                  <tbody>
+                    <tr>
+                      <td>Billing Phone</td>
+                      <td className="fw-bold">
+                        {viewSingleOrder?.billingPhone}
+                      </td>
+                    </tr>
+
+                    <tr>
+                      <td>Items</td>
+                      <td className="fw-bold">
+                        {viewSingleOrder?.orderItems.length}
+                      </td>
+                    </tr>
+
+                    <tr
+                      className={
+                        viewSingleOrder?.paymentStatus === "NOTPAID"
+                          ? "table-danger"
+                          : "table-success"
+                      }
+                    >
+                      <td>Payment Status</td>
+                      <td className="fw-bold">
+                        {viewSingleOrder?.paymentStatus}
+                      </td>
+                    </tr>
+
+                    <tr>
+                      <td>Order Status</td>
+                      <td className="fw-bold">
+                        {viewSingleOrder?.orderStatus}
+                      </td>
+                    </tr>
+
+                    <tr>
+                      <td>Order Date</td>
+                      <td className="fw-bold">
+                        {formatDate(viewSingleOrder?.orderedDate)}
+                      </td>
+                    </tr>
+                  </tbody>
+                </Table>
+              </Col>
+            </Row>
           </Modal.Body>
           <Modal.Footer>
-            <Button variant="secondary" onClick={CloseViewOrderModal}>
-              Close
-            </Button>
+           
           </Modal.Footer>
         </Modal>
       </>
@@ -98,7 +163,9 @@ const AdminOrders = () => {
     return (
       <>
         <Card className="shadow-2">
-          {JSON.stringify(ordersData)}
+          {JSON.stringify("Work Remaining On View Orders Details")}
+            {/* "This page Have work to do insufficient Order object Data comming from Server Bz */}
+             {/* customer not yet order single item so no object is present in data base"} */}
           <Card.Body>
             <h3 className="text-center mb-3"> All Orders are here </h3>
             {ordersData?.content?.map((order) => {
@@ -121,7 +188,7 @@ const AdminOrders = () => {
       <Container>
         <Row>
           <Col>{ordersData && OrdersView()}</Col>
-          {viewModal && orderModalView()}
+          {viewSingleOrder && viewModal && orderModalView()}
         </Row>
       </Container>
     </>

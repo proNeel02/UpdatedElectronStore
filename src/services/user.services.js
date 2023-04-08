@@ -11,25 +11,35 @@ export const registerUser = (signUpData) => {
 
 // login user
 
-export const loginUser = (loginData)=>{
+export const loginUser = (loginData) => {
+  return publicAxios
+    .post(`auth/login`, loginData)
+    .then((response) => response.data);
+};
 
-  return publicAxios.post(`auth/login`,loginData)
-  .then( (response) => response.data);
-
-}
-
-export const getUser = (userId)=>{
-
+export const getUser = (userId) => {
   /// server call
-  return publicAxios.get(`/users/${userId}`)
-  .then( (response) => {return response.data});
+  return publicAxios.get(`/users/${userId}`).then((response) => {
+    return response.data;
+  });
 };
 
 //updating data of user inside data base
-export const modifyUserData = (updateUserData)=>{
-  return privateAxios.put(`/users/${updateUserData.userId}`,updateUserData)
-  .then( (response) => {return response.data});
-}
+export const modifyUserData = (updateUserData) => {
+  return privateAxios
+    .put(`/users/${updateUserData.userId}`, updateUserData)
+    .then((response) => {
+      return response.data;
+    });
+};
+
+export const getAllUsers = (pageNumber, pageSize, sortBy, sortDir) => {
+  return privateAxios
+    .get(
+      `/users?pageNumber=${pageNumber}&pageSize=${pageSize}&sortBy=${sortBy}&sortDir=${sortDir}`
+    )
+    .then((response) => response.data);
+};
 
 // update user profile picture
 
@@ -38,7 +48,6 @@ export const modifyUserData = (updateUserData)=>{
 //   if(file === null){
 //     return;
 //   }
-
 
 //    const data = new FormData();
 //    data.append("userImage", file);
