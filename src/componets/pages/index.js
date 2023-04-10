@@ -37,11 +37,7 @@ const Index = () => {
       >
         <h1>Working On home Page</h1>
 
-        <Button className="btn btn-success" onClick={handleClick}>
-          Tostify Success
-        </Button>
-
-        <Button variant="primary" onClick={ handleAPI }>Get Data from Fake API</Button>
+    
       </Base>
     </>
   );

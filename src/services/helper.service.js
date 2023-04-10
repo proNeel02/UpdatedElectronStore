@@ -7,7 +7,7 @@ export const ADMIN_ORDERS_PAGE = 1000;
 // product show at a time is 10
 export const Product_Pages = 10;
 // user loading a time is 5
-export const User_Load = 5; 
+export const User_Load = 5;
 
 // making info useble for image
 export const getProductImageUrl = (productId) => {
@@ -19,3 +19,9 @@ export const getProductImageUrl = (productId) => {
 export const formatDate = (timeInLong) => {
   return new Date(timeInLong).toLocaleString();
 };
+
+// getting category image Url from the server
+// not need
+// export const getCategoryImageUrl = (categoryId) => {
+//   return `${BASE_URL}/categories/image/${categoryId}`;
+// };

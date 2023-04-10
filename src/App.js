@@ -25,6 +25,7 @@ import ViewCategories from "./componets/pages/admin/ViewCategories";
 import ViewProducts from "./componets/pages/admin/ViewProducts";
 import AdminOrders from "./componets/pages/admin/AdminOrders";
 import AdminUsers from "./componets/pages/admin/AdminUsers";
+import StorePage from "./componets/pages/users/StorePage";
 // import UserProvider from "./componets/context/user.provider";
 function App() {
   return (
@@ -50,6 +51,7 @@ function App() {
           <Route path="contact" element={<Contact />} />
           <Route path="login" element={<Login />} />
           <Route path="signup" element={<SignUp />} />
+          <Route path='store' element={<StorePage />} />
           <Route path="users" element={<Dashboard />}>
             <Route path="home" element={<Home />} />
             <Route path="profile/:user_Id" element={<Profile />} />

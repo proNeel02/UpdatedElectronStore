@@ -20,10 +20,12 @@ const SideMenu = () => {
   return (
     <>
       <ListGroup className="sticky-top">
+      
         <ListGroup.Item className="shadow" as={NavLink} to="/admin/home" action>
           <FcHome />
           <span className="ms-2">Home</span>
         </ListGroup.Item>
+
         <ListGroup.Item
           className="shadow"
           as={NavLink}
@@ -33,6 +35,7 @@ const SideMenu = () => {
           <MdCategory />
           <span className="ms-2">Add Cateory</span>
         </ListGroup.Item>
+
         <ListGroup.Item
           className="shadow"
           as={NavLink}
@@ -89,6 +92,6 @@ const SideMenu = () => {
       </ListGroup>
     </>
   );
-}; 
+};
 
 export default SideMenu;

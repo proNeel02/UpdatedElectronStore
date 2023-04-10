@@ -3,7 +3,9 @@ import { Card, Col, Container, Row, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { RiProductHuntLine } from "react-icons/ri";
 import { MdOutlineCategory } from "react-icons/md";
-import { BsBox2HeartFill } from 'react-icons/bs'
+import { BsBox2HeartFill } from "react-icons/bs";
+import { FaUsers } from "react-icons/fa";
+import { DashBoardCardView } from "../users/DashBoardCardView";
 const AdminHome = () => {
   return (
     <Container>
@@ -58,35 +60,37 @@ const AdminHome = () => {
         </Col>
       </Row>
 
-      <Row className="mt-3  text-muted">
+      <Row className="mt-3">
         <Col md={6}>
-          <Card className="shadow-sm">
-            <Card.Body className="text-center">
-              <RiProductHuntLine size={50} className="mb-3" />
-              <h3 className="mb-2">Number Of Products</h3>
-              <h3>15825</h3>
-            </Card.Body>
-          </Card>
+          <DashBoardCardView
+            icon={<RiProductHuntLine size={50} />}
+            number={1500}
+            text={"Number Of products"}
+          />
         </Col>
 
         <Col md={6}>
-          <Card className="shadow-sm">
-            <Card.Body className="text-center">
-              <MdOutlineCategory size={50} className="mb-3" />
-              <h3 className="mb-2">Number Of categories</h3>
-              <h3>15</h3>
-            </Card.Body>
-          </Card>
+          <DashBoardCardView
+            icon={<MdOutlineCategory size={50} />}
+            number={1500}
+            text={"Number Of Categories"}
+          />
         </Col>
 
         <Col md={6} className="mt-3">
-          <Card className="shadow-sm">
-            <Card.Body className="text-center">
-              <BsBox2HeartFill size={50}/>
-              <h3 className="mb-2">Number Of Orders</h3>
-              <h3>1500</h3>
-            </Card.Body>
-          </Card>
+          <DashBoardCardView
+            icon={<BsBox2HeartFill size={50} />}
+            number={1500}
+            text={"Number Of Orders"}
+          />
+        </Col>
+
+        <Col md={6} className="mt-3">
+          <DashBoardCardView
+            icon={<FaUsers size={50} />}
+            number={15000}
+            text={"Number Of Users"}
+          />
         </Col>
       </Row>
     </Container>
