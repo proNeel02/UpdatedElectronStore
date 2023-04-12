@@ -28,6 +28,7 @@ import AdminUsers from "./componets/pages/admin/AdminUsers";
 import StorePage from "./componets/pages/users/StorePage";
 import ProductView from "./componets/pages/users/ProductView";
 import CategoryStorePage from "./componets/pages/users/CategoryStorePage";
+import CategoryView from "./componets/pages/users/CategoryView";
 // import UserProvider from "./componets/context/user.provider";
 function App() {
   return (

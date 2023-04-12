@@ -9,6 +9,8 @@ export const Product_Pages = 10;
 // user loading a time is 5
 export const User_Load = 5;
 
+// store page product size
+export const STORE_PAGE_PRODUCT_SIZE = 100;
 // making info useble for image
 export const getProductImageUrl = (productId) => {
   return `${BASE_URL}/products/image/${productId}`;

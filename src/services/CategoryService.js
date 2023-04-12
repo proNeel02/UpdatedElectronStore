@@ -27,7 +27,6 @@ export const updateCategory = (category) => {
 };
 
 // get category object using cahtegory id
-
 export const getSingleCategoryObjectUsingCategoryId = (
   categoryId,
   pageNumber = 0,
@@ -36,8 +35,5 @@ export const getSingleCategoryObjectUsingCategoryId = (
   sortDir = "asc"
 ) => {
   return privateAxios
-    .get(
-      `categories/${categoryId}/products??pageNumber=${pageNumber}&pageSize=${PageSize}&sortBy=${sortBy}&sortDir=${sortDir}`
-    )
-    .then((response) => response.data);
+    .get(`/categories/${categoryId}/products?pageNumber=${pageNumber}&pageSize=${PageSize}&sortBy=${sortBy}&sortDir=${sortDir}`).then((response) => response.data);
 };

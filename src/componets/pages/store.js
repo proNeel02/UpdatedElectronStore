@@ -11,15 +11,14 @@ import {
 } from "../../services/product.services";
 import SingleProductCard from "./users/SingleProductCard";
 import InfiniteScroll from "react-infinite-scroll-component";
+import CategoryView from "./users/CategoryView";
 
 const Store = () => {
-  const [categories, setCategories] = useState(undefined);
   const [products, setProducts] = useState(undefined);
 
   const [currPage, setCurrpage] = useState(0);
 
   useEffect(() => {
-    loadCategories();
     loadProducts(currPage, 9, "addedDate", "decs");
   }, []);
 
@@ -29,21 +28,6 @@ const Store = () => {
       loadProducts(currPage, 9, "addedDate", "decs");
     }
   }, [currPage]);
-
-  const loadCategories = () => {
-    getCategories()
-      .then((categoryData) => {
-        console.log(categoryData);
-        setCategories((categories) => {
-          return {
-            ...categoryData,
-          };
-        });
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
 
   // loading next page
   const loadNextPage = () => {
@@ -81,51 +65,6 @@ const Store = () => {
       });
   };
 
-  const categoryView = () => {
-    return (
-      categories && (
-        <>
-          <ListGroup variant="flush" className="sticky-top">
-            {categories?.content?.map((cat) => {
-              return (
-                <ListGroup.Item
-                  key={cat.categoryId}
-                  as={Link}
-                  to={`/store/${cat.categoryId}/${cat.title}`}
-                >
-                  <Row className="d-flex align-items-center">
-                    <Col md={4}>
-                      {" "}
-                      <img
-                        src={cat.coverImage}
-                        className="img-fluid rounded-circle"
-                        style={{
-                          height: "50px",
-                          width: "50px",
-                          objectFit: "contain",
-                        }}
-                        alt=""
-                        onError={(event) => {
-                          event.currentTarget.setAttribute(
-                            "src",
-                            "/Assets/logo192.png"
-                          );
-                        }}
-                      />
-                    </Col>
-                    <Col md={8}>
-                      <span className="ms-2">{cat.title}</span>
-                    </Col>
-                  </Row>
-                </ListGroup.Item>
-              );
-            })}
-          </ListGroup>
-        </>
-      )
-    );
-  };
-
   // product view
   const productsView = () => {
     return (
@@ -161,11 +100,10 @@ const Store = () => {
   return (
     <Container fluid className="px-5 pt-5">
       <Row>
-        <Col md={2}>{categoryView()}</Col>
+        <Col md={2}>{<CategoryView />}</Col>
         <Col md={10}>{productsView()}</Col>
       </Row>
     </Container>
   );
 };
-
 export default Store;
