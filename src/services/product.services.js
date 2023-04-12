@@ -67,3 +67,24 @@ export const serachProduct = (query) => {
     .get(`/products/search/${query}`)
     .then((response) => response.data);
 };
+
+// get all live products only...
+export const getAllLiveProducts = (
+  pageNumber = 0,
+  PageSize = 10,
+  sortBy = "addedDate",
+  sortDir = "asc"
+) => {
+  return privateAxios
+    .get(
+      `/products/live?pageNumber=${pageNumber}&pageSize=${PageSize}&sortBy=${sortBy}&sortDir=${sortDir}`
+    )
+    .then((response) => response.data);
+};
+
+// get product single detail using
+export const getProductFromServerUsingProductId = (productId) => {
+  return privateAxios
+    .get(`/products/${productId}`)
+    .then((response) => response.data);
+};
