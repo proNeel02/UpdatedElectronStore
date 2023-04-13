@@ -37,7 +37,7 @@ const Store = () => {
   const loadProducts = (pageNumber, pageSize, sortBy, sortDir) => {
     getAllLiveProducts(pageNumber, pageSize, sortBy, sortDir)
       .then((serverProductData) => {
-        console.log(serverProductData);
+        // console.log(serverProductData);
 
         if (currPage === 0) {
           setProducts((products) => {

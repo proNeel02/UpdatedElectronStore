@@ -25,12 +25,9 @@ const CategoryView = () => {
       });
   };
 
-
-
-
   const showAllCategories = () => {
     return (
-        <>
+      <>
         <ListGroup variant="flush" className="sticky-top">
           {categories?.content?.map((cat) => {
             return (

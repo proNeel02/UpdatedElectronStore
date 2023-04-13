@@ -22,11 +22,28 @@ const CategoryStorePage = () => {
     );
   }, [categoryId]);
 
-  const loadproductsOfCategories = (pageNumber, pageSize, sortBy, sortDir) => {
+  //loading curr page changes
+  useEffect(() => {
+    if (currPage > 0) {
+      loadproductsOfCategories(
+        currPage,
+        STORE_PAGE_PRODUCT_SIZE,
+        "addedDate",
+        "decs"
+      );
+    }
+  }, [currPage]);
+
+  const loadproductsOfCategories = (
+    currPage,
+    STORE_PAGE_PRODUCT_SIZE,
+    sortBy,
+    sortDir
+  ) => {
     getSingleCategoryObjectUsingCategoryId(
       categoryId,
-      pageNumber,
-      pageSize,
+      currPage,
+      STORE_PAGE_PRODUCT_SIZE,
       sortBy,
       sortDir
     )
@@ -81,11 +98,9 @@ const CategoryStorePage = () => {
               <Row>
                 {products.content.map((product) => {
                   return (
-                    product.live && (
-                      <Col key={product.productId} md={4}>
-                        <SingleProductCard product={product} />
-                      </Col>
-                    )
+                    <Col key={product.productId} md={4}>
+                      <SingleProductCard product={product} />
+                    </Col>
                   );
                 })}
               </Row>
@@ -107,7 +122,7 @@ const CategoryStorePage = () => {
             {products?.content?.length > 0 ? (
               productsView()
             ) : (
-              <h1 className="text-center">No Products In This Category</h1>
+              <h3 className="text-center mt-5">No Products In This Category</h3>
             )}
           </Col>
         </Row>

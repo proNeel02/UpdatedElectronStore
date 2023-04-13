@@ -7,10 +7,12 @@ import NavDropdown from "react-bootstrap/NavDropdown";
 import { NavLink } from "react-router-dom";
 import { isAdminUser } from "../../../auth/HelperAuth.js";
 import UserContext from "../../context/UserContext";
+import XCartContext from "../../context/XCartContext.jsx";
 
 const NavBar = () => {
-  const userContext = useContext(UserContext);
+  const { isLogin, userData, login, logOut, hasAdminUser} = useContext(UserContext);
 
+  const { cart } = useContext(XCartContext);
   // const { isLogin, userData } = userContext;
   // const { user } = userData;
   // const { name, email } = user;
@@ -18,14 +20,19 @@ const NavBar = () => {
   // console.dir(userContext);
 
   const doLogOut = () => {
-    userContext.logOut();
+    logOut();
   };
 
   return (
     <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
       <Container>
         <Navbar.Brand as={NavLink} to={"/"}>
-          <img src={"/Assets/logo192.png"} width={"30px"} height={"30px"} />
+          <img
+            src={"/Assets/logo192.png"}
+            width={"30px"}
+            height={"30px"}
+            alt=""
+          />
           <span className="ms-1">Electron Store</span>
         </Navbar.Brand>
 
@@ -48,15 +55,13 @@ const NavBar = () => {
               About
             </Nav.Link>
             <Nav.Link as={NavLink} to="/contact">
-              Contact Us
+              ContactUs
             </Nav.Link>
-          </Nav>
-          <Nav>
-          <Nav.Link as={NavLink} to="/store">
+            <Nav.Link as={NavLink} to="/store">
               Store
             </Nav.Link>
             <Nav.Link as={NavLink} to="/cart">
-              Cart
+              Cart({cart?.items?.length})
             </Nav.Link>
             {/* <Nav.Link hidden={!isAdminUser()} as={NavLink} to="admin/home">
               Admin Home
@@ -69,23 +74,23 @@ const NavBar = () => {
             >
               Add Product
             </Nav.Link> */}
-            (
-            {userContext.hasAdminUser && (
+         
+            {hasAdminUser && (
               <>
                 <Nav.Link as={NavLink} to="/admin/home">
                   AdminDashBoard
                 </Nav.Link>
               </>
             )}
-            )
-            {userContext?.isLogin ? (
+           
+            {isLogin ? (
               <>
                 {" "}
                 <Nav.Link
                   as={NavLink}
-                  to={`users/profile/${userContext?.userData?.user?.userId}`}
+                  to={`users/profile/${userData?.user?.userId}`}
                 >
-                  {userContext?.userData?.user?.email}
+                  {userData?.user?.email}
                 </Nav.Link>
                 <Nav.Link as={NavLink} to="users/orders">
                   Orders

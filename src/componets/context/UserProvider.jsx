@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
@@ -15,22 +16,22 @@ const UserProvider = ({ children }) => {
   const [hasAdminUser, setHasAdminUser] = useState(false);
 
   useEffect(() => {
-    setIsLogin(() => isLoggedIn());
+    setIsLogin((isLogin) => isLoggedIn());
     setUserData((oldObj) => {
       return getUserFromLocalStorage();
     });
 
-    setHasAdminUser(() => isAdminUser());
+    setHasAdminUser((hasAdminUser) => isAdminUser());
   }, []);
 
   // function for loggin to save data in local storage
   const doLogin = (userData) => {
     doLoginLocalStorage(userData);
-    setIsLogin(() => true);
-    setUserData(() => {
+    setIsLogin((isLogin) => true);
+    setUserData((userData) => {
       return getUserFromLocalStorage();
     });
-    setHasAdminUser(() => isAdminUser());
+    setHasAdminUser((hasAdminUser) => isAdminUser());
   };
 
   // function for logged out to remove data form local storage

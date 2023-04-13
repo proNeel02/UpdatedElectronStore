@@ -1,14 +1,15 @@
-import { useEffect } from "react";
+import { useContext, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import { getProductFromServerUsingProductId } from "../../../services/product.services";
 import { useState } from "react";
 import { Badge, Button, Card, Col, Container, Row } from "react-bootstrap";
 import ShowHtml from "./ShowHtml";
 import { getProductImageUrl } from "../../../services/helper.service";
+import CartContext from "../../context/XCartContext";
 
 const ProductView = () => {
+  const { cart, addItem } = useContext(CartContext);
   const { productId } = useParams();
-
   const [singleProduct, setSingeProduct] = useState(undefined);
 
   useEffect(() => {
@@ -29,6 +30,11 @@ const ProductView = () => {
       .catch((error) => {
         console.log(error);
       });
+  };
+
+  // handle add to cart manage by Add To Cart Button
+  const handleAddItem = (productId, quantity) => {
+    addItem(productId, quantity);
   };
 
   const ProductDetails = () => {
@@ -84,7 +90,12 @@ const ProductView = () => {
                         </b>
                       </Container>
                       <Container className="d-grid gap-2 text-center mt-5">
-                        <Button variant="warning">
+                        <Button
+                          variant="warning"
+                          onClick={(event) => {
+                            handleAddItem(singleProduct.productId, 1);
+                          }}
+                        >
                           <b>Add to Cart</b>
                         </Button>
                         <Button variant="info" as={Link} to={"/store"}>
@@ -103,7 +114,12 @@ const ProductView = () => {
           </Col>
         </Row>
         <Container className="d-grid gap-2 text-center mt-5">
-          <Button variant="warning">
+          <Button
+            variant="warning"
+            onClick={(event) => {
+              handleAddItem(singleProduct.productId, 1);
+            }}
+          >
             <b>Add to Cart</b>
           </Button>
           <Button variant="info" as={Link} to={"/store"}>
