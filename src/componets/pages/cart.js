@@ -1,14 +1,23 @@
 import React, { useContext } from "react";
 import CartContext from "../context/XCartContext";
-import { Card, Col, Container, Row } from "react-bootstrap";
+import { Button, Card, Col, Container, Row } from "react-bootstrap";
 import SingleCartItemView from "./users/SingleCartItemView";
 
 const Cart = () => {
   const { cart, setCart, addItem, removeItemFromTheCart } =
     useContext(CartContext);
 
+  console.log(cart);
+
+  const getTotalCartAmount = () => {
+    let amount = 0;
+    cart?.items?.forEach((item) => {
+      amount += item.totalPrice;
+    });
+    return amount;
+  };
+
   const cartView = () => {
-    console.log(cart);
     return (
       <Card className="mt-3 shadow px-5 border-0">
         <Card.Body>
@@ -22,14 +31,20 @@ const Cart = () => {
           </Row>
 
           <Row className="px-5 mt-3">
-
             <Col>
               {cart?.items?.map((item) => {
-                return <SingleCartItemView item={item} />;
+                return <SingleCartItemView item={item} removeItemFromTheCart={removeItemFromTheCart}/>;
               })}
             </Col>
-
           </Row>
+          <Container className="px-5">
+            <h3 className="text-end px-5">
+              Total Amount: ₹ {getTotalCartAmount()}
+            </h3>
+          </Container>
+          <Container className="text-center mb-3">
+            <Button size="lg">Place Order</Button>
+          </Container>
         </Card.Body>
       </Card>
     );
@@ -39,7 +54,7 @@ const Cart = () => {
     <div>
       <Container>
         <Row>
-          <Col>{cart && cartView()}</Col>
+          <Col>{cart?.items?.length > 0 ? cartView(): <h3 className="text-center mt-5">Cart Is Empty</h3>}</Col>
         </Row>
       </Container>
     </div>
