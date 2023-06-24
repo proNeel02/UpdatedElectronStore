@@ -6,12 +6,15 @@ import { Badge, Button, Card, Col, Container, Row } from "react-bootstrap";
 import ShowHtml from "./ShowHtml";
 import { getProductImageUrl } from "../../../services/helper.service";
 import CartContext from "../../context/XCartContext";
-
+import { useNavigate } from "react-router-dom";
+import UserContext from "../../context/UserContext";
+import { toast } from "react-toastify";
 const ProductView = () => {
   const { cart, addItem } = useContext(CartContext);
+  const userContext = useContext(UserContext);
   const { productId } = useParams();
   const [singleProduct, setSingeProduct] = useState(undefined);
-
+ const navigate = useNavigate();
   useEffect(() => {
     getProductByProductId(productId);
   }, []);
@@ -32,9 +35,19 @@ const ProductView = () => {
       });
   };
 
+  
   // handle add to cart manage by Add To Cart Button
   const handleAddItem = (productId, quantity) => {
-    addItem(productId, quantity);
+   
+   const productPresent = cart?.items?.find((item) => item?.product?.productId === productId);
+
+    if(productPresent && userContext?.userData?.user?.userId){
+      toast.warning("Product is Present Go to Cart");
+      return;
+    }
+  
+    userContext?.userData?.user?.userId ?  addItem(productId, quantity) : navigate('/login');
+   
   };
 
   const ProductDetails = () => {

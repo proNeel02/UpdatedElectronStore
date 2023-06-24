@@ -1,4 +1,4 @@
-import { privateAxios, publicAxios } from "./axios.service";
+import { privateAxios } from "./axios.service";
 
 // cart of specific user
 export const getCart = async (userId) => {
@@ -7,10 +7,7 @@ export const getCart = async (userId) => {
 };
 
 // add item to cart
-export const addItemToCart = async (userId,
-  productId,
-  quantity,
-) => {
+export const addItemToCart = async (userId, productId, quantity) => {
   const response = await privateAxios.post(`/carts/${userId}`, {
     productId,
     quantity,
@@ -22,7 +19,6 @@ export const addItemToCart = async (userId,
 // clear cart
 export const clearCart = async (userId) => {
   const response = await privateAxios.delete(`/carts/${userId}`);
-
   return response.data;
 };
 

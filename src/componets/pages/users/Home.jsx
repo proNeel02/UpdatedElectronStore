@@ -1,11 +1,9 @@
-import React, { useContext, useEffect } from "react";
-import { toast } from "react-toastify";
+import React, { useContext } from "react";
+
 import UserContext from "../../context/UserContext";
 
 const Home = () => {
   let userContext = useContext(UserContext);
- 
-  
 
   return (
    <div>

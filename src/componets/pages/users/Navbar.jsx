@@ -5,7 +5,6 @@ import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import { NavLink } from "react-router-dom";
-import { isAdminUser } from "../../../auth/HelperAuth.js";
 import UserContext from "../../context/UserContext";
 import XCartContext from "../../context/XCartContext.jsx";
 
@@ -61,7 +60,7 @@ const NavBar = () => {
               Store
             </Nav.Link>
             <Nav.Link as={NavLink} to="/cart">
-              Cart({cart?.items?.length})
+              Cart({cart?.items?.length ? cart?.items?.length : 0})
             </Nav.Link>
             {/* <Nav.Link hidden={!isAdminUser()} as={NavLink} to="admin/home">
               Admin Home

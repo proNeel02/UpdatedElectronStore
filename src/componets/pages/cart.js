@@ -4,10 +4,8 @@ import { Button, Card, Col, Container, Row } from "react-bootstrap";
 import SingleCartItemView from "./users/SingleCartItemView";
 
 const Cart = () => {
-  const { cart, setCart, addItem, removeItemFromTheCart } =
-    useContext(CartContext);
+  const { cart, setCart, addItem, removeItemsFromTheCart } = useContext(CartContext);
 
-  console.log(cart);
 
   const getTotalCartAmount = () => {
     let amount = 0;
@@ -33,7 +31,13 @@ const Cart = () => {
           <Row className="px-5 mt-3">
             <Col>
               {cart?.items?.map((item) => {
-                return <SingleCartItemView item={item} removeItemFromTheCart={removeItemFromTheCart}/>;
+                return (
+                  <SingleCartItemView
+                    key={item?.cartItemId}
+                    item={item}
+                    removeItemsFromTheCart={removeItemsFromTheCart}
+                  />
+                );
               })}
             </Col>
           </Row>
@@ -54,7 +58,13 @@ const Cart = () => {
     <div>
       <Container>
         <Row>
-          <Col>{cart?.items?.length > 0 ? cartView(): <h3 className="text-center mt-5">Cart Is Empty</h3>}</Col>
+          <Col>
+            {cart?.items?.length > 0 ? (
+              cartView()
+            ) : (
+              <h3 className="text-center mt-5">Cart Is Empty</h3>
+            )}
+          </Col>
         </Row>
       </Container>
     </div>

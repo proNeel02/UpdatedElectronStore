@@ -65,7 +65,7 @@ const AdminHome = () => {
           <DashBoardCardView
             icon={<RiProductHuntLine size={50} />}
             number={1500}
-            text={"Number Of products"}
+            text={"Products"}
           />
         </Col>
 
@@ -73,7 +73,7 @@ const AdminHome = () => {
           <DashBoardCardView
             icon={<MdOutlineCategory size={50} />}
             number={1500}
-            text={"Number Of Categories"}
+            text={"Categories"}
           />
         </Col>
 
@@ -81,7 +81,7 @@ const AdminHome = () => {
           <DashBoardCardView
             icon={<BsBox2HeartFill size={50} />}
             number={1500}
-            text={"Number Of Orders"}
+            text={"Orders"}
           />
         </Col>
 
@@ -89,7 +89,7 @@ const AdminHome = () => {
           <DashBoardCardView
             icon={<FaUsers size={50} />}
             number={15000}
-            text={"Number Of Users"}
+            text={"Users"}
           />
         </Col>
       </Row>

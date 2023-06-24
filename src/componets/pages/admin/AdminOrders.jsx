@@ -31,11 +31,6 @@ const AdminOrders = () => {
     ],
   });
 
-  // useEffect(() => {
-  //   // single time on load
-  //   getOrdersLocally();
-  // }, []);
-
   const getOrdersLocally = async () => {
     try {
       const data = await getAllOrders(
@@ -55,6 +50,13 @@ const AdminOrders = () => {
     }
   };
 
+  // useEffect(() => {
+  //   // single time on load
+
+  //   getOrdersLocally();
+  // }, []);
+
+
   // Modal VIew START
   // below state handle modal view
   // this state handle data comming from after clicking view Order details
@@ -69,12 +71,10 @@ const AdminOrders = () => {
     });
     setViewModal(() => true);
   };
-
   const CloseViewOrderModal = () => {
     setViewModal(() => false);
   };
   // Modal VIew END
-
   // modal view
   const orderModalView = () => {
     return (
@@ -158,7 +158,7 @@ const AdminOrders = () => {
       </>
     );
   };
-
+  
   const OrdersView = () => {
     return (
       <>
@@ -167,6 +167,7 @@ const AdminOrders = () => {
             {/* "This page Have work to do insufficient Order object Data comming from Server Bz */}
              {/* customer not yet order single item so no object is present in data base"} */}
           <Card.Body>
+        
             <h3 className="text-center mb-3"> All Orders are here </h3>
             {ordersData?.content?.map((order) => {
               return (
@@ -182,7 +183,6 @@ const AdminOrders = () => {
       </>
     );
   };
-
   return (
     <>
       <Container>
@@ -194,5 +194,4 @@ const AdminOrders = () => {
     </>
   );
 };
-
 export default AdminOrders;
