@@ -27,7 +27,7 @@ export const addProductImage = (file, productId) => {
 // getting all products for the view product page
 export const getAllProducts = (
   pageNumber = 0,
-  PageSize = 10,
+  PageSize = 100,
   sortBy = "addedDate",
   sortDir = "asc"
 ) => {

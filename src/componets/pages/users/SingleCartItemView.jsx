@@ -25,9 +25,11 @@ const SingleCartItemView = ({ item, removeItemsFromTheCart, addItem }) => {
     const decreasedQuantity = item.quantity - 1;
 
     if (decreasedQuantity > 0) {
-      addItem(item.product.productId, decreasedQuantity, "remove");
+      addItem(item.product.productId, decreasedQuantity, "remove","cart");
     } else {
-      toast.info("Quantity Can not less Than 1");
+      toast.info("Quantity Can not less Than 1",{
+        position:'bottom-center'
+      });
     }
   };
 
@@ -36,7 +38,7 @@ const SingleCartItemView = ({ item, removeItemsFromTheCart, addItem }) => {
   const handleIncreseProductFromCart = (event, item) => {
     const incresedQuantity = item.quantity + 1;
 
-    addItem(item.product.productId, incresedQuantity);
+    addItem(item.product.productId, incresedQuantity,"add","cart");
   };
 
   return (

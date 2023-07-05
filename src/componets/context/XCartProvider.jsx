@@ -55,7 +55,7 @@ const CartProvider = ({ children }) => {
   }, [userContext?.isLogin, userContext?.userData?.user?.userId]);
 
   // add item to cart
-  const addItem = async (productId, quantity, type = "add") => {
+  const addItem = async (productId, quantity, type = "add", page = "") => {
     // if product is present inside cart already
     // we are checking with the help of product id using find array helper function
     // from here we increment count of quantity of product
@@ -75,15 +75,23 @@ const CartProvider = ({ children }) => {
         quantity
       );
 
+      if (page !== "cart") {
+        toast.success("Product is added to cart", {
+          position: "top-center",
+        });
+      } else if ((type === "remove" || type === "add") && page === "cart") {
+        toast.success("Item quantity Updated", {
+          position: "bottom-center",
+        });
+      }
+
+      console.log(data);
+
       setCart((cart) => {
         return {
           ...data,
         };
       });
-
-      if (type === "add") {
-        toast.success("Item Added To Cart");
-      }
     } catch (error) {
       console.log(error);
       toast.error("Error in adding product in cart");
@@ -100,14 +108,15 @@ const CartProvider = ({ children }) => {
         userContext?.userData?.user?.userId,
         itemId
       );
-      console.log("data : ", data);
-      toast.success("Item remove from Cart");
       const newArr = cart?.items?.filter((item) => item.cartItemId !== itemId);
       setCart((cart) => {
         return {
           ...cart,
           items: [...newArr],
         };
+      });
+      toast.success("item removed", {
+        position: "bottom-center",
       });
     } catch (error) {
       console.log(error);

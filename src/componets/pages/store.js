@@ -19,13 +19,13 @@ const Store = () => {
   const [currPage, setCurrpage] = useState(0);
 
   useEffect(() => {
-    loadProducts(0, 1000, "addedDate", "decs");
+    loadProducts(currPage, 100, "addedDate", "asc");
   }, []);
 
   // // loading curr page changes
   useEffect(() => {
     if (currPage > 0) {
-      loadProducts(0, 1000, "addedDate", "decs");
+      loadProducts(currPage, 100, "addedDate", "asc");
     }
   }, [currPage]);
 
@@ -61,13 +61,21 @@ const Store = () => {
         //   });
         // }
       })
+      // getAllProducts(pageNumber, pageSize, sortBy, sortDir)
+      //   .then((serverProductData) => {
+      //     console.log("server Data = ",serverProductData);
+      //     setProducts((products) => {
+      //       return {
+      //         ...serverProductData,
+      //       };
+      //     });
+      //   })
       .catch((error) => {
         console.log(error);
       });
   };
 
   // product view
-  console.log("products : ", products);
   const productsView = () => {
     return (
       products && (
@@ -84,11 +92,9 @@ const Store = () => {
               <Row>
                 {products?.content?.map((product) => {
                   return (
-                    product.live && (
-                      <Col key={product.productId} md={4}>
-                        <SingleProductCard product={product} />
-                      </Col>
-                    )
+                    <Col key={product.productId} md={4}>
+                      <SingleProductCard product={product} />
+                    </Col>
                   );
                 })}
               </Row>
