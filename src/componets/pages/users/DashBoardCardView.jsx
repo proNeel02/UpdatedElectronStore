@@ -9,7 +9,6 @@ export const DashBoardCardView = ({icon ,text, number }) => {
        { icon }
        <h3 className="mt-2">{number+"+"}</h3>
           <h3 className="mt-2">{text}</h3>
-        
         </Card.Body>
       </Card>
     </>

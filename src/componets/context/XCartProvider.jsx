@@ -9,7 +9,6 @@ import {
 } from "../../services/CartService";
 import { toast } from "react-toastify";
 const CartProvider = ({ children }) => {
-  
   const userContext = useContext(UserContext);
   const [cart, setCart] = useState(undefined);
 
@@ -56,7 +55,7 @@ const CartProvider = ({ children }) => {
   }, [userContext?.isLogin, userContext?.userData?.user?.userId]);
 
   // add item to cart
-  const addItem = async (productId, quantity) => {
+  const addItem = async (productId, quantity, type = "add") => {
     // if product is present inside cart already
     // we are checking with the help of product id using find array helper function
     // from here we increment count of quantity of product
@@ -68,7 +67,7 @@ const CartProvider = ({ children }) => {
     //   console.log("Matched and return");
     //   return;
     // }
-   
+
     try {
       const data = await addItemToCart(
         userContext?.userData?.user?.userId,
@@ -81,7 +80,10 @@ const CartProvider = ({ children }) => {
           ...data,
         };
       });
-      toast.success("Item Added To Cart");
+
+      if (type === "add") {
+        toast.success("Item Added To Cart");
+      }
     } catch (error) {
       console.log(error);
       toast.error("Error in adding product in cart");
@@ -90,8 +92,7 @@ const CartProvider = ({ children }) => {
 
   // remove item from cart
   const removeItemsFromTheCart = async (itemId) => {
-
-    // if user try to remove the products from the cart and user is not logged in 
+    // if user try to remove the products from the cart and user is not logged in
     // then we check if userId  === undefined then direct the user to the loggin page
     // how can we do it? by using useNavigate() to divert program flow to the loggin page
     try {

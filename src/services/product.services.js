@@ -71,7 +71,7 @@ export const serachProduct = (query) => {
 // get all live products only...
 export const getAllLiveProducts = (
   pageNumber = 0,
-  PageSize = 10,
+  PageSize = 1000,
   sortBy = "addedDate",
   sortDir = "asc"
 ) => {

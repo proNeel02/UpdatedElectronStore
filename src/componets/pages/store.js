@@ -19,17 +19,17 @@ const Store = () => {
   const [currPage, setCurrpage] = useState(0);
 
   useEffect(() => {
-    loadProducts(currPage, 9, "addedDate", "decs");
+    loadProducts(0, 1000, "addedDate", "decs");
   }, []);
 
-  // loading curr page changes
+  // // loading curr page changes
   useEffect(() => {
     if (currPage > 0) {
-      loadProducts(currPage, 9, "addedDate", "decs");
+      loadProducts(0, 1000, "addedDate", "decs");
     }
   }, [currPage]);
 
-  // loading next page
+  // // loading next page
   const loadNextPage = () => {
     setCurrpage((currPage) => currPage + 1);
   };
@@ -37,28 +37,29 @@ const Store = () => {
   const loadProducts = (pageNumber, pageSize, sortBy, sortDir) => {
     getAllLiveProducts(pageNumber, pageSize, sortBy, sortDir)
       .then((serverProductData) => {
-        // console.log(serverProductData);
+        console.log(serverProductData);
 
-        if (currPage === 0) {
-          setProducts((products) => {
-            return {
-              ...serverProductData,
-            };
-          });
-        } else {
-          let newArray = serverProductData?.content?.filter((obj1) => {
-            return !products?.content?.find((obj2) => {
-              return obj1.productId === obj2.productId;
-            });
-          });
+        // if (currPage === 0) {
+        setProducts((products) => {
+          return {
+            ...serverProductData,
+          };
+        });
+        // }
+        //  else {
+        //   let newArray = serverProductData?.content?.filter((obj1) => {
+        //     return !products?.content?.find((obj2) => {
+        //       return obj1.productId === obj2.productId;
+        //     });
+        //   });
 
-          setProducts((products) => {
-            return {
-              ...serverProductData,
-              content: [...products?.content, ...newArray],
-            };
-          });
-        }
+        //   setProducts((products) => {
+        //     return {
+        //       ...serverProductData,
+        //       content: [...products?.content, ...newArray],
+        //     };
+        //   });
+        // }
       })
       .catch((error) => {
         console.log(error);
@@ -66,6 +67,7 @@ const Store = () => {
   };
 
   // product view
+  console.log("products : ", products);
   const productsView = () => {
     return (
       products && (
@@ -80,7 +82,7 @@ const Store = () => {
           >
             <Container>
               <Row>
-                {products.content.map((product) => {
+                {products?.content?.map((product) => {
                   return (
                     product.live && (
                       <Col key={product.productId} md={4}>

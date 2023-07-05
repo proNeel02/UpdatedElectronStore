@@ -1,33 +1,42 @@
 import React from "react";
-import { Button, Card, Col, Container, Row } from "react-bootstrap";
+import { Button, Card, Col, Row } from "react-bootstrap";
 import { getProductImageUrl } from "../../../services/helper.service";
 import { SiAddthis } from "react-icons/si";
 import { GrSubtractCircle } from "react-icons/gr";
 import UserContext from "../../context/UserContext";
 import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
-const SingleCartItemView = ({ item, removeItemsFromTheCart }) => {
-
+const SingleCartItemView = ({ item, removeItemsFromTheCart, addItem }) => {
   const userContext = useContext(UserContext);
   const navigate = useNavigate();
+
   // Remove Product From the Cart Handler
   const handleProductRemoveFromCart = (event, itemId) => {
-    userContext?.userData?.user?.userId ? removeItemsFromTheCart(itemId) : navigate('/login');
+    userContext?.userData?.user?.userId
+      ? removeItemsFromTheCart(itemId)
+      : navigate("/login");
   };
-
 
   // handleAddProductFromCart
 
-  const handleAddProductFromCart = (event,itemId) => {
-   console.log("handleAddProductFromCart");
-  }
+  const handleRemoveOneAtaTime = (event, item) => {
+    const decreasedQuantity = item.quantity - 1;
+
+    if (decreasedQuantity > 0) {
+      addItem(item.product.productId, decreasedQuantity, "remove");
+    } else {
+      toast.info("Quantity Can not less Than 1");
+    }
+  };
 
   // handleRemoveOneAtaTime
-const handleRemoveOneAtaTime = (event,itemId) => {
-  console.log("handleRemoveOneAtaTime");
+  const handleIncreseProductFromCart = (event, item) => {
+    const incresedQuantity = item.quantity + 1;
 
-}
+    addItem(item.product.productId, incresedQuantity);
+  };
 
   return (
     <Card
@@ -100,16 +109,22 @@ const handleRemoveOneAtaTime = (event,itemId) => {
               <Row>
                 <Col md={6}>
                   {" "}
-                  <Button size="sm" variant="outline-success"
-                  onClick={(event) => handleAddProductFromCart(item?.cartItemId)}
+                  <Button
+                    size="sm"
+                    variant="outline-success"
+                    onClick={(event) =>
+                      handleIncreseProductFromCart(event, item)
+                    }
                   >
                     <SiAddthis />
                   </Button>
                 </Col>
                 <Col md={6}>
                   {" "}
-                  <Button size="sm" variant="outline-secondary"
-                  onClick={(event) => handleRemoveOneAtaTime(item?.cartItemId)}
+                  <Button
+                    size="sm"
+                    variant="outline-secondary"
+                    onClick={(event) => handleRemoveOneAtaTime(event, item)}
                   >
                     <GrSubtractCircle />
                   </Button>

@@ -8,10 +8,11 @@ import SingleProductCard from "./SingleProductCard";
 import CategoryView from "./CategoryView";
 
 const CategoryStorePage = () => {
-  const { categoryId, categoryTitle } = useParams();
+  const { categoryId } = useParams();
 
   const [currPage, setCurrpage] = useState(0);
   const [products, setProducts] = useState(undefined);
+
 
   useEffect(() => {
     loadproductsOfCategories(
@@ -22,7 +23,7 @@ const CategoryStorePage = () => {
     );
   }, [categoryId]);
 
-  //loading curr page changes
+  // loading curr page changes
   useEffect(() => {
     if (currPage > 0) {
       loadproductsOfCategories(
@@ -48,7 +49,6 @@ const CategoryStorePage = () => {
       sortDir
     )
       .then((serverData) => {
-        console.log(serverData);
 
         if (currPage === 0) {
           setProducts((products) => {

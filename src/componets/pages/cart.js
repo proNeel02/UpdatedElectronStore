@@ -36,6 +36,7 @@ const Cart = () => {
                     key={item?.cartItemId}
                     item={item}
                     removeItemsFromTheCart={removeItemsFromTheCart}
+                    addItem={addItem}
                   />
                 );
               })}
