@@ -31,6 +31,7 @@ const SingleCartItemView = ({ item, removeItemsFromTheCart, addItem }) => {
     }
   };
 
+  
   // handleRemoveOneAtaTime
   const handleIncreseProductFromCart = (event, item) => {
     const incresedQuantity = item.quantity + 1;
