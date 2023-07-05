@@ -1,11 +1,14 @@
 import React, { useContext } from "react";
 import CartContext from "../context/XCartContext";
-import { Button, Card, Col, Container, Row } from "react-bootstrap";
+import { Alert, Button, Card, Col, Container, Row } from "react-bootstrap";
 import SingleCartItemView from "./users/SingleCartItemView";
+import { Link } from "react-router-dom";
+import UserContext from "../context/UserContext";
 
 const Cart = () => {
-  const { cart, setCart, addItem, removeItemsFromTheCart } = useContext(CartContext);
-
+  const { cart, setCart, addItem, removeItemsFromTheCart } =
+    useContext(CartContext);
+  const { isLogin } = useContext(UserContext);
 
   const getTotalCartAmount = () => {
     let amount = 0;
@@ -56,19 +59,35 @@ const Cart = () => {
   };
 
   return (
-    <div>
-      <Container>
+    <Container className="mt-5 text-center">
+      {isLogin ? (
         <Row>
           <Col>
             {cart?.items?.length > 0 ? (
               cartView()
             ) : (
-              <h3 className="text-center mt-5">Cart Is Empty</h3>
+              <Alert variant="danger">
+                <h3 className="text-center my-5">OOPS!! Cart Is Empty</h3>
+                <Button as={Link} to={"/store"} variant="warning">
+                  Start Shopping
+                </Button>
+              </Alert>
             )}
           </Col>
         </Row>
-      </Container>
-    </div>
+      ) : (
+        <Row>
+          <Col>
+              <Alert variant="success">
+                <h3 className="text-center my-5">OOPS!! Your not Login</h3>
+                <Button as={Link} to={"/login"} variant="success">
+                  Login
+                </Button>
+              </Alert>
+          </Col>
+        </Row>
+      )}
+    </Container>
   );
 };
 

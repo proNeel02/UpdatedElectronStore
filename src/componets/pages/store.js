@@ -22,6 +22,7 @@ const Store = () => {
     loadProducts(currPage, 100, "addedDate", "asc");
   }, []);
 
+  
   // // loading curr page changes
   useEffect(() => {
     if (currPage > 0) {

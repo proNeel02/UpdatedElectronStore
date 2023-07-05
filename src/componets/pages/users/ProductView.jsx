@@ -9,12 +9,13 @@ import CartContext from "../../context/XCartContext";
 import { useNavigate } from "react-router-dom";
 import UserContext from "../../context/UserContext";
 import { toast } from "react-toastify";
+import Swal from "sweetalert2";
 const ProductView = () => {
   const { cart, addItem } = useContext(CartContext);
   const userContext = useContext(UserContext);
   const { productId } = useParams();
   const [singleProduct, setSingeProduct] = useState(undefined);
- const navigate = useNavigate();
+  const navigate = useNavigate();
   useEffect(() => {
     getProductByProductId(productId);
   }, []);
@@ -35,19 +36,20 @@ const ProductView = () => {
       });
   };
 
-  
   // handle add to cart manage by Add To Cart Button
   const handleAddItem = (productId, quantity) => {
-   
-   const productPresent = cart?.items?.find((item) => item?.product?.productId === productId);
+    const productPresent = cart?.items?.find(
+      (item) => item?.product?.productId === productId
+    );
 
-    if(productPresent && userContext?.userData?.user?.userId){
-      toast.warning("Product is Present Go to Cart");
+    if (productPresent && userContext?.userData?.user?.userId) {
+      Swal.fire("Item is Present in Cart", "Please Go to the Cart", "success");
       return;
     }
-  
-    userContext?.userData?.user?.userId ?  addItem(productId, quantity) : navigate('/login');
-   
+
+    userContext?.userData?.user?.userId
+      ? addItem(productId, quantity)
+      : navigate("/login");
   };
 
   const ProductDetails = () => {
