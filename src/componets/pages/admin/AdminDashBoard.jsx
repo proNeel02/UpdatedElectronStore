@@ -1,14 +1,13 @@
-import React, { useContext, useEffect } from "react";
-import { Card, Col, Container, ListGroup, Row } from "react-bootstrap";
-import { Navigate, Outlet, useNavigate } from "react-router-dom";
+
+import { Col, Container, Row } from "react-bootstrap";
+import { Navigate, Outlet } from "react-router-dom";
 import { isAdminUser, isLoggedIn } from "../../../auth/HelperAuth.js";
 import SideMenu from "../../AdminComponents/SideMenu.jsx";
-import UserContext from "../../context/UserContext";
+
 
 const AdminDashBoard = () => {
   // let navigate = useNavigate();
 
-  let userContext = useContext(UserContext);
   const dashboardView = () => {
     return (
       <div>

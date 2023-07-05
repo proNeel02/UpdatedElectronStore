@@ -1,5 +1,5 @@
 //product related api calls
-import { privateAxios, publicAxios } from "./axios.service";
+import { privateAxios } from "./axios.service";
 // create product with out category
 export const createProductWithoutCategory = (product) => {
   return privateAxios

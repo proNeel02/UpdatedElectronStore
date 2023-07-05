@@ -13,10 +13,13 @@ export const addCategory = (category) => {
 };
 
 // delete category from server
-export const deleteAtomCategory = (categoryId) => {
-  return privateAxios
-    .delete(`/categories/${categoryId}`)
-    .then((response) => response.data);
+export const deleteAtomCategory = async (categoryId) => {
+  console.log("deleteAtomicCategory from category Services ===> ", categoryId);
+  // return privateAxios
+  //   .delete(`/categories/${categoryId}`)
+  //   .then((response) => response.data);
+  const result = await privateAxios.delete(`/categories/${categoryId}`);
+  return result.data;
 };
 
 // updating category on server
@@ -35,5 +38,8 @@ export const getSingleCategoryObjectUsingCategoryId = (
   sortDir = "asc"
 ) => {
   return privateAxios
-    .get(`/categories/${categoryId}/products?pageNumber=${pageNumber}&pageSize=${PageSize}&sortBy=${sortBy}&sortDir=${sortDir}`).then((response) => response.data);
+    .get(
+      `/categories/${categoryId}/products?pageNumber=${pageNumber}&pageSize=${PageSize}&sortBy=${sortBy}&sortDir=${sortDir}`
+    )
+    .then((response) => response.data);
 };

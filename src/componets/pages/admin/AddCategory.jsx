@@ -9,7 +9,6 @@ import {
 } from "react-bootstrap";
 import { toast } from "react-toastify";
 import { addCategory } from "../../../services/CategoryService";
-import { FiSmile } from "react-icons/fi";
 const AddCategory = () => {
   const [category, setCategory] = useState({
     title: "",
@@ -64,7 +63,7 @@ const AddCategory = () => {
         clearData();
       })
       .catch((error) => {
-        console.dir(error);
+        // console.dir(error);
         toast.error("Category Not Added !");
       })
       .finally(() => {

@@ -5,6 +5,8 @@ const CategoryAtomicView = ({ obj, deleteCatMain, Update, View }) => {
   // operated on delete button on screen
 
   const deleteAtomicCategory = (categoryId) => {
+    console.log("categoryId ====> ",categoryId);
+    
     deleteCatMain(categoryId);
   };
 
@@ -59,7 +61,7 @@ const CategoryAtomicView = ({ obj, deleteCatMain, Update, View }) => {
                     size="sm"
                     className="mt-1"
                     onClick={() => {
-                      return deleteAtomicCategory(obj.categoryId);
+                      deleteAtomicCategory(obj.categoryId);
                     }}
                   >
                     Delete

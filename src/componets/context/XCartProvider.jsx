@@ -19,7 +19,7 @@ const CartProvider = ({ children }) => {
 
       // console.log(data);
       setCart((cart) => {
-        console.log("cart befor new = ", cart?.items);
+        // console.log("cart befor new = ", cart?.items);
 
         // let uniqueArray = data?.items?.filter((item, index) => {
         //   return (
@@ -84,16 +84,12 @@ const CartProvider = ({ children }) => {
           position: "bottom-center",
         });
       }
-
-      console.log(data);
-
       setCart((cart) => {
         return {
           ...data,
         };
       });
     } catch (error) {
-      console.log(error);
       toast.error("Error in adding product in cart");
     }
   };
@@ -119,7 +115,6 @@ const CartProvider = ({ children }) => {
         position: "bottom-center",
       });
     } catch (error) {
-      console.log(error);
       toast.error("Unable to remove Item from Cart");
     }
   };

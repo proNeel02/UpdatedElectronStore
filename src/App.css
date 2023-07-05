@@ -3,3 +3,8 @@
   background:  white!important;
  border-radius: 10px;
 }
+
+
+.animation{
+  transition: all 100ms linear !important;
+}

@@ -116,7 +116,7 @@ const AddProduct = () => {
       Number(product.discountedPrice) >= Number(product.price)
     ) {
       toast.error("Discount Invalid!!");
-      console.dir(product);
+      // console.dir(product);
       return;
     }
 
@@ -129,7 +129,7 @@ const AddProduct = () => {
       createProductWithoutCategory(product)
         .then((serverResponse) => {
           toast.success("Product Added!!");
-          console.log(serverResponse);
+          // console.log(serverResponse);
 
           //uploading an image so we call an api
 
@@ -142,18 +142,18 @@ const AddProduct = () => {
 
           addProductImage(product.image, serverResponse.productId)
             .then((serverResponse) => {
-              console.log(serverResponse);
+              // console.log(serverResponse);
               toast.success("Image uploaded!");
               clearData();
             })
             .catch((error) => {
               toast.success("Error while uploading image!");
-              console.log(error);
+              // console.log(error);
             });
         })
         .catch((error) => {
           toast.error("Failed to Add Product!");
-          console.log(error);
+          // console.log(error);
         })
         .finally(() => {
           setLoading(() => false);
@@ -162,7 +162,7 @@ const AddProduct = () => {
       // create product in category
       createProductInCategory(product, selectedCatId)
         .then((data) => {
-          console.log(data);
+          // console.log(data);
           toast.success(`Product Created Inside category ${product.title}`);
 
           // this below condition executes when
@@ -175,17 +175,17 @@ const AddProduct = () => {
           //uploading an image so we call an api
           addProductImage(product.image, data.productId)
             .then((serverResponse) => {
-              console.log(serverResponse);
+              // console.log(serverResponse);
               toast.success("Image uploaded!");
               clearData();
             })
             .catch((error) => {
               toast.success("Error while uploading image!");
-              console.log(error);
+              // console.log(error);
             });
         })
         .catch((error) => {
-          console.log(error);
+          // console.log(error);
           toast.error(`Product not Created Inside category ${product.title}`);
         })
         .finally(() => {

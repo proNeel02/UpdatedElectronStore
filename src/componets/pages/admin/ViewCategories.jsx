@@ -112,7 +112,7 @@ const ViewCategories = () => {
         // making an api call for delete the category
         deleteAtomCategory(categoryId)
           .then((Serverdata) => {
-            // console.log(Serverdata);
+            console.log(Serverdata);
             fetchCategoryList();
             Swal.fire("Deleted!", "Your file has been deleted.", "success");
           })
@@ -197,6 +197,7 @@ const ViewCategories = () => {
                     //   objectFit: "contain",
                     // }}
                     className="img-fluid"
+                    alt=""
                   />
                 </Col>
               </Row>

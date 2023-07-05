@@ -1,7 +1,4 @@
 // this file for saving data in local storage
-import { useContext } from "react";
-import UserContext from "../componets/context/UserContext";
-
 export const doLoginLocalStorage = (Userdata) => {
   localStorage.setItem("userData", JSON.stringify(Userdata));
 };

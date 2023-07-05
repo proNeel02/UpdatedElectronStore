@@ -1,14 +1,35 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import CartContext from "../context/XCartContext";
-import { Alert, Button, Card, Col, Container, Row } from "react-bootstrap";
+import {
+  Alert,
+  Button,
+  Card,
+  Col,
+  Container,
+  Form,
+  Row,
+} from "react-bootstrap";
 import SingleCartItemView from "./users/SingleCartItemView";
 import { Link } from "react-router-dom";
 import UserContext from "../context/UserContext";
+import { toast } from "react-toastify";
 
 const Cart = () => {
-  const { cart, setCart, addItem, removeItemsFromTheCart } =
+  const { cart,addItem, removeItemsFromTheCart } =
     useContext(CartContext);
   const { isLogin } = useContext(UserContext);
+
+  const [placeOrder, setPlaceOrder] = useState(false);
+
+  const [orderDetails, setOrderDetails] = useState({
+    billingAddress: "",
+    billingName: "",
+    billingPhone: "",
+    cartId: "",
+    orderStatus: "",
+    paymentStatus: "",
+    userId: "",
+  });
 
   const getTotalCartAmount = () => {
     let amount = 0;
@@ -18,9 +39,116 @@ const Cart = () => {
     return amount;
   };
 
+
+  /* handle create Order and pay*/
+  const handleCreateOrderAndPay = (event) => {
+
+   if(orderDetails.billingName.trim() === ""){
+    toast.info("Billing Name required",{
+      position:'top-left'
+    })
+    return;
+   }
+
+   if(orderDetails.billingAddress.trim() === ""){
+    toast.info("Billing Name required",{
+      position:'top-left'
+    })
+    return;
+   }
+
+   if(orderDetails.billingPhone.trim() === ""){
+    toast.info("Billing Name required",{
+      position:'top-left'
+    })
+    return;
+   }
+
+
+
+  };
+
+  const orderFormView = () => {
+    return (
+      <Form>
+        {/* Billing name*/}
+        <Form.Group className="mt-3">
+          {/* take name of user from the useContext*/}
+
+          <Form.Label>
+            <h6>Billing Name</h6>
+          </Form.Label>
+          <Form.Control
+            type="text"
+            placeholder="Enter Name"
+            value={orderDetails.billingName}
+            onChange={(event) => {
+              setOrderDetails((orderDetails) => {
+                return {
+                  ...orderDetails,
+                  billingName: event.target.value,
+                };
+              });
+            }}
+          ></Form.Control>
+        </Form.Group>
+
+        {/* Billing phone*/}
+        <Form.Group className="mt-3">
+          <Form.Label>
+            <h6>Billing phone</h6>
+          </Form.Label>
+          <Form.Control
+            type="number"
+            placeholder="Enter number"
+            value={orderDetails.billingPhone}
+            onChange={(event) => {
+              setOrderDetails((orderDetails) => {
+                return {
+                  ...orderDetails,
+                  billingPhone: event.target.value,
+                };
+              });
+            }}
+          ></Form.Control>
+        </Form.Group>
+
+        {/* Billing Address*/}
+        <Form.Group className="mt-3">
+          <Form.Label>
+            <h6>Billing Address</h6>
+          </Form.Label>
+          <Form.Control
+            rows={6}
+            as={"textarea"}
+            placeholder="Enter Address"
+            value={orderDetails.billingAddress}
+            onChange={(event) => {
+              setOrderDetails((orderDetails) => {
+                return {
+                  ...orderDetails,
+                  billingAddress: event.target.value,
+                };
+              });
+            }}
+          ></Form.Control>
+        </Form.Group>
+
+        <Container className="mt-4 text-center">
+          <Button
+            variant="warning"
+            onClick={(event) => handleCreateOrderAndPay(event)}
+          >
+            <h6>Create Order & Proceed to Pay</h6>
+          </Button>
+        </Container>
+      </Form>
+    );
+  };
+
   const cartView = () => {
     return (
-      <Card className="mt-3 shadow px-5 border-0">
+      <Card className="mt-3 shadow px-2 border-0">
         <Card.Body>
           <Row>
             <Col>
@@ -50,8 +178,15 @@ const Cart = () => {
               Total Amount: ₹ {getTotalCartAmount()}
             </h3>
           </Container>
-          <Container className="text-center mb-3">
-            <Button size="lg">Place Order</Button>
+          <Container className="text-center mb-3" hidden={placeOrder}>
+            <Button
+              size="lg"
+              onClick={(event) => {
+                setPlaceOrder(() => true);
+              }}
+            >
+              Place Order
+            </Button>
           </Container>
         </Card.Body>
       </Card>
@@ -59,14 +194,14 @@ const Cart = () => {
   };
 
   return (
-    <Container className="mt-5 text-center">
+    <Container className="mt-5" fluid={placeOrder}>
       {isLogin ? (
         <Row>
-          <Col>
+          <Col md={placeOrder ? 8 : 12} className="animation">
             {cart?.items?.length > 0 ? (
               cartView()
             ) : (
-              <Alert variant="danger">
+              <Alert variant="danger text-center">
                 <h3 className="text-center my-5">OOPS!! Cart Is Empty</h3>
                 <Button as={Link} to={"/store"} variant="warning">
                   Start Shopping
@@ -74,16 +209,27 @@ const Cart = () => {
               </Alert>
             )}
           </Col>
+
+          {placeOrder && (
+            <Col md={4}>
+              <Card className="mt-3 shadow border bg-red">
+                <Card.Body>
+                  <h4>Fill the form to complete order</h4>
+                  {orderFormView()}
+                </Card.Body>
+              </Card>
+            </Col>
+          )}
         </Row>
       ) : (
         <Row>
           <Col>
-              <Alert variant="success">
-                <h3 className="text-center my-5">OOPS!! Your not Login</h3>
-                <Button as={Link} to={"/login"} variant="success">
-                  Login
-                </Button>
-              </Alert>
+            <Alert variant="success text-center">
+              <h3 className="text-center my-5">OOPS!! Your not Login</h3>
+              <Button as={Link} to={"/login"} variant="success">
+                Login
+              </Button>
+            </Alert>
           </Col>
         </Row>
       )}
