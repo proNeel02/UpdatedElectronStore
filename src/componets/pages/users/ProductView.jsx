@@ -23,8 +23,6 @@ const ProductView = () => {
   const getProductByProductId = (productId) => {
     getProductFromServerUsingProductId(productId)
       .then((serverData) => {
-        console.log(serverData);
-
         setSingeProduct((singleProduct) => {
           return {
             ...serverData,

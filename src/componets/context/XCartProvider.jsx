@@ -104,6 +104,7 @@ const CartProvider = ({ children }) => {
         userContext?.userData?.user?.userId,
         itemId
       );
+
       const newArr = cart?.items?.filter((item) => item.cartItemId !== itemId);
       setCart((cart) => {
         return {
@@ -111,6 +112,7 @@ const CartProvider = ({ children }) => {
           items: [...newArr],
         };
       });
+      
       toast.success("item removed", {
         position: "bottom-center",
       });

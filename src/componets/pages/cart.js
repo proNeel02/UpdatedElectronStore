@@ -17,11 +17,11 @@ import { createOrder } from "../../services/order.service";
 import Swal from "sweetalert2";
 
 const Cart = () => {
-  const { cart, addItem, removeItemsFromTheCart } = useContext(CartContext);
+  const { cart, setCart, addItem, removeItemsFromTheCart } =
+    useContext(CartContext);
   const { isLogin, userData } = useContext(UserContext);
 
   const [placeOrder, setPlaceOrder] = useState(false);
-  
 
   const [orderDetails, setOrderDetails] = useState({
     billingAddress: "",
@@ -33,7 +33,7 @@ const Cart = () => {
     userId: "",
   });
 
-  const getTotalCartAmount =  () => {
+  const getTotalCartAmount = () => {
     let amount = 0;
     cart?.items?.forEach((item) => {
       amount += item.totalPrice;
@@ -70,15 +70,20 @@ const Cart = () => {
     orderDetails.paymentStatus = "NOTPAID";
     orderDetails.userId = userData.user.userId;
 
+    try {
+      const result = await createOrder(orderDetails);
+      console.log("order details = ", result);
+      Swal.fire("Order Created", "Procceding for Payment", "success");
 
-
-    try{
-     const result = await createOrder(orderDetails);
-     console.log("order details = ",result);
-     Swal.fire("Order Created","Procceding for Payment","success");
-    }
-    catch(err){
-     console.log(err);
+      setPlaceOrder(() => false);
+      setCart((cart) => {
+        return {
+          ...cart,
+          items: [],
+        };
+      });
+    } catch (err) {
+      console.log(err);
     }
   };
 
@@ -88,7 +93,6 @@ const Cart = () => {
         {/* Billing name*/}
         <Form.Group className="mt-3">
           {/* take name of user from the useContext*/}
-
           <Form.Label>
             <h6>Billing Name</h6>
           </Form.Label>
@@ -182,6 +186,7 @@ const Cart = () => {
                     item={item}
                     removeItemsFromTheCart={removeItemsFromTheCart}
                     addItem={addItem}
+                    setPlaceOrder={setPlaceOrder}
                   />
                 );
               })}

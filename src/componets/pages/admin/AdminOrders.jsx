@@ -25,13 +25,9 @@ const AdminOrders = () => {
 
   const getOrdersLocally = async () => {
     try {
-      const data = await getAllOrders(
-        0,
-        ADMIN_ORDERS_PAGE,
-        "orderedDate",
-        "desc"
-      );
+      const data = await getAllOrders();
 
+      console.log(data);
       setOrdersData((ordersData) => {
         return {
           ...data,

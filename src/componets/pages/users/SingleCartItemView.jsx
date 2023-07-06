@@ -7,13 +7,23 @@ import UserContext from "../../context/UserContext";
 import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import CartContext from "../../context/XCartContext";
 
-const SingleCartItemView = ({ item, removeItemsFromTheCart, addItem }) => {
+const SingleCartItemView = ({
+  item,
+  removeItemsFromTheCart,
+  addItem,
+  setPlaceOrder,
+}) => {
   const userContext = useContext(UserContext);
   const navigate = useNavigate();
 
+  const { cart } = useContext(CartContext);
   // Remove Product From the Cart Handler
   const handleProductRemoveFromCart = (event, itemId) => {
+    if (cart.items.length === 1) {
+      setPlaceOrder(() => false);
+    }
     userContext?.userData?.user?.userId
       ? removeItemsFromTheCart(itemId)
       : navigate("/login");
@@ -25,20 +35,19 @@ const SingleCartItemView = ({ item, removeItemsFromTheCart, addItem }) => {
     const decreasedQuantity = item.quantity - 1;
 
     if (decreasedQuantity > 0) {
-      addItem(item.product.productId, decreasedQuantity, "remove","cart");
+      addItem(item.product.productId, decreasedQuantity, "remove", "cart");
     } else {
-      toast.info("Quantity Can not less Than 1",{
-        position:'bottom-center'
+      toast.info("Quantity Can not less Than 1", {
+        position: "bottom-center",
       });
     }
   };
 
-  
   // handleRemoveOneAtaTime
   const handleIncreseProductFromCart = (event, item) => {
     const incresedQuantity = item.quantity + 1;
 
-    addItem(item.product.productId, incresedQuantity,"add","cart");
+    addItem(item.product.productId, incresedQuantity, "add", "cart");
   };
 
   return (
