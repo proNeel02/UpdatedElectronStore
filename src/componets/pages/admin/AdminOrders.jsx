@@ -1,11 +1,12 @@
-
 import { getAllOrders } from "../../../services/order.service";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   ADMIN_ORDERS_PAGE,
   formatDate,
+  getProductImageUrl,
 } from "../../../services/helper.service";
 import {
+  Badge,
   Card,
   Col,
   Container,
@@ -14,21 +15,13 @@ import {
   Table,
 } from "react-bootstrap";
 import SingleOrderView from "../../SingleOrderView";
+import { useContext } from "react";
+import UserContext from "../../context/UserContext";
 
 const AdminOrders = () => {
-  const [ordersData, setOrdersData] = useState({
-    content: [
-      {
-        orderId: "145fgfgfg5646454fgfdfadsadh",
-        billingName: "Prashat Dabe",
-        billingPhone: "9370800073",
-        orderItems: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
-        paymentStatus: "NOTPAID",
-        orderStatus: "PENDING",
-        orderedDate: 9999099968801,
-      },
-    ],
-  });
+  const [ordersData, setOrdersData] = useState();
+
+  const { userData } = useContext(UserContext);
 
   const getOrdersLocally = async () => {
     try {
@@ -49,12 +42,10 @@ const AdminOrders = () => {
     }
   };
 
-  // useEffect(() => {
-  //   // single time on load
-
-  //   getOrdersLocally();
-  // }, []);
-
+  useEffect(() => {
+    // single time on load
+    getOrdersLocally();
+  }, []);
 
   // Modal VIew START
   // below state handle modal view
@@ -76,6 +67,8 @@ const AdminOrders = () => {
   // Modal VIew END
   // modal view
   const orderModalView = () => {
+    const { orderItems } = viewSingleOrder;
+
     return (
       <>
         <Modal
@@ -96,8 +89,8 @@ const AdminOrders = () => {
                 {viewSingleOrder?.orderId}
               </Col>
               <Col>
-                <b>Billing Name: </b>
-                {viewSingleOrder?.billingName}
+                <b>Ordered By: </b>
+                {userData?.user?.name}
               </Col>
             </Row>
 
@@ -105,6 +98,13 @@ const AdminOrders = () => {
               <Col>
                 <Table bordered responsive striped>
                   <tbody>
+                    <tr>
+                      <td>Billing Name</td>
+                      <td className="fw-bold">
+                        {viewSingleOrder?.billingName}
+                      </td>
+                    </tr>
+
                     <tr>
                       <td>Billing Phone</td>
                       <td className="fw-bold">
@@ -140,33 +140,103 @@ const AdminOrders = () => {
                     </tr>
 
                     <tr>
-                      <td>Order Date</td>
+                      <td>Billing Address</td>
                       <td className="fw-bold">
-                        {formatDate(viewSingleOrder?.orderedDate)}
+                        {viewSingleOrder?.billingAddress}
+                      </td>
+                    </tr>
+
+                    <tr>
+                      <td>Delivered Date</td>
+                      <td className="fw-bold">
+                        {viewSingleOrder?.deliveredDate}
+                      </td>
+                    </tr>
+
+                    <tr>
+                      <td>Order Amount</td>
+                      <td className="fw-bold">
+                        {viewSingleOrder?.orderAmount}
                       </td>
                     </tr>
                   </tbody>
                 </Table>
               </Col>
             </Row>
+
+            <Card className="mt-3">
+              <Card.Body>
+                <h3>Orderd Items</h3>
+                {orderItems?.map((orderItem) => {
+                  return (
+                    <Card
+                      key={orderItem?.product?.addedDate}
+                      className="shadow my-3 border-0"
+                    >
+                      <Card.Body>
+                        <Row className="d-flex align-items-center">
+                          <Col md={2}>
+                            <img
+                              src={getProductImageUrl(
+                                orderItem?.product?.productId
+                              )}
+                              alt=""
+                              style={{
+                                width: "80px",
+
+                                height: "80px",
+                                objectFit: "contain",
+                              }}
+                            />
+                          </Col>
+                          <Col md={10}>
+                            <b>{orderItem?.product?.title}</b>
+
+                            <Row className="mt-2">
+                              <Col>
+                                <Badge pill className="me-2">
+                                  Quantity : {orderItem?.quantity}
+                                </Badge>
+
+                                <Badge pill bg={"success"} className="me-2">
+                                  Total Amount for This Item :{" "}
+                                  {orderItem?.totalPrice}
+                                </Badge>
+
+                                <Badge pill bg={"warning"}>
+                                  Price Per Item :{" "}
+                                  {orderItem?.product?.discountedPrice}
+                                </Badge>
+                              </Col>
+                            </Row>
+
+                            <Row className="mt-4">
+                              <span>
+                                Product Id: {orderItem?.product?.productId}
+                              </span>
+                            </Row>
+                          </Col>
+                        </Row>
+                      </Card.Body>
+                    </Card>
+                  );
+                })}
+              </Card.Body>
+            </Card>
           </Modal.Body>
-          <Modal.Footer>
-           
-          </Modal.Footer>
+          <Modal.Footer></Modal.Footer>
         </Modal>
       </>
     );
   };
-  
+
   const OrdersView = () => {
     return (
       <>
-        <Card className="shadow-2">
-          {JSON.stringify("Work Remaining On View Orders Details")}
-            {/* "This page Have work to do insufficient Order object Data comming from Server Bz */}
-             {/* customer not yet order single item so no object is present in data base"} */}
+        <Card className="shadow">
+          {/* "This page Have work to do insufficient Order object Data comming from Server Bz */}
+          {/* customer not yet order single item so no object is present in data base"} */}
           <Card.Body>
-        
             <h3 className="text-center mb-3"> All Orders are here </h3>
             {ordersData?.content?.map((order) => {
               return (

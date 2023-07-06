@@ -1,9 +1,13 @@
 import { Button, Card, Col, Container, Row, Table } from "react-bootstrap";
 import { formatDate } from "../services/helper.service";
+import UserContext from "./context/UserContext";
+import { useContext } from "react";
 
 const SingleOrderView = ({ Order, OpenViewOrderModal }) => {
+  const { userData } = useContext(UserContext);
+
   return (
-    <Card className="border border-0 shadow mb-5 text-center">
+    <Card className="border border-0 shadow mb-5">
       <Card.Body>
         <Row>
           <Col>
@@ -12,8 +16,8 @@ const SingleOrderView = ({ Order, OpenViewOrderModal }) => {
             {Order?.orderId}
           </Col>
           <Col>
-            <b>Billing Name: </b>
-            {Order?.billingName}
+            <b>Ordered By : </b>
+            {userData?.user?.name}
           </Col>
         </Row>
 
@@ -21,6 +25,11 @@ const SingleOrderView = ({ Order, OpenViewOrderModal }) => {
           <Col>
             <Table bordered responsive striped>
               <tbody>
+                <tr>
+                  <td>Billing Name</td>
+                  <td className="fw-bold">{Order?.billingName}</td>
+                </tr>
+
                 <tr>
                   <td>Billing Phone</td>
                   <td className="fw-bold">{Order?.billingPhone}</td>
@@ -57,13 +66,16 @@ const SingleOrderView = ({ Order, OpenViewOrderModal }) => {
         </Row>
         <Container className="text-center my-2">
           <Button
-            size="lg"
-            variant="outline-dark"
+            variant="dark"
             onClick={(event) => {
               OpenViewOrderModal(event, Order);
             }}
           >
-            <b>View Order Details</b>
+            <b>Order Details</b>
+          </Button>
+
+          <Button variant="warning" className="mx-3">
+            <b>Update</b>
           </Button>
         </Container>
       </Card.Body>

@@ -10,14 +10,13 @@ export const getAllOrders = async (pageNumber, pageSize, sortBy, sortDir) => {
 };
 
 //  create Order
-const createOrder = async (orderDetails) => {
+export const createOrder = async (orderDetails) => {
   const result = await privateAxios.post("/orders", orderDetails);
   return result.data;
 };
 
 // get order of users
-const getOrdersOfUsers = async (userId) => {
-
+export const getOrdersOfUsers = async (userId) => {
   const result = await privateAxios.get(`/orders/users/${userId}`)
   return result.data;
 }

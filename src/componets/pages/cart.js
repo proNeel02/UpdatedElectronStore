@@ -13,13 +13,15 @@ import SingleCartItemView from "./users/SingleCartItemView";
 import { Link } from "react-router-dom";
 import UserContext from "../context/UserContext";
 import { toast } from "react-toastify";
+import { createOrder } from "../../services/order.service";
+import Swal from "sweetalert2";
 
 const Cart = () => {
-  const { cart,addItem, removeItemsFromTheCart } =
-    useContext(CartContext);
-  const { isLogin } = useContext(UserContext);
+  const { cart, addItem, removeItemsFromTheCart } = useContext(CartContext);
+  const { isLogin, userData } = useContext(UserContext);
 
   const [placeOrder, setPlaceOrder] = useState(false);
+  
 
   const [orderDetails, setOrderDetails] = useState({
     billingAddress: "",
@@ -31,7 +33,7 @@ const Cart = () => {
     userId: "",
   });
 
-  const getTotalCartAmount = () => {
+  const getTotalCartAmount =  () => {
     let amount = 0;
     cart?.items?.forEach((item) => {
       amount += item.totalPrice;
@@ -39,33 +41,45 @@ const Cart = () => {
     return amount;
   };
 
-
   /* handle create Order and pay*/
-  const handleCreateOrderAndPay = (event) => {
+  const handleCreateOrderAndPay = async (event) => {
+    if (orderDetails.billingName.trim() === "") {
+      toast.info("Billing Name required", {
+        position: "top-left",
+      });
+      return;
+    }
 
-   if(orderDetails.billingName.trim() === ""){
-    toast.info("Billing Name required",{
-      position:'top-left'
-    })
-    return;
-   }
+    if (orderDetails.billingAddress.trim() === "") {
+      toast.info("Billing Name required", {
+        position: "top-left",
+      });
+      return;
+    }
 
-   if(orderDetails.billingAddress.trim() === ""){
-    toast.info("Billing Name required",{
-      position:'top-left'
-    })
-    return;
-   }
+    if (orderDetails.billingPhone.trim() === "") {
+      toast.info("Billing Name required", {
+        position: "top-left",
+      });
+      return;
+    }
 
-   if(orderDetails.billingPhone.trim() === ""){
-    toast.info("Billing Name required",{
-      position:'top-left'
-    })
-    return;
-   }
-
+    // set required Other details
+    orderDetails.cartId = cart.cartId;
+    orderDetails.orderStatus = "PENDING";
+    orderDetails.paymentStatus = "NOTPAID";
+    orderDetails.userId = userData.user.userId;
 
 
+
+    try{
+     const result = await createOrder(orderDetails);
+     console.log("order details = ",result);
+     Swal.fire("Order Created","Procceding for Payment","success");
+    }
+    catch(err){
+     console.log(err);
+    }
   };
 
   const orderFormView = () => {
