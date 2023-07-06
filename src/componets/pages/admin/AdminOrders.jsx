@@ -27,7 +27,7 @@ const AdminOrders = () => {
     try {
       const data = await getAllOrders();
 
-      console.log(data);
+      console.log("all Orders for the admin ==> ",data);
       setOrdersData((ordersData) => {
         return {
           ...data,
@@ -49,8 +49,10 @@ const AdminOrders = () => {
   const [viewSingleOrder, setviewSingleOrder] = useState(undefined);
 
   const [viewModal, setViewModal] = useState(false);
+
   const OpenViewOrderModal = (event, Order) => {
     setviewSingleOrder((viewSingleOrder) => {
+
       return {
         ...Order,
       };
@@ -86,7 +88,7 @@ const AdminOrders = () => {
               </Col>
               <Col>
                 <b>Ordered By: </b>
-                {userData?.user?.name}
+                {viewSingleOrder?.user?.name}
               </Col>
             </Row>
 

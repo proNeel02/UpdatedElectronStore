@@ -1,13 +1,14 @@
-
 import { Col, Container, Row } from "react-bootstrap";
 import { Navigate, Outlet } from "react-router-dom";
-import { isAdminUser, isLoggedIn } from "../../../auth/HelperAuth.js";
+import { isAdminUser } from "../../../auth/HelperAuth.js";
 import SideMenu from "../../AdminComponents/SideMenu.jsx";
-
+import { useContext } from "react";
+import UserContext from "../../context/UserContext.js";
 
 const AdminDashBoard = () => {
   // let navigate = useNavigate();
 
+  const { isLogin } = useContext(UserContext);
   const dashboardView = () => {
     return (
       <div>
@@ -32,7 +33,7 @@ const AdminDashBoard = () => {
 
   // return isAdminUser() ? dashboardView() : ( isLoggedIn ? (<Navigate to="/users/home"/>) : (<Navigate  to="/login"/>))
 
-  return isLoggedIn() ? (
+  return isLogin ? (
     isAdminUser() ? (
       dashboardView()
     ) : (

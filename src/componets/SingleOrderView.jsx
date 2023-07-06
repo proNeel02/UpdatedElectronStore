@@ -1,13 +1,9 @@
 import { Button, Card, Col, Container, Row, Table } from "react-bootstrap";
 import { formatDate } from "../services/helper.service";
-import UserContext from "./context/UserContext";
-import { useContext } from "react";
+
 
 const SingleOrderView = ({ Order, OpenViewOrderModal }) => {
-  const { userData } = useContext(UserContext);
-
-
-  console.log("UserData = ",userData);
+ 
   return (
     <Card className="border border-0 shadow mb-5">
       <Card.Body>
@@ -19,7 +15,7 @@ const SingleOrderView = ({ Order, OpenViewOrderModal }) => {
           </Col>
           <Col>
             <b>Ordered By : </b>
-            {userData?.user?.name}
+            {Order?.user?.name}
           </Col>
         </Row>
 
