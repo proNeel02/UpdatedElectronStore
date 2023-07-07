@@ -22,7 +22,6 @@ const Store = () => {
     loadProducts(currPage, 100, "addedDate", "asc");
   }, []);
 
-  
   // // loading curr page changes
   useEffect(() => {
     if (currPage > 0) {
@@ -81,26 +80,25 @@ const Store = () => {
     return (
       products && (
         <>
-          <InfiniteScroll
+          {/* <InfiniteScroll
             dataLength={products?.content?.length}
             next={loadNextPage}
             hasMore={!products.lastPage}
             loader={<h3>Loading More Products...</h3>}
             endMessage={<p>All Products loaded</p>}
             className="text-center"
-          >
-            <Container>
-              <Row>
-                {products?.content?.map((product) => {
-                  return (
-                    <Col key={product.productId} md={4}>
-                      <SingleProductCard product={product} />
-                    </Col>
-                  );
-                })}
-              </Row>
-            </Container>
-          </InfiniteScroll>
+          > */}
+          <Row>
+            {products?.content?.map((product) => {
+              return (
+                <Col key={product.productId} md={4}>
+                  <SingleProductCard product={product} />
+                </Col>
+              );
+            })}
+          </Row>
+
+          {/* </InfiniteScroll> */}
         </>
       )
     );

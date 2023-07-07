@@ -212,7 +212,7 @@ const AdminOrders = () => {
                     <tr>
                       <td>Order Amount</td>
                       <td className="fw-bold">
-                        {viewSingleOrder?.orderAmount}
+                        ₹ {viewSingleOrder?.orderAmount}
                       </td>
                     </tr>
                   </tbody>

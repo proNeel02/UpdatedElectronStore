@@ -36,6 +36,7 @@ const ProductView = () => {
 
   // handle add to cart manage by Add To Cart Button
   const handleAddItem = (productId, quantity) => {
+
     const productPresent = cart?.items?.find(
       (item) => item?.product?.productId === productId
     );
@@ -105,6 +106,7 @@ const ProductView = () => {
                       <Container className="d-grid gap-2 text-center mt-5">
                         <Button
                           variant="warning"
+                          disabled={!singleProduct.stock}
                           onClick={(event) => {
                             handleAddItem(singleProduct.productId, 1);
                           }}
@@ -129,6 +131,7 @@ const ProductView = () => {
         <Container className="d-grid gap-2 text-center mt-5">
           <Button
             variant="warning"
+            disabled={!singleProduct.stock}
             onClick={(event) => {
               handleAddItem(singleProduct.productId, 1);
             }}

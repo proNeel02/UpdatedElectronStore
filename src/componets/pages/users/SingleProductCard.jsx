@@ -3,9 +3,12 @@ import { getProductImageUrl } from "../../../services/helper.service";
 import { Link } from "react-router-dom";
 
 const SingleProductCard = ({ product }) => {
+
+ 
+
   return (
     <>
-      <Card className="m-1 shadow">
+      <Card className="m-1">
         <Card.Body>
           <Container className="text-center">
             <img
@@ -22,6 +25,7 @@ const SingleProductCard = ({ product }) => {
               alt=""
             />
           </Container>
+
           <h6>{product.title}</h6>
 
           <Badge pill bg={"info"}>

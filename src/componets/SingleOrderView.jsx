@@ -24,7 +24,16 @@ const SingleOrderView = ({
 
         <Row className="mt-3">
           <Col>
-            <Table bordered responsive striped>
+            <Table
+              bordered
+              responsive
+              striped
+              className={
+                Order?.paymentStatus === "PAID"
+                  ? "table-success"
+                  : "table-danger"
+              }
+            >
               <tbody>
                 <tr>
                   <td>Billing Name</td>
@@ -66,8 +75,14 @@ const SingleOrderView = ({
           </Col>
         </Row>
         <Container className="text-center my-2">
+          {!(page === "adminOrder") && Order?.paymentStatus === "NOTPAID" && (
+            <Button variant="success" className="mx-3" hidden={!isAdminUser()}>
+              <b>Procced to Pay</b>
+            </Button>
+          )}
+
           <Button
-            variant="success"
+            variant="primary"
             onClick={(event) => {
               OpenViewOrderModal(event, Order);
             }}

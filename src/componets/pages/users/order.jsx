@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { getOrdersOfUsers } from "../../../services/order.service";
 import UserContext from "../../context/UserContext";
 import {
+  Alert,
   Badge,
   Button,
   Card,
@@ -192,7 +193,7 @@ const Order = () => {
 
                     <tr>
                       <td>Order Amount</td>
-                      <td className="fw-bold">{modelOrder?.orderAmount}</td>
+                      <td className="fw-bold">₹ {modelOrder?.orderAmount}</td>
                     </tr>
                   </tbody>
                 </Table>
@@ -227,13 +228,19 @@ const Order = () => {
               );
             })}
             {orderModalView()}
+
+            {
+              orders.length <= 0 && <Alert variant="secondary" className="text-center">
+               <h3>No Order Placed Yet!</h3>
+              </Alert>
+            }
           </Card.Body>
         </Card>
       </>
     );
   };
 
-  return  isLoggedIn()  ? (
+  return isLoggedIn() ? (
     <Row className="mt-4">
       <Col
         md={{
@@ -244,7 +251,9 @@ const Order = () => {
         {OrdersView()}
       </Col>
     </Row>
-  ) : <Navigate to={'/login'}/>
+  ) : (
+    <Navigate to={"/login"} />
+  );
 };
 
 export default Order;
