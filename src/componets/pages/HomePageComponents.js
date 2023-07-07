@@ -1,10 +1,9 @@
 import { Badge, Card, Col, Row } from "react-bootstrap";
-import ReactPlayer from "react-player";
-import { getProductImageUrl } from "../../services/helper.service";
+
 
 export const TrendingProducts = ({ product, setViewModalTrue }) => {
  
- console.log(product.img);
+
     return (
     <Card
       className="shadow my-3 border-0 text-center"
@@ -16,6 +15,7 @@ export const TrendingProducts = ({ product, setViewModalTrue }) => {
       <Card.Body>
         <Row className="d-flex align-items-center">
 
+          
           <Col md={4}>
             <img
               src={product?.img}

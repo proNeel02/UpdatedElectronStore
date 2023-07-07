@@ -7,7 +7,6 @@ import {
   Button,
   Card,
   Col,
-  Container,
   Modal,
   Row,
   Table,
@@ -229,11 +228,11 @@ const Order = () => {
             })}
             {orderModalView()}
 
-            {
-              orders.length <= 0 && <Alert variant="secondary" className="text-center">
-               <h3>No Order Placed Yet!</h3>
+            {orders.length <= 0 && (
+              <Alert variant="secondary" className="text-center">
+                <h3>No Order Placed Yet!</h3>
               </Alert>
-            }
+            )}
           </Card.Body>
         </Card>
       </>
