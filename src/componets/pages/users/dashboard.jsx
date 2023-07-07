@@ -1,11 +1,11 @@
-import React, { useContext } from "react";
+// import React, { useContext } from "react";
 import { Navigate, Outlet } from "react-router-dom";
-import UserContext from "../../context/UserContext";
+// import UserContext from "../../context/UserContext";
 // import ErrorPage from "./Errorpage";
 import { isLoggedIn } from "../../../auth/HelperAuth.js";
 const Dashboard = () => {
   //let userContext =  useContext(UserContext);
-  const {isLogin} = useContext(UserContext); // we can write also like about
+  // useContext(UserContext); // we can write also like about
   // but writing this way signify that that this is
   //only for to tell to render to dom
   // if we not use useContext(UserContext) in this cureent file
@@ -22,6 +22,7 @@ const Dashboard = () => {
    // useContext(UserContext) with navigate("/login")
   // 
 
+
   // const navigate = useNavigate();
   const dashBoardView = () => {
     return (
@@ -37,7 +38,7 @@ const Dashboard = () => {
   //insted of waiting for state to change his value
   // so we can use function from helper.auth.js
 
-  return isLogin ? dashBoardView() : <Navigate to="/login"/>;
+  return isLoggedIn() ? dashBoardView() : <Navigate to="/login"/>;
 };
 
 export default Dashboard;

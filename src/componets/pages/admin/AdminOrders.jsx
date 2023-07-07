@@ -27,7 +27,6 @@ const AdminOrders = () => {
     try {
       const data = await getAllOrders();
 
-      console.log("all Orders for the admin ==> ",data);
       setOrdersData((ordersData) => {
         return {
           ...data,
@@ -52,7 +51,6 @@ const AdminOrders = () => {
 
   const OpenViewOrderModal = (event, Order) => {
     setviewSingleOrder((viewSingleOrder) => {
-
       return {
         ...Order,
       };
@@ -80,7 +78,67 @@ const AdminOrders = () => {
             <Modal.Title>Order Details</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            <Row>
+            <Card className="border-0">
+              <Card.Body>
+                <h3>Orderd Items</h3>
+                {orderItems?.map((orderItem) => {
+                  return (
+                    <Card
+                      key={orderItem?.product?.addedDate}
+                      className="shadow my-3 border-0"
+                    >
+                      <Card.Body>
+                        <Row className="d-flex align-items-center">
+                          <Col md={2}>
+                            <img
+                              src={getProductImageUrl(
+                                orderItem?.product?.productId
+                              )}
+                              alt=""
+                              style={{
+                                width: "80px",
+
+                                height: "80px",
+                                objectFit: "contain",
+                              }}
+                            />
+                          </Col>
+                          <Col md={10}>
+                            <b>{orderItem?.product?.title}</b>
+
+                            <Row className="mt-2">
+                              <Col>
+                                <Badge pill className="me-2">
+                                  Quantity : {orderItem?.quantity}
+                                </Badge>
+
+                                <Badge pill bg={"success"} className="me-2">
+                                  Total Amount for This Item :{" "}
+                                  {orderItem?.totalPrice}
+                                </Badge>
+
+                                <Badge pill bg={"warning"}>
+                                  Price Per Item :{" "}
+                                  {orderItem?.product?.discountedPrice}
+                                </Badge>
+                              </Col>
+                            </Row>
+
+                            <Row className="mt-4">
+                              <span>
+                                Product Id: {orderItem?.product?.productId}
+                              </span>
+                            </Row>
+                          </Col>
+                        </Row>
+                      </Card.Body>
+                    </Card>
+                  );
+                })}
+              </Card.Body>
+            </Card>
+
+            <Row className="mt-4">
               <Col>
                 {" "}
                 <b>Order Id: </b>
@@ -161,66 +219,6 @@ const AdminOrders = () => {
                 </Table>
               </Col>
             </Row>
-
-            <Card className="mt-3">
-              <Card.Body>
-                <h3>Orderd Items</h3>
-                {orderItems?.map((orderItem) => {
-                  return (
-                    <Card
-                      key={orderItem?.product?.addedDate}
-                      className="shadow my-3 border-0"
-                    >
-                      <Card.Body>
-                        <Row className="d-flex align-items-center">
-                          <Col md={2}>
-                            <img
-                              src={getProductImageUrl(
-                                orderItem?.product?.productId
-                              )}
-                              alt=""
-                              style={{
-                                width: "80px",
-
-                                height: "80px",
-                                objectFit: "contain",
-                              }}
-                            />
-                          </Col>
-                          <Col md={10}>
-                            <b>{orderItem?.product?.title}</b>
-
-                            <Row className="mt-2">
-                              <Col>
-                                <Badge pill className="me-2">
-                                  Quantity : {orderItem?.quantity}
-                                </Badge>
-
-                                <Badge pill bg={"success"} className="me-2">
-                                  Total Amount for This Item :{" "}
-                                  {orderItem?.totalPrice}
-                                </Badge>
-
-                                <Badge pill bg={"warning"}>
-                                  Price Per Item :{" "}
-                                  {orderItem?.product?.discountedPrice}
-                                </Badge>
-                              </Col>
-                            </Row>
-
-                            <Row className="mt-4">
-                              <span>
-                                Product Id: {orderItem?.product?.productId}
-                              </span>
-                            </Row>
-                          </Col>
-                        </Row>
-                      </Card.Body>
-                    </Card>
-                  );
-                })}
-              </Card.Body>
-            </Card>
           </Modal.Body>
           <Modal.Footer></Modal.Footer>
         </Modal>

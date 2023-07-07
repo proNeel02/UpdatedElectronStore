@@ -11,15 +11,21 @@ import {
   Spinner,
   Table,
 } from "react-bootstrap";
-import { useParams } from "react-router-dom";
+import { Navigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
-import { getUser, modifyUserData, updateUserProfilePicture } from "../../../services/user.services";
-import UserContext from "../../context/UserContext";
+import {
+  getUser,
+  modifyUserData,
+  // updateUserProfilePicture,
+} from "../../../services/user.services";
+// import UserContext from "../../context/UserContext";
 import UserProfileView from "./UserProfileView";
+import { isLoggedIn } from "../../../auth/HelperAuth";
 // import { Outlet } from "react-router-dom";
 
 const Profile = () => {
-  const userContext = useContext(UserContext);
+  // const { isLogin } = useContext(UserContext);
+
   const [user, setUser] = useState(null);
   const [show, setShow] = useState(false);
   // this below hook is used to set userId in the url
@@ -100,7 +106,6 @@ const Profile = () => {
       return;
     }
 
-  
     setUpdateLoading(() => true);
     modifyUserData(user)
       .then((modifiedUser) => {
@@ -114,12 +119,10 @@ const Profile = () => {
           toast.error(error.response.data.name);
         }
         toast.error("User not Updated Erro!!");
-       
       })
-      .finally(() =>{
+      .finally(() => {
         setUpdateLoading(() => false);
-      })
-    
+      });
   };
 
   const updateViewModel = () => {
@@ -154,8 +157,7 @@ const Profile = () => {
                           />
                         </Container>
 
-
- {/* blow might be implemented in future */}
+                        {/* blow might be implemented in future */}
                         {/* <Form.Control
                           type="file"
                           onChange={handleProfileImageChange}
@@ -269,38 +271,42 @@ const Profile = () => {
     );
   };
 
-  return (
-    <div>
-      <Container>
-        <Row>
-          <Col
-            lg={{
-              span: 10,
-              offset: 1,
-            }}
-          >
-            {user ? (
-              <>
-                <UserProfileView
-                  user={user}
-                  handleShowModel={handleShowModel}
-                  setImage={setImage}
-                  image={image}
-                />
-                {updateViewModel()}
-              </>
-            ) : (
-              <Alert variant="danger">
-                <h1 className="text-center m-2">
-                  User not loaded from Server!
-                </h1>
-              </Alert>
-            )}
-          </Col>
-        </Row>
-      </Container>
-    </div>
-  );
+  const Authenticate = () => {
+    return (
+      <div>
+        <Container>
+          <Row>
+            <Col
+              lg={{
+                span: 10,
+                offset: 1,
+              }}
+            >
+              {user ? (
+                <>
+                  <UserProfileView
+                    user={user}
+                    handleShowModel={handleShowModel}
+                    setImage={setImage}
+                    image={image}
+                  />
+                  {updateViewModel()}
+                </>
+              ) : (
+                <Alert variant="danger">
+                  <h1 className="text-center m-2">
+                    User not loaded from Server!
+                  </h1>
+                </Alert>
+              )}
+            </Col>
+          </Row>
+        </Container>
+      </div>
+    );
+  };
+
+  return isLoggedIn() ? Authenticate() : <Navigate to={"/login"} />;
 };
 
 export default Profile;

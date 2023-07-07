@@ -1,9 +1,12 @@
 import { Button, Card, Col, Container, Row, Table } from "react-bootstrap";
 import { formatDate } from "../services/helper.service";
+import { isAdminUser } from "../auth/HelperAuth";
 
-
-const SingleOrderView = ({ Order, OpenViewOrderModal }) => {
- 
+const SingleOrderView = ({
+  Order,
+  OpenViewOrderModal,
+  page = "adminOrder",
+}) => {
   return (
     <Card className="border border-0 shadow mb-5">
       <Card.Body>
@@ -64,7 +67,7 @@ const SingleOrderView = ({ Order, OpenViewOrderModal }) => {
         </Row>
         <Container className="text-center my-2">
           <Button
-            variant="dark"
+            variant="success"
             onClick={(event) => {
               OpenViewOrderModal(event, Order);
             }}
@@ -72,9 +75,11 @@ const SingleOrderView = ({ Order, OpenViewOrderModal }) => {
             <b>Order Details</b>
           </Button>
 
-          <Button variant="warning" className="mx-3">
-            <b>Update</b>
-          </Button>
+          {page === "adminOrder" && (
+            <Button variant="warning" className="mx-3" hidden={!isAdminUser()}>
+              <b>Update</b>
+            </Button>
+          )}
         </Container>
       </Card.Body>
     </Card>
