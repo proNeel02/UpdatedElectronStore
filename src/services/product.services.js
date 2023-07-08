@@ -1,5 +1,5 @@
 //product related api calls
-import { privateAxios } from "./axios.service";
+import { privateAxios, publicAxios } from "./axios.service";
 // create product with out category
 export const createProductWithoutCategory = (product) => {
   return privateAxios
@@ -40,9 +40,9 @@ export const getAllProducts = (
 
 // delete the product from view product
 export const deleteProduct = (productId) => {
-  return privateAxios
-    .delete(`/products/${productId}`)
-    .then((response) => response.data);
+  return publicAxios.delete(`/products/${productId}`).then((response) => {
+    return response.data;
+  });
 };
 
 // update product in view product

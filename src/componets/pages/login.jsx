@@ -90,7 +90,7 @@ const Login = () => {
           userContext.login(serverData);
           // console.log("Hello from Login");
           // console.dir(serverData);
-          navigate("/users/home");
+          navigate("/");
         })
         .catch((error) => {
           console.log(error);
@@ -142,6 +142,7 @@ const Login = () => {
                       src={"/Assets/logo192.png"}
                       width={"100px"}
                       height={"100px"}
+                      alt=""
                     />
                   </Container>
                   <h3 className="mb-4 text-center text-uppercase">

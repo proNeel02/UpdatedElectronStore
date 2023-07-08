@@ -48,6 +48,9 @@ const SingleProductView = ({
   // delete product
 
   const handleDelete = (event, productId) => {
+
+
+    console.log("product id = ",productId);
     Swal.fire({
       title: "Are you sure?",
       text: "You won't be able to revert this!",
@@ -111,6 +114,7 @@ const SingleProductView = ({
           className="me-1"
           size="sm"
           onClick={(event) => {
+            console.log(" singleProduct = ",singleProduct);
             handleDelete(event, singleProduct.productId);
           }}
         >

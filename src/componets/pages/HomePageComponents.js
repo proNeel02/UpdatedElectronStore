@@ -1,10 +1,8 @@
-import { Badge, Card, Col, Row } from "react-bootstrap";
-
+import { Badge, Button, Card, Col, Form, Row } from "react-bootstrap";
+import Swal from "sweetalert2";
 
 export const TrendingProducts = ({ product, setViewModalTrue }) => {
- 
-
-    return (
+  return (
     <Card
       className="shadow my-3 border-0 text-center"
       onClick={(event) => {
@@ -14,12 +12,9 @@ export const TrendingProducts = ({ product, setViewModalTrue }) => {
     >
       <Card.Body>
         <Row className="d-flex align-items-center">
-
-          
           <Col md={4}>
             <img
               src={product?.img}
-            
               alt=""
               style={{
                 width: "200px",
@@ -55,5 +50,56 @@ export const TrendingProducts = ({ product, setViewModalTrue }) => {
         </Row>
       </Card.Body>
     </Card>
+  );
+};
+
+export const ContactUsForm = () => {
+  return (
+    <Form>
+      <Row className="mb-3">
+        <Form.Group>
+          <Form.Label>Name</Form.Label>
+          <Form.Control type="text" placeholder="Enter name" />
+        </Form.Group>
+      </Row>
+
+      <Form.Group className="mb-3">
+        <Form.Label>Phone Number</Form.Label>
+        <Form.Control placeholder="contact number" type="number" />
+      </Form.Group>
+
+      <Row className="mb-3">
+        <Form.Group>
+          <Form.Label>Message</Form.Label>
+          <Form.Control as={"textarea"} rows={8} placeholder="Write here" />
+        </Form.Group>
+
+        {/* <Form.Group as={Col} controlId="formGridState">
+        <Form.Label>State</Form.Label>
+        <Form.Select defaultValue="Choose...">
+          <option>Choose...</option>
+          <option>...</option>
+        </Form.Select>
+      </Form.Group> */}
+
+        {/* <Form.Group as={Col} controlId="formGridZip">
+        <Form.Label>Zip</Form.Label>
+        <Form.Control />
+      </Form.Group> */}
+      </Row>
+
+      <Button
+        variant="primary"
+        onClick={() => {
+          Swal.fire(
+            "Your Store is Under Contruction",
+            "Please Explore Other Features",
+            "success"
+          ).then((result) => {});
+        }}
+      >
+        Submit
+      </Button>
+    </Form>
   );
 };

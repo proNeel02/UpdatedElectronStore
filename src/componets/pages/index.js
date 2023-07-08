@@ -1,17 +1,19 @@
 import React, { useEffect, useState } from "react";
 
 import Base from "./users/Base";
-import { TrendingProducts } from "./HomePageComponents";
+import { ContactUsForm, TrendingProducts } from "./HomePageComponents";
 
 import { Button, Card, Col, Container, Modal, Row } from "react-bootstrap";
 import { getAllLiveProducts } from "../../services/product.services";
 import ReactPlayer from "react-player";
+import Swal from "sweetalert2";
+import { useNavigate } from "react-router-dom";
 
 const Index = () => {
   const [products, setProducts] = useState(null);
   const [show, setShow] = useState(false);
   const [viewSingleProduct, setSingleProductview] = useState(null);
-
+  const navigate = useNavigate();
   const Myproducts = [
     {
       addedDate: 1688537820385,
@@ -158,7 +160,7 @@ const Index = () => {
     setShow(() => false);
   };
   const setViewModalTrue = (product) => {
-    setVideo( () => true);
+    setVideo(() => true);
     setShow(() => true);
     setSingleProductview((prevProdut) => product);
   };
@@ -183,6 +185,7 @@ const Index = () => {
         aria-labelledby="contained-modal-title-vcenter"
         centered
         className="text-center"
+        // fullscreen
       >
         <Modal.Header closeButton>
           <Modal.Title>Product OverView</Modal.Title>
@@ -199,8 +202,8 @@ const Index = () => {
                           src={link}
                           alt={""}
                           style={{
-                            width: "500px",
-                            height: "500px",
+                            width: "370px",
+                            height: "360px",
                             objectFit: "contain",
                           }}
                         />
@@ -301,13 +304,31 @@ const Index = () => {
                   </Col>
                 </Row>
 
-                <Row className="mt-3">
+                <Row className="mt-5">
                   <Col>
                     <h6>{viewSingleProduct?.title}</h6>
                   </Col>
                 </Row>
 
-                <Button className="mt-3" variant="dark">
+                <Button
+                  className="mt-3"
+                  variant="dark"
+                  //     ,
+                  // "Please Explore Other Features",
+                  // "success"
+                  onClick={() => {
+                    Swal.fire({
+                      title: "Your Store is Under Construction",
+                      showDenyButton: true,
+                      confirmButtonText: "Go to Shop",
+                      denyButtonText: `Stay on Home`,
+                    }).then((result) => {
+                      if (result.isConfirmed) {
+                        navigate("/store");
+                      }
+                    });
+                  }}
+                >
                   <span>Explore More</span>
                 </Button>
               </Container>
@@ -323,11 +344,12 @@ const Index = () => {
       <Base
         title={"Shop What You Need"}
         description={
-          "Welcome To Trending Store A retail establishment used for the selling consumer electronic products such as televisions, telephones, and personal computers"
+          "Welcome To Trending Store A retail establishment selling consumer electronic products"
         }
         buttonEnabled={true}
         buttonText={"Start Shopping"}
         buttonType={"primary"}
+        buttonLink="/store"
       >
         <Container className="mt-4">
           <Row>
@@ -347,6 +369,23 @@ const Index = () => {
                     );
                   })}
                   {show && viewModalVideo()}
+                </Card.Body>
+              </Card>
+            </Col>
+          </Row>
+        </Container>
+        <Container className="m-5">
+          <Row>
+            <Col
+              md={{
+                span: 6,
+                offset: 3,
+              }}
+            >
+              <Card className="p-1">
+                <h3 className="text-center"> Contact Us</h3>
+                <Card.Body>
+                  <ContactUsForm />
                 </Card.Body>
               </Card>
             </Col>

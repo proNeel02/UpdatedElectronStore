@@ -39,10 +39,10 @@ const NavBar = () => {
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">
           <Nav className="m-auto">
-            <Nav.Link as={NavLink} to="/services">
+            {/* <Nav.Link as={NavLink} to="/services">
               Features
-            </Nav.Link>
-            <NavDropdown title="Categories" id="collasible-nav-dropdown">
+            </Nav.Link> */}
+            {/* <NavDropdown title="Categories" id="collasible-nav-dropdown">
               <NavDropdown.Item href="#action/3.1">
                 Smart Phones
               </NavDropdown.Item>
@@ -50,7 +50,7 @@ const NavBar = () => {
               <NavDropdown.Item href="#action/3.3">Laptops</NavDropdown.Item>
               <NavDropdown.Divider />
               <NavDropdown.Item href="#action/3.4">More</NavDropdown.Item>
-            </NavDropdown>
+            </NavDropdown> */}
             <Nav.Link as={NavLink} to="/about">
               About
             </Nav.Link>
