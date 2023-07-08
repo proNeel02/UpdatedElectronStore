@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 
-import Base from "./users/Base";
-import { ContactUsForm, TrendingProducts } from "./HomePageComponents";
+import Base from "./pages/users/Base";
+import { ContactUsForm, TrendingProducts } from "./pages/HomePageComponents";
 
 import { Button, Card, Col, Container, Modal, Row } from "react-bootstrap";
 // import { getAllLiveProducts } from "../../services/product.services";

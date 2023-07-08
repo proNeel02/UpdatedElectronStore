@@ -1,7 +1,7 @@
 import { ToastContainer, Zoom } from "react-toastify";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "./App.css";
-import {Index} from "./componets/pages/Index";
+import {Index} from "./componets/Index";
 import About from "./componets/pages/About";
 import Cart from "./componets/pages/Cart";
 import Services from "./componets/pages/Services";
