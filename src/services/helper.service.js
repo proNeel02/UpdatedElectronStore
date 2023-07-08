@@ -1,6 +1,6 @@
 
 // export const BASE_URL = `http://localhost:9090`;
-export const BASE_URL = `https://electronicstoreapp-production.up.railway.app/`;
+export const BASE_URL = `https://electronicstoreapp-production.up.railway.app`;
 
 // Orders show at a time
 export const ADMIN_ORDERS_PAGE = 1000;
