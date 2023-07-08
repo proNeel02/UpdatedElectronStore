@@ -1,13 +1,13 @@
 import { useContext, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
-import { getProductFromServerUsingProductId } from "../../../services/product.services";
+import { getProductFromServerUsingProductId } from "../../services/product.services";
 import { useState } from "react";
 import { Badge, Button, Card, Col, Container, Row } from "react-bootstrap";
 import ShowHtml from "./ShowHtml";
-import { getProductImageUrl } from "../../../services/helper.service";
-import CartContext from "../../context/XCartContext";
+import { getProductImageUrl } from "../../services/helper.service";
+import CartContext from "../context/XCartContext";
 import { useNavigate } from "react-router-dom";
-import UserContext from "../../context/UserContext";
+import UserContext from "../context/UserContext";
 // import { toast } from "react-toastify";
 import Swal from "sweetalert2";
 const ProductView = () => {

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { getCategories } from "../../../services/CategoryService";
+import { getCategories } from "../../services/CategoryService";
 import { Col, ListGroup, Row } from "react-bootstrap";
 import { Link } from "react-router-dom";
 const CategoryView = () => {

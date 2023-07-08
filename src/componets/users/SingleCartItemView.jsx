@@ -1,13 +1,13 @@
 import React from "react";
 import { Button, Card, Col, Row } from "react-bootstrap";
-import { getProductImageUrl } from "../../../services/helper.service";
+import { getProductImageUrl } from "../../services/helper.service";
 import { SiAddthis } from "react-icons/si";
 import { GrSubtractCircle } from "react-icons/gr";
-import UserContext from "../../context/UserContext";
+import UserContext from "../context/UserContext";
 import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import CartContext from "../../context/XCartContext";
+import CartContext from "../context/XCartContext";
 
 const SingleCartItemView = ({
   item,

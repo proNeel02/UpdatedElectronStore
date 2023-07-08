@@ -12,8 +12,9 @@ import {
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 // import { doLoginLocalStorage } from "../../auth/helper.auth";
-import { loginUser } from "../../services/user.services";
-import UserContext from "../context/UserContext";
+// import { loginUser } from "../../services/user.services";
+import { loginUser } from "../services/user.services";
+import UserContext from "./context/UserContext";
 import Base from "./users/Base";
 const Login = () => {
   const LoginForm = () => {

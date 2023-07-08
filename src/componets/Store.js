@@ -8,7 +8,7 @@ import { useEffect } from "react";
 import {
   getAllLiveProducts,
   // getAllProducts,
-} from "../../services/product.services";
+} from "../services/product.services";
 import SingleProductCard from "./users/SingleProductCard";
 // import InfiniteScroll from "react-infinite-scroll-component";
 import CategoryView from "./users/CategoryView";

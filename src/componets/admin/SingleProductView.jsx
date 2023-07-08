@@ -2,7 +2,7 @@ import { Button } from "react-bootstrap";
 import { MdDeleteSweep } from "react-icons/md";
 import { CiViewTimeline } from "react-icons/ci";
 import { GrUpdate } from "react-icons/gr";
-import { deleteProduct } from "../../../services/product.services";
+import { deleteProduct } from "../../services/product.services";
 import Swal from "sweetalert2";
 import { toast } from "react-toastify";
 

@@ -7,7 +7,7 @@ import {
   FormGroup,
   Row,
   Table,
-  Label,
+  // Label,
   Form,
   Pagination,
   Modal,
@@ -20,16 +20,16 @@ import {
   serachProduct,
   updateProduct,
   updateProductCategory,
-} from "../../../services/product.services";
+} from "../../services/product.services";
 import { toast } from "react-toastify";
 import SingleProductView from "./SingleProductView";
 import {
   Product_Pages,
   getProductImageUrl,
-} from "../../../services/helper.service";
+} from "../../services/helper.service";
 import ShowHtml from "../users/ShowHtml";
 import { Editor } from "@tinymce/tinymce-react";
-import { getCategories } from "../../../services/CategoryService";
+import { getCategories } from "../../services/CategoryService";
 
 const ViewProducts = () => {
   const [products, setProducts] = useState(undefined);

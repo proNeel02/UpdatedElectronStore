@@ -1,6 +1,6 @@
 import { useContext, useEffect } from "react";
 import { Button, Card, Container, Table } from "react-bootstrap";
-import UserContext from "../../context/UserContext";
+import UserContext from "../context/UserContext";
 import { useNavigate } from "react-router-dom";
 // import AdminImg form "./src/Assets/AdminImg.jpg"
 const UserProfileView = ({ user = null, handleShowModel, setImage, image }) => {

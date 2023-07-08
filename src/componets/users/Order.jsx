@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
-import { getOrdersOfUsers } from "../../../services/order.service";
-import UserContext from "../../context/UserContext";
+import { getOrdersOfUsers } from "../../services/order.service";
+import UserContext from "../context/UserContext";
 import {
   Alert,
   Badge,
@@ -12,10 +12,10 @@ import {
   Table,
 } from "react-bootstrap";
 import { toast } from "react-toastify";
-import SingleOrderView from "../../SingleOrderView";
-import { getProductImageUrl } from "../../../services/helper.service";
+import SingleOrderView from "../SingleOrderView";
+import { getProductImageUrl } from "../../services/helper.service";
 import { Navigate } from "react-router-dom";
-import { isLoggedIn } from "../../../auth/HelperAuth";
+import { isLoggedIn } from "../../auth/HelperAuth";
 const Order = () => {
   const { isLogin, userData } = useContext(UserContext);
   const [orders, setOrders] = useState([]);

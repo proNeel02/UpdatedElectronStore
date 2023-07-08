@@ -16,7 +16,7 @@ import {
   deleteAtomCategory,
   getCategories,
   updateCategory,
-} from "../../../services/CategoryService";
+} from "../../services/CategoryService";
 import CategoryAtomicView from "../users/CategoryAtomicView";
 
 const ViewCategories = () => {

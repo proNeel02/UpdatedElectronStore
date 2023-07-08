@@ -1,5 +1,5 @@
 import { Badge, Button, Card, Container } from "react-bootstrap";
-import { getProductImageUrl } from "../../../services/helper.service";
+import { getProductImageUrl } from "../../services/helper.service";
 import { Link } from "react-router-dom";
 
 const SingleProductCard = ({ product }) => {

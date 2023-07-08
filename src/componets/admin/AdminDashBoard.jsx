@@ -1,10 +1,10 @@
 import { Col, Container, Row } from "react-bootstrap";
 import { Navigate, Outlet } from "react-router-dom";
-import { isAdminUser, isLoggedIn } from "../../../auth/HelperAuth.js";
-import SideMenu from "../../AdminComponents/SideMenu.jsx";
+import { isAdminUser, isLoggedIn } from "../../auth/HelperAuth.js";
+import SideMenu from "../AdminComponents/SideMenu.jsx";
 // import { useContext } from "react";
 // import UserContext from "../../context/UserContext.js";
-import useJwtTokenExpiration from "../../hooks/useJwtTokenExpiration.js";
+import useJwtTokenExpiration from "../hooks/useJwtTokenExpiration.js";
 
 const AdminDashBoard = () => {
   // let navigate = useNavigate();

@@ -1,10 +1,10 @@
-import { getAllOrders } from "../../../services/order.service";
+import { getAllOrders } from "../../services/order.service";
 import { useEffect, useState } from "react";
 import {
   // ADMIN_ORDERS_PAGE,
   // formatDate,
   getProductImageUrl,
-} from "../../../services/helper.service";
+} from "../../services/helper.service";
 import {
   Badge,
   Card,
@@ -14,7 +14,7 @@ import {
   Row,
   Table,
 } from "react-bootstrap";
-import SingleOrderView from "../../SingleOrderView";
+import SingleOrderView from "../SingleOrderView";
 // import { useContext } from "react";
 // import UserContext from "../../context/UserContext";
 

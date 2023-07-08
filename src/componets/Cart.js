@@ -1,5 +1,6 @@
 import React, { useContext, useState } from "react";
-import CartContext from "../context/XCartContext";
+// import CartContext from "../context/XCartContext";
+import CartContext from "./context/XCartContext";
 import {
   Alert,
   Button,
@@ -11,11 +12,12 @@ import {
 } from "react-bootstrap";
 import SingleCartItemView from "./users/SingleCartItemView";
 import { Link } from "react-router-dom";
-import UserContext from "../context/UserContext";
+import UserContext from "./context/UserContext";
 import { toast } from "react-toastify";
-import { createOrder } from "../../services/order.service";
+// import { createOrder } from "../../services/order.service";
+import { createOrder } from "../services/order.service";
 import Swal from "sweetalert2";
-import useJwtTokenExpiration from "../hooks/useJwtTokenExpiration";
+import useJwtTokenExpiration from "./hooks/useJwtTokenExpiration";
 
 const Cart = () => {
   const { cart, setCart, addItem, removeItemsFromTheCart } =

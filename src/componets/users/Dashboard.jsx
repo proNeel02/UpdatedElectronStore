@@ -2,8 +2,8 @@
 import { Navigate, Outlet } from "react-router-dom";
 // import UserContext from "../../context/UserContext";
 // import ErrorPage from "./Errorpage";
-import { isLoggedIn } from "../../../auth/HelperAuth.js";
-import useJwtTokenExpiration from "../../hooks/useJwtTokenExpiration.js";
+import { isLoggedIn } from "../../auth/HelperAuth.js";
+import useJwtTokenExpiration from "../hooks/useJwtTokenExpiration.js";
 const Dashboard = () => {
   //let userContext =  useContext(UserContext);
   // useContext(UserContext); // we can write also like about

@@ -1,10 +1,10 @@
 import { useEffect } from "react";
-import { getAllUsers } from "../../../services/user.services";
+import { getAllUsers } from "../../services/user.services";
 import { useState } from "react";
 import { Card, Col, Container, Row } from "react-bootstrap";
 import SingleUserView from "../users/SingleUserView";
 import InfiniteScroll from "react-infinite-scroll-component";
-import { User_Load } from "../../../services/helper.service";
+import { User_Load } from "../../services/helper.service";
 
 const AdminUsers = () => {
   const [userData, setUserData] = useState(undefined);

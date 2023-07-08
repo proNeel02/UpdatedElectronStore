@@ -11,12 +11,12 @@ import {
   Spinner,
 } from "react-bootstrap";
 import { toast } from "react-toastify";
-import { getCategories } from "../../../services/CategoryService";
+import { getCategories } from "../../services/CategoryService";
 import {
   addProductImage,
   createProductInCategory,
   createProductWithoutCategory,
-} from "../../../services/product.services";
+} from "../../services/product.services";
 
 import { Editor } from "@tinymce/tinymce-react";
 

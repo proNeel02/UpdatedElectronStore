@@ -17,10 +17,10 @@ import {
   getUser,
   modifyUserData,
   // updateUserProfilePicture,
-} from "../../../services/user.services";
+} from "../../services/user.services";
 // import UserContext from "../../context/UserContext";
 import UserProfileView from "./UserProfileView";
-import { isLoggedIn } from "../../../auth/HelperAuth";
+import { isLoggedIn } from "../../auth/HelperAuth";
 // import { Outlet } from "react-router-dom";
 
 const Profile = () => {

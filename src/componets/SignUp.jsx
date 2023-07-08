@@ -11,7 +11,8 @@ import {
 } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { registerUser } from "../../services/user.services";
+
+import { registerUser } from "../services/user.services"
 import Base from "./users/Base";
 
 const SignUp = () => {
