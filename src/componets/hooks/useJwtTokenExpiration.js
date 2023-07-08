@@ -11,7 +11,6 @@ const useJwtTokenExpiration = () => {
   const navigate = useNavigate();
   const [JwtTokenCheck, setJwtTokenCheck] = useState(false);
 
-  console.log(token);
 
   try {
     if (isJwtExpired(token)) {
