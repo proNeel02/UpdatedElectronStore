@@ -1,6 +1,6 @@
 import React from "react";
 import { Button, Card, Col, Container, Row } from "react-bootstrap";
-import { Link, NavLink } from "react-router-dom";
+import {  NavLink } from "react-router-dom";
 
 const ErrorPage = () => {
   const PresentError = () => {

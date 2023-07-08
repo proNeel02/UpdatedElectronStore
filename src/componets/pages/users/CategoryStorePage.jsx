@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { getSingleCategoryObjectUsingCategoryId } from "../../../services/CategoryService";
-import { Card, Col, Container, Row } from "react-bootstrap";
+import { Col, Container, Row } from "react-bootstrap";
 import { STORE_PAGE_PRODUCT_SIZE } from "../../../services/helper.service";
 import InfiniteScroll from "react-infinite-scroll-component";
 import SingleProductCard from "./SingleProductCard";

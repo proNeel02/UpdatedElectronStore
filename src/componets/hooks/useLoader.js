@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import  { useEffect, useState } from 'react'
 import { privateAxios } from '../../services/axios.service';
 import Swal from 'sweetalert2';
 

@@ -1,16 +1,16 @@
-import { Col, Container, ListGroup, Row } from "react-bootstrap";
-import { getCategories } from "../../services/CategoryService";
+import { Col, Container,Row } from "react-bootstrap";
+// import { getCategories } from "../../services/CategoryService";
 import { useState } from "react";
 import { useEffect } from "react";
-import { FcHome } from "react-icons/fc";
-import { Link, NavLink } from "react-router-dom";
-import { MdCategory } from "react-icons/md";
+// import { FcHome } from "react-icons/fc";
+// import { Link, NavLink } from "react-router-dom";
+// import { MdCategory } from "react-icons/md";
 import {
   getAllLiveProducts,
-  getAllProducts,
+  // getAllProducts,
 } from "../../services/product.services";
 import SingleProductCard from "./users/SingleProductCard";
-import InfiniteScroll from "react-infinite-scroll-component";
+// import InfiniteScroll from "react-infinite-scroll-component";
 import CategoryView from "./users/CategoryView";
 
 const Store = () => {

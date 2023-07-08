@@ -1,8 +1,8 @@
 import { getAllOrders } from "../../../services/order.service";
 import { useEffect, useState } from "react";
 import {
-  ADMIN_ORDERS_PAGE,
-  formatDate,
+  // ADMIN_ORDERS_PAGE,
+  // formatDate,
   getProductImageUrl,
 } from "../../../services/helper.service";
 import {
@@ -15,13 +15,13 @@ import {
   Table,
 } from "react-bootstrap";
 import SingleOrderView from "../../SingleOrderView";
-import { useContext } from "react";
-import UserContext from "../../context/UserContext";
+// import { useContext } from "react";
+// import UserContext from "../../context/UserContext";
 
 const AdminOrders = () => {
   const [ordersData, setOrdersData] = useState();
 
-  const { userData } = useContext(UserContext);
+  // const { userData } = useContext(UserContext);
 
   const getOrdersLocally = async () => {
     try {

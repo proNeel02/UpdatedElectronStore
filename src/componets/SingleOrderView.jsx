@@ -74,9 +74,11 @@ const SingleOrderView = ({
             </Table>
           </Col>
         </Row>
+
         <Container className="text-center my-2">
-          {!(page === "adminOrder") && Order?.paymentStatus === "NOTPAID" && (
-            <Button variant="success" className="mx-3" hidden={!isAdminUser()}>
+        {console.log("page ==",page)}
+          {page === "normalUser" && Order?.paymentStatus === "NOTPAID" && (
+            <Button variant="success" className="mx-3">
               <b>Procced to Pay</b>
             </Button>
           )}

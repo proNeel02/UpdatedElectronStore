@@ -8,7 +8,7 @@ import { getProductImageUrl } from "../../../services/helper.service";
 import CartContext from "../../context/XCartContext";
 import { useNavigate } from "react-router-dom";
 import UserContext from "../../context/UserContext";
-import { toast } from "react-toastify";
+// import { toast } from "react-toastify";
 import Swal from "sweetalert2";
 const ProductView = () => {
   const { cart, addItem } = useContext(CartContext);

@@ -221,7 +221,7 @@ const Order = () => {
                 <SingleOrderView
                   key={order?.orderId}
                   Order={order}
-                  page={"normalOrder"}
+                  page={"normalUser"}
                   OpenViewOrderModal={OpenViewOrderModal}
                 />
               );

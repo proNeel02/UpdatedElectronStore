@@ -3,7 +3,6 @@ import React, { useContext } from "react";
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
-import NavDropdown from "react-bootstrap/NavDropdown";
 import { NavLink } from "react-router-dom";
 import UserContext from "../../context/UserContext";
 import XCartContext from "../../context/XCartContext.jsx";
@@ -21,9 +20,9 @@ const NavBar = () => {
   const doLogOut = () => {
     logOut();
   };
-
+  
   return (
-    <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
+    <Navbar collapseOnSelect expand="lg" bg="primary" variant="dark">
       <Container>
         <Navbar.Brand as={NavLink} to={"/"}>
           <img

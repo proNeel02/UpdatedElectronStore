@@ -4,7 +4,7 @@ import Base from "./users/Base";
 import { ContactUsForm, TrendingProducts } from "./HomePageComponents";
 
 import { Button, Card, Col, Container, Modal, Row } from "react-bootstrap";
-import { getAllLiveProducts } from "../../services/product.services";
+// import { getAllLiveProducts } from "../../services/product.services";
 import ReactPlayer from "react-player";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";

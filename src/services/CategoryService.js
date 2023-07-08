@@ -1,4 +1,4 @@
-import { privateAxios, publicAxios } from "./axios.service";
+import { privateAxios } from "./axios.service";
 
 //get all saved categories from the server
 export const getCategories = () => {
