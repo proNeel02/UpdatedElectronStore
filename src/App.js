@@ -34,56 +34,13 @@ import { useEffect, useState } from "react";
 import { privateAxios, publicAxios } from "./services/axios.service";
 import Loading from "./services/Loading";
 import { Container } from "react-bootstrap";
+import Swal from "sweetalert2";
+import useLoader from "./componets/hooks/useLoader";
 // import UserProvider from "./componets/context/user.provider";
 function App() {
-  const [loading, setLoading] = useState(false);
+ 
+  const loading = useLoader();
 
-  useEffect(() => {
-    // request Axios intercepter
-    privateAxios.interceptors.request.use(
-      (config) => {
-        setLoading(() => true);
-        return config;
-      },
-      (err) => {
-        return Promise.reject(err);
-      }
-    );
-
-    // response Axios intercepet
-    privateAxios.interceptors.response.use(
-      (config) => {
-        setLoading(() => false);
-
-        return config;
-      },
-      (err) => {
-        return Promise.reject(err);
-      }
-    );
-
-    publicAxios.interceptors.request.use(
-      (config) => {
-        setLoading(() => true);
-        return config;
-      },
-      (err) => {
-        return Promise.reject(err);
-      }
-    );
-
-    // response Axios intercepet
-    publicAxios.interceptors.response.use(
-      (config) => {
-        setLoading(() => false);
-
-        return config;
-      },
-      (err) => {
-        return Promise.reject(err);
-      }
-    );
-  }, []);
 
   return (
     <UserProvider>

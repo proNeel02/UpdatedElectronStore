@@ -1,13 +1,14 @@
 import React from "react";
-import { Card, Container } from "react-bootstrap";
+import '../App.css'
+import { Card, Container, Spinner } from "react-bootstrap";
 
 const Loading = ({ show }) => {
   return (
     show && (
       <Container className="text-center mt-4">
-        <Card className="shadow border-0">
+        <Card className="border-0">
           <Card.Body>
-            <h2>Loading....</h2>
+            <Spinner size="lg" />
           </Card.Body>
         </Card>
       </Container>

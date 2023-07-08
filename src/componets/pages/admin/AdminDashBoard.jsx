@@ -4,11 +4,14 @@ import { isAdminUser, isLoggedIn } from "../../../auth/HelperAuth.js";
 import SideMenu from "../../AdminComponents/SideMenu.jsx";
 import { useContext } from "react";
 import UserContext from "../../context/UserContext.js";
+import useJwtTokenExpiration from "../../hooks/useJwtTokenExpiration.js";
 
 const AdminDashBoard = () => {
   // let navigate = useNavigate();
 
   const { isLogin } = useContext(UserContext);
+
+  useJwtTokenExpiration();
   const dashboardView = () => {
     return (
       <div>

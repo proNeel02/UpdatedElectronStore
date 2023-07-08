@@ -3,6 +3,7 @@ import { Navigate, Outlet } from "react-router-dom";
 // import UserContext from "../../context/UserContext";
 // import ErrorPage from "./Errorpage";
 import { isLoggedIn } from "../../../auth/HelperAuth.js";
+import useJwtTokenExpiration from "../../hooks/useJwtTokenExpiration.js";
 const Dashboard = () => {
   //let userContext =  useContext(UserContext);
   // useContext(UserContext); // we can write also like about
@@ -21,7 +22,7 @@ const Dashboard = () => {
   // this warning resolved when we use 
    // useContext(UserContext) with navigate("/login")
   // 
-
+useJwtTokenExpiration();
 
   // const navigate = useNavigate();
   const dashBoardView = () => {

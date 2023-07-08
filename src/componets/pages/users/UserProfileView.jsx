@@ -1,10 +1,11 @@
 import { useContext, useEffect } from "react";
 import { Button, Card, Container, Table } from "react-bootstrap";
 import UserContext from "../../context/UserContext";
+import { NavLink, useNavigate } from "react-router-dom";
 // import AdminImg form "./src/Assets/AdminImg.jpg"
 const UserProfileView = ({ user = null, handleShowModel, setImage, image }) => {
   const { isLogin, userData } = useContext(UserContext);
-
+  const navigate = useNavigate();
   useEffect(() => {
     setImage((oldImageObj) => {
       let setting = "";
@@ -54,7 +55,6 @@ const UserProfileView = ({ user = null, handleShowModel, setImage, image }) => {
               {user?.name ? user?.name : "Dummy User"}
             </h2>
             <div className="mt-3">
-           
               <Card className="border-0">
                 <Card.Body>
                   <Table striped hover bordered variant="warning" responsive>
@@ -112,7 +112,13 @@ const UserProfileView = ({ user = null, handleShowModel, setImage, image }) => {
                   >
                     Update
                   </Button>
-                  <Button variant="warning" size="lg">
+                  <Button
+                    variant="warning"
+                    size="lg"
+                    onClick={() => {
+                      navigate("/users/orders");
+                    }}
+                  >
                     Orders
                   </Button>
                 </>

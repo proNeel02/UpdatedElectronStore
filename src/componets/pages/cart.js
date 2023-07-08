@@ -15,11 +15,14 @@ import UserContext from "../context/UserContext";
 import { toast } from "react-toastify";
 import { createOrder } from "../../services/order.service";
 import Swal from "sweetalert2";
+import useJwtTokenExpiration from "../hooks/useJwtTokenExpiration";
 
 const Cart = () => {
   const { cart, setCart, addItem, removeItemsFromTheCart } =
     useContext(CartContext);
   const { isLogin, userData } = useContext(UserContext);
+
+   useJwtTokenExpiration();
 
   const [placeOrder, setPlaceOrder] = useState(false);
 
@@ -72,7 +75,6 @@ const Cart = () => {
 
     try {
       const result = await createOrder(orderDetails);
-      console.log("order details = ", result);
       Swal.fire("Order Created", "Procceding for Payment", "success");
 
       setPlaceOrder(() => false);
@@ -214,6 +216,7 @@ const Cart = () => {
   };
 
   return (
+   
     <Container className="mt-5" fluid={placeOrder}>
       {isLogin ? (
         <Row>
