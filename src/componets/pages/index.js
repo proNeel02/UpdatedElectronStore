@@ -9,7 +9,7 @@ import ReactPlayer from "react-player";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 
-const Index = () => {
+export const Index = () => {
   const [products, setProducts] = useState(null);
   const [show, setShow] = useState(false);
   const [viewSingleProduct, setSingleProductview] = useState(null);
@@ -396,4 +396,4 @@ const Index = () => {
   );
 };
 
-export default Index;
+
