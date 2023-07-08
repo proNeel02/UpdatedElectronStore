@@ -9,8 +9,7 @@ import UserContext from "../../context/UserContext";
 import XCartContext from "../../context/XCartContext.jsx";
 
 const NavBar = () => {
-  const { isLogin, userData, logOut, hasAdminUser } =
-    useContext(UserContext);
+  const { isLogin, userData, logOut, hasAdminUser } = useContext(UserContext);
 
   const { cart } = useContext(XCartContext);
   // const { isLogin, userData } = userContext;

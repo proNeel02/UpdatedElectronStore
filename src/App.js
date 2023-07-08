@@ -30,8 +30,61 @@ import ProductView from "./componets/pages/users/ProductView";
 import CategoryStorePage from "./componets/pages/users/CategoryStorePage";
 
 import XCartProvider from "./componets/context/XCartProvider";
+import { useEffect, useState } from "react";
+import { privateAxios, publicAxios } from "./services/axios.service";
+import Loading from "./services/Loading";
+import { Container } from "react-bootstrap";
 // import UserProvider from "./componets/context/user.provider";
 function App() {
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    // request Axios intercepter
+    privateAxios.interceptors.request.use(
+      (config) => {
+        setLoading(() => true);
+        return config;
+      },
+      (err) => {
+        return Promise.reject(err);
+      }
+    );
+
+    // response Axios intercepet
+    privateAxios.interceptors.response.use(
+      (config) => {
+        setLoading(() => false);
+
+        return config;
+      },
+      (err) => {
+        return Promise.reject(err);
+      }
+    );
+
+    publicAxios.interceptors.request.use(
+      (config) => {
+        setLoading(() => true);
+        return config;
+      },
+      (err) => {
+        return Promise.reject(err);
+      }
+    );
+
+    // response Axios intercepet
+    publicAxios.interceptors.response.use(
+      (config) => {
+        setLoading(() => false);
+
+        return config;
+      },
+      (err) => {
+        return Promise.reject(err);
+      }
+    );
+  }, []);
+
   return (
     <UserProvider>
       <XCartProvider>
@@ -46,6 +99,11 @@ function App() {
             pauseOnFocusLoss={false}
           />
           <NavBar />
+          
+          
+            <Loading show={loading} />
+         
+
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="about" element={<About />} />
