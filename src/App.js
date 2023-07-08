@@ -30,17 +30,25 @@ import ProductView from "./componets/pages/users/ProductView";
 import CategoryStorePage from "./componets/pages/users/CategoryStorePage";
 
 import XCartProvider from "./componets/context/XCartProvider";
-import { useEffect, useState } from "react";
-import { privateAxios, publicAxios } from "./services/axios.service";
-import Loading from "./services/Loading";
-import { Container } from "react-bootstrap";
-import Swal from "sweetalert2";
 import useLoader from "./componets/hooks/useLoader";
 // import UserProvider from "./componets/context/user.provider";
+import { Card, Container, Spinner } from "react-bootstrap";
 function App() {
- 
   const loading = useLoader();
 
+  const Loading = ({ show }) => {
+    return (
+      show && (
+        <Container className="text-center mt-4">
+          <Card className="border-0">
+            <Card.Body>
+              <Spinner size="lg" />
+            </Card.Body>
+          </Card>
+        </Container>
+      )
+    );
+  };
 
   return (
     <UserProvider>
@@ -56,10 +64,8 @@ function App() {
             pauseOnFocusLoss={false}
           />
           <NavBar />
-          
-          
-            <Loading show={loading} />
-         
+
+          <Loading show={loading} />
 
           <Routes>
             <Route path="/" element={<Index />} />
