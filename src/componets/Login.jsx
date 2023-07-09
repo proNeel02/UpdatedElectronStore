@@ -129,13 +129,14 @@ const Login = () => {
               }}
             >
               <Card
-                className="my-4 p-4 border-0 shadow"
+                className="my-3 p-4 border-0 shadow"
                 style={{
                   position: "relative",
                   top: "-80px",
                   borderRadius: "100px",
                 }}
               >
+             
                 {/* {JSON.stringify(userContext)} */}
                 <Card.Body>
                   <Container className="text-center">
@@ -149,7 +150,7 @@ const Login = () => {
                   <h3 className="mb-4 text-center text-uppercase">
                     <b>Store Login</b>
                   </h3>
-
+          
                   <Alert
                     variant="danger"
                     show={Error.isError}
@@ -227,8 +228,16 @@ const Login = () => {
                   </Form>
                 </Card.Body>
               </Card>
+               <Card className="text-center">
+                <Card.Body>
+                <h6> You can Register or use Admin Crendentials</h6>
+                  <p>Email : admin@gmail.com</p>
+                  <p>password : admin123</p>
+                </Card.Body>
+              </Card>
             </Col>
           </Row>
+         
         </Container>
       </>
     );
