@@ -49,9 +49,9 @@ const NavBar = () => {
               <NavDropdown.Divider />
               <NavDropdown.Item href="#action/3.4">More</NavDropdown.Item>
             </NavDropdown> */}
-            <Nav.Link as={NavLink} to="/about">
+            {/* <Nav.Link as={NavLink} to="/about">
               About
-            </Nav.Link>
+            </Nav.Link> */}
             <Nav.Link as={NavLink} to="/contact">
               ContactUs
             </Nav.Link>
@@ -91,7 +91,7 @@ const NavBar = () => {
                   as={NavLink}
                   to={`users/profile/${userData?.user?.userId}`}
                 >
-                  {userData?.user?.email}
+                Profile
                 </Nav.Link>
                 <Nav.Link as={NavLink} to="users/orders">
                   Orders
