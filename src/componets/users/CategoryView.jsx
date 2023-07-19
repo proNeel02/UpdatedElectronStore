@@ -12,7 +12,6 @@ const CategoryView = () => {
   const loadAllCategories = () => {
     getCategories()
       .then((serverData) => {
-
         setCategories(() => {
           return {
             ...serverData,

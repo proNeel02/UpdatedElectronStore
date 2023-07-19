@@ -29,8 +29,7 @@ const Login = () => {
       password: "",
     });
 
-    const [Error, setError] = useState({
-      erroData: null,
+    const [isError, setError] = useState({
       isError: false,
     });
 
@@ -71,7 +70,6 @@ const Login = () => {
 
           setError((Error) => {
             return {
-              erroData: null,
               isError: false,
             };
           });
@@ -94,15 +92,14 @@ const Login = () => {
           navigate("/");
         })
         .catch((error) => {
-          console.log(error);
-
+          // console.log(error);
           setError((Error) => {
             return {
-              erroData: error.response.data.message,
               isError: true,
             };
           });
-          toast.error(Error.erroData);
+          toast.error("Unble to Loggin!");
+        
         })
         .finally(() => {
           setLoading(() => false);
@@ -136,7 +133,6 @@ const Login = () => {
                   borderRadius: "100px",
                 }}
               >
-             
                 {/* {JSON.stringify(userContext)} */}
                 <Card.Body>
                   <Container className="text-center">
@@ -150,10 +146,10 @@ const Login = () => {
                   <h3 className="mb-4 text-center text-uppercase">
                     <b>Store Login</b>
                   </h3>
-          
+
                   <Alert
                     variant="danger"
-                    show={Error.isError}
+                    show={isError?.isError}
                     // onClose={() =>
                     //   setError({
                     //     erroData: null,
@@ -163,7 +159,7 @@ const Login = () => {
                     // dismissible
                   >
                     <Alert.Heading>Hey there , </Alert.Heading>
-                    <p>{Error.erroData}</p>
+                    <p>{"UseName or Password is incorrect!"}</p>
                   </Alert>
                   <Form noValidate onSubmit={HandleSubmit}>
                     {/* email login field */}
@@ -228,16 +224,15 @@ const Login = () => {
                   </Form>
                 </Card.Body>
               </Card>
-               <Card className="text-center">
+              <Card className="text-center">
                 <Card.Body>
-                <h6> You can Register or use Admin Crendentials</h6>
+                  <h6> You can Register or use Admin Crendentials</h6>
                   <p>Email : admin@gmail.com</p>
                   <p>password : admin123</p>
                 </Card.Body>
               </Card>
             </Col>
           </Row>
-         
         </Container>
       </>
     );

@@ -134,7 +134,7 @@ const SignUp = () => {
           };
         });
 
-        console.dir(error);
+        // console.dir(error);
         toast.error("Error in creating user! Try again");
       })
       .finally(() => {
@@ -175,6 +175,7 @@ const SignUp = () => {
                       src={"/Assets/logo192.png"}
                       width={"100px"}
                       height={"100px"}
+                      alt=""
                     />
                   </Container>
                   <h3 className="mb-4 text-center text-uppercase">

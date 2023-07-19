@@ -1,12 +1,13 @@
-import  { useEffect, useState } from 'react'
-import { privateAxios } from '../../services/axios.service';
-import Swal from 'sweetalert2';
+import { useEffect, useState } from "react";
+import { privateAxios, publicAxios } from "../../services/axios.service";
+import Swal from "sweetalert2";
+// import { useNavigate } from "react-router-dom";
 
 const useLoader = () => {
+  const [loading, setLoading] = useState(false);
 
-    const [loading, setLoading] = useState(false);
+  // const navigate = useNavigate();
 
-    
   useEffect(() => {
     // request Axios intercepter
     privateAxios.interceptors.request.use(
@@ -23,42 +24,54 @@ const useLoader = () => {
     privateAxios.interceptors.response.use(
       (config) => {
         setLoading(() => false);
-
         return config;
       },
       (err) => {
         setLoading(() => false);
-           if(err.code === "ERR_NETWORK"){
-            Swal.fire("NetWork Error!","Backend Server is Down","info")
-           }
+        // console.log("err => ",err);
+        if (err.code === "ERR_BAD_RESPONSE") {
+          Swal.fire(
+            "NetWork Error!",
+            "Backend Server is Down Please try Later!",
+            "info"
+          );
+        }
         return Promise.reject(err);
       }
     );
 
-    // publicAxios.interceptors.request.use(
-    //   (config) => {
-    //     setLoading(() => true);
-    //     return config;
-    //   },
-    //   (err) => {
-    //     return Promise.reject(err);
-    //   }
-    // );
+    publicAxios.interceptors.request.use(
+      (config) => {
+        setLoading(() => true);
+        return config;
+      },
+      (err) => {
+        return Promise.reject(err);
+      }
+    );
 
-    // // response Axios intercepet
-    // publicAxios.interceptors.response.use(
-    //   (config) => {
-    //     setLoading(() => false);
+    // response Axios intercepet
+    publicAxios.interceptors.response.use(
+      (config) => {
+        setLoading(() => false);
+        return config;
+      },
+      (err) => {
+        setLoading(() => false);
+        if (err.code === "ERR_NETWORK") {
+          Swal.fire(
+            "NetWork Error!",
+            "Backend Server is Under Maintainance!",
+            "info"
+          );
+        }
 
-    //     return config;
-    //   },
-    //   (err) => {
-    //     return Promise.reject(err);
-    //   }
-    // );
+        return Promise.reject(err);
+      }
+    );
   }, []);
-  
-  return loading;
-}
 
-export default useLoader
+  return loading;
+};
+
+export default useLoader;

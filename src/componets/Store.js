@@ -12,27 +12,28 @@ import {
 import SingleProductCard from "./users/SingleProductCard";
 // import InfiniteScroll from "react-infinite-scroll-component";
 import CategoryView from "./users/CategoryView";
+// import Swal from "sweetalert2";
 
 const Store = () => {
   const [products, setProducts] = useState(undefined);
 
-  const [currPage, setCurrpage] = useState(0);
+  // const [currPage, setCurrpage] = useState(0);
 
   useEffect(() => {
-    loadProducts(currPage, 100, "addedDate", "asc");
+    loadProducts(0, 100, "addedDate", "asc");
   }, []);
 
   // // loading curr page changes
   useEffect(() => {
-    if (currPage > 0) {
-      loadProducts(currPage, 100, "addedDate", "asc");
-    }
-  }, [currPage]);
+    // if (currPage > 0) {
+      loadProducts(0, 100, "addedDate", "asc");
+    // }
+  }, []);
 
   // // loading next page
-  const loadNextPage = () => {
-    setCurrpage((currPage) => currPage + 1);
-  };
+  // const loadNextPage = () => {
+  //   setCurrpage((currPage) => currPage + 1);
+  // };
 
   const loadProducts = (pageNumber, pageSize, sortBy, sortDir) => {
     getAllLiveProducts(pageNumber, pageSize, sortBy, sortDir)
@@ -71,7 +72,14 @@ const Store = () => {
       //     });
       //   })
       .catch((error) => {
-        console.log(error);
+        // console.log(error);
+        // if (error.code === "ERR_BAD_RESPONSE") {
+        //   Swal.fire(
+        //     "NetWork Error!",
+        //     "Backend Server is Down Please try Later!",
+        //     "info"
+        //   );
+        // }
       });
   };
 
