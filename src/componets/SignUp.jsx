@@ -178,9 +178,9 @@ const SignUp = () => {
                       alt=""
                     />
                   </Container>
-                  <h3 className="mb-4 text-center text-uppercase">
+                  <h6 className="mb-4 text-center text-uppercase">
                     <b>Store SignUp</b>
-                  </h3>
+                  </h6>
 
                   <Form noValidate onSubmit={formSubmit}>
                     {/* Name Field */}

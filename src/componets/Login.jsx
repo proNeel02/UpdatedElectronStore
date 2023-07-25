@@ -99,7 +99,6 @@ const Login = () => {
             };
           });
           toast.error("Unble to Loggin!");
-        
         })
         .finally(() => {
           setLoading(() => false);
@@ -117,7 +116,6 @@ const Login = () => {
 
     return (
       <>
-      
         <Container>
           <Row>
             <Col
@@ -144,9 +142,9 @@ const Login = () => {
                       alt=""
                     />
                   </Container>
-                  <h3 className="mb-4 text-center text-uppercase">
+                  <h6 className="mb-4 text-center text-uppercase">
                     <b>Store Login</b>
-                  </h3>
+                  </h6>
 
                   <Alert
                     variant="danger"
@@ -226,13 +224,16 @@ const Login = () => {
                 </Card.Body>
 
                 <Card className="text-center border-0">
-                <Card.Body>
-                  <h6> You can signup for user Experience and use Admin Crendentials</h6>
-                  <p>Email : admin@gmail.com</p>
-                  <p>password : admin123</p>
-                </Card.Body>
-              </Card>
-
+                  <Card.Body>
+                    <h6>
+                      {" "}
+                      You can signup for user Experience and use Admin
+                      Crendentials
+                    </h6>
+                    <p>Email : admin@gmail.com</p>
+                    <p>password : admin123</p>
+                  </Card.Body>
+                </Card>
               </Card>
             </Col>
           </Row>
