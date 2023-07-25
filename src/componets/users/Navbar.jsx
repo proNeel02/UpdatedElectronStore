@@ -26,7 +26,7 @@ const NavBar = () => {
       <Container>
         <Navbar.Brand as={NavLink} to={"/"}>
           <img
-            src={"/Assets/logo192.png"}
+           src={"/Assets/android-icon-144x144.png"}
             width={"30px"}
             height={"30px"}
             alt=""

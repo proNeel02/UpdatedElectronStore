@@ -138,7 +138,7 @@ const Login = () => {
                 <Card.Body>
                   <Container className="text-center">
                     <img
-                      src={"/Assets/logo192.png"}
+                      src={"/Assets/android-icon-144x144.png"}
                       width={"100px"}
                       height={"100px"}
                       alt=""

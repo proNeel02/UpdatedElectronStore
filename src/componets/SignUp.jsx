@@ -12,7 +12,7 @@ import {
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
-import { registerUser } from "../services/user.services"
+import { registerUser } from "../services/user.services";
 import Base from "./users/Base";
 
 const SignUp = () => {
@@ -172,7 +172,7 @@ const SignUp = () => {
                 <Card.Body>
                   <Container className="text-center">
                     <img
-                      src={"/Assets/logo192.png"}
+                      src={"/Assets/android-icon-144x144.png"}
                       width={"100px"}
                       height={"100px"}
                       alt=""
