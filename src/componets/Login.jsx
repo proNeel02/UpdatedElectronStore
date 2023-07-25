@@ -117,6 +117,7 @@ const Login = () => {
 
     return (
       <>
+      
         <Container>
           <Row>
             <Col
@@ -223,13 +224,14 @@ const Login = () => {
                     </Container>
                   </Form>
                 </Card.Body>
-              </Card>
-              <Card className="text-center">
+
+                <Card className="text-center">
                 <Card.Body>
-                  <h6> You can Register or use Admin Crendentials</h6>
+                  <h6> You can signup for user Experience and use Admin Crendentials</h6>
                   <p>Email : admin@gmail.com</p>
                   <p>password : admin123</p>
                 </Card.Body>
+              </Card>
               </Card>
             </Col>
           </Row>
