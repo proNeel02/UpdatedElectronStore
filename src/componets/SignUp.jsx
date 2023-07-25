@@ -173,8 +173,8 @@ const SignUp = () => {
                   <Container className="text-center">
                     <img
                       src={"/Assets/android-icon-144x144.png"}
-                      width={"100px"}
-                      height={"100px"}
+                      width={"75px"}
+                      height={"75px"}
                       alt=""
                     />
                   </Container>
