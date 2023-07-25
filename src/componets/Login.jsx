@@ -225,13 +225,14 @@ const Login = () => {
                   </Form>
                 </Card.Body>
 
-                <Card className="text-center">
+                <Card className="text-center border-0">
                 <Card.Body>
                   <h6> You can signup for user Experience and use Admin Crendentials</h6>
                   <p>Email : admin@gmail.com</p>
                   <p>password : admin123</p>
                 </Card.Body>
               </Card>
+
               </Card>
             </Col>
           </Row>
