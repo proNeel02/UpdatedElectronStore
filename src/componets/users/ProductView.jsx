@@ -53,7 +53,7 @@ const ProductView = () => {
 
   const ProductDetails = () => {
     return (
-      <Container fluid className="py-5">
+      <Container fluid>
         <Row>
           <Col>
             <Card className="mt-4 shadow border-0">
