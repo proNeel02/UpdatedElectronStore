@@ -65,7 +65,7 @@ const ProductView = () => {
                         src={getProductImageUrl(productId)}
                         onError={(event) => {
                           event.currentTarget.onerror = null;
-                          event.currentTarget.src = "/Assets/logo192.png";
+                          event.currentTarget.src = `/Assets/logo192.png`;
                         }}
                         className="img-fluid"
                         style={{
